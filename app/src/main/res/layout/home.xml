@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_container"
     android:layout_width="match_parent"
@@ -20,43 +19,31 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/home_upper_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start|center_vertical"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
 
-    <TextView
-        android:id="@+id/home_lower_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="start|center_vertical"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/clock_frame"
+        layout="@layout/clock_frame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <it.samuelelonghin.safelauncher.libraries.FontAwesome
-        android:id="@+id/home_settings_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fas_settings"
-        android:textColor="?attr/colorAccent"
-        android:textSize="36sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/contacts_frame"
+        layout="@layout/contacts_frame"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95"
-        custom:type="solid" />
+        app:layout_constraintTop_toBottomOf="@+id/clock_frame" />
+
+    <include
+        android:id="@+id/widget_frame"
+        layout="@layout/widget_frame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

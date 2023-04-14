@@ -3,15 +3,38 @@ package it.samuelelonghin.safelauncher.support
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.util.DisplayMetrics
+import android.os.Build
+import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.drawer.apps.AppInfo
-import it.samuelelonghin.safelauncher.settings.intendedSettingsPause
+import java.io.Serializable
 
+fun <T : Serializable?> getSerializable(intent: Intent, name: String, clazz: Class<T>): T {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        intent.getSerializableExtra(name, clazz)!!
+    else
+        intent.getSerializableExtra(name) as T
+}
+
+fun checkUserCanCall(activity: Activity): Boolean {
+    if (ContextCompat.checkSelfPermission(
+            activity,
+            android.Manifest.permission.CALL_PHONE
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+        ActivityCompat.requestPermissions(
+            activity, arrayOf(android.Manifest.permission.CALL_PHONE),
+            100
+        )
+        return false
+    }
+    return true
+}
 
 fun setWindowFlags(window: Window) {
     window.setFlags(0, 0) // clear flags
@@ -19,16 +42,16 @@ fun setWindowFlags(window: Window) {
     // Display notification bar
     if (launcherPreferences.getBoolean(PREF_SCREEN_FULLSCREEN, true))
         window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
     else window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
     // Screen Timeout
     if (launcherPreferences.getBoolean(PREF_SCREEN_TIMEOUT_DISABLED, false))
         window.setFlags(
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
         )
     else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }
@@ -72,16 +95,16 @@ fun resetSettings(context: Context) {
     vibrantColor = context.resources.getColor(R.color.accent_color)
 
     editor
-            .putString(PREF_WALLPAPER, "")
-            .putInt(PREF_DOMINANT, dominantColor)
-            .putInt(PREF_VIBRANT, vibrantColor)
-            .putString(PREF_THEME, "light")
-            .putBoolean(PREF_SCREEN_TIMEOUT_DISABLED, false)
-            .putBoolean(PREF_SEARCH_AUTO_LAUNCH, false)
-            .putInt(PREF_DATE_FORMAT, 0)
-            .putBoolean(PREF_SCREEN_FULLSCREEN, true)
-            .putBoolean(PREF_DOUBLE_ACTIONS_ENABLED, false)
-            .putInt(PREF_SLIDE_SENSITIVITY, 50)
+        .putString(PREF_WALLPAPER, "")
+        .putInt(PREF_DOMINANT, dominantColor)
+        .putInt(PREF_VIBRANT, vibrantColor)
+        .putString(PREF_THEME, "light")
+        .putBoolean(PREF_SCREEN_TIMEOUT_DISABLED, false)
+        .putBoolean(PREF_SEARCH_AUTO_LAUNCH, false)
+        .putInt(PREF_DATE_FORMAT, 0)
+        .putBoolean(PREF_SCREEN_FULLSCREEN, true)
+        .putBoolean(PREF_DOUBLE_ACTIONS_ENABLED, false)
+        .putInt(PREF_SLIDE_SENSITIVITY, 50)
 
     //TODO prendere altre cose da pref
     editor.apply()
@@ -96,8 +119,8 @@ fun getSavedTheme(context: Context): String {
 
 fun saveTheme(themeName: String): String {
     launcherPreferences.edit()
-            .putString(PREF_THEME, themeName)
-            .apply()
+        .putString(PREF_THEME, themeName)
+        .apply()
 
     return themeName
 }
@@ -108,8 +131,8 @@ fun saveListActivityChoice(data: Intent?) {
     val forApp = data?.getStringExtra("forApp") ?: return
 
     launcherPreferences.edit()
-            .putString("action_$forApp", value.toString())
-            .apply()
+        .putString("action_$forApp", value.toString())
+        .apply()
 
     loadSettings()
 }
@@ -120,10 +143,10 @@ fun resetToDefaultTheme(activity: Activity) {
     vibrantColor = activity.resources.getColor(R.color.accent_color)
 
     launcherPreferences.edit()
-            .putString(PREF_WALLPAPER, "")
-            .putInt(PREF_DOMINANT, dominantColor)
-            .putInt(PREF_VIBRANT, vibrantColor)
-            .apply()
+        .putString(PREF_WALLPAPER, "")
+        .putInt(PREF_DOMINANT, dominantColor)
+        .putInt(PREF_VIBRANT, vibrantColor)
+        .apply()
 
     saveTheme("light")
     loadSettings()
@@ -137,10 +160,10 @@ fun resetToDarkTheme(activity: Activity) {
     vibrantColor = activity.resources.getColor(R.color.accent_color)
 
     launcherPreferences.edit()
-            .putString(PREF_WALLPAPER, "")
-            .putInt(PREF_DOMINANT, dominantColor)
-            .putInt(PREF_VIBRANT, vibrantColor)
-            .apply()
+        .putString(PREF_WALLPAPER, "")
+        .putInt(PREF_DOMINANT, dominantColor)
+        .putInt(PREF_VIBRANT, vibrantColor)
+        .apply()
 
     saveTheme("dark")
 

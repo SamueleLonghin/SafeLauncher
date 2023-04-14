@@ -1,35 +1,53 @@
 package it.samuelelonghin.safelauncher.home;
 
 
-import android.content.Context;
-import android.content.Intent
-import android.media.Image
-import android.os.AsyncTask
-import android.os.Bundle;
-import android.widget.ImageView
+import android.Manifest
+import android.R.id
+import android.content.ContentUris
+import android.content.Context
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
+import android.os.Bundle
+import android.provider.ContactsContract
+import android.view.View
+import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.BuildConfig.VERSION_NAME
-
-import it.samuelelonghin.safelauncher.R;
+import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
-import kotlinx.android.synthetic.main.home.*
 
 
-class HomeActivity : UIObject, BaseFullActivity() {
+class HomeActivity : UIObject, AppCompatActivity() {
+    private lateinit var binding: HomeBinding
 
     // timers
     private var clockTimer = Timer()
     private var tooltipTimer = Timer()
 
+    private lateinit var view: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        System.out.println("HOME :: OnCreate")
+        binding = HomeBinding.inflate(layoutInflater)
+        view = binding.root
 
         // Initialise globals
         launcherPreferences = this.getSharedPreferences(
-                getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+            getString(R.string.preference_file_key), Context.MODE_PRIVATE
+        )
 
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
@@ -62,8 +80,8 @@ class HomeActivity : UIObject, BaseFullActivity() {
                     }
 
                     launcherPreferences.edit()
-                            .putString(PREF_VERSION, VERSION_NAME) // save new version
-                            .apply()
+                        .putString(PREF_VERSION, VERSION_NAME) // save new version
+                        .apply()
 
                     // show the new tutorial
                     //todo uncomment for tutorial
@@ -73,17 +91,19 @@ class HomeActivity : UIObject, BaseFullActivity() {
         }
 
         // Preload apps to speed up the Apps Recycler
-        AsyncTask.execute { loadApps(packageManager) }
-
+        lifecycleScope.launch(Dispatchers.IO) {
+            loadApps(packageManager)
+        }
         // Initialise layout
-        setContentView(R.layout.home)
+        setContentView(view)
     }
 
-    override fun onStart() {
-        super<BaseFullActivity>.onStart()
 
-//        mDetector = GestureDetectorCompat(this, this)
-//        mDetector.setOnDoubleTapListener(this)
+    override fun onStart() {
+        super<AppCompatActivity>.onStart()
+        System.out.println("HOME :: onStart")
+
+        getContacts()
 
         // for if the settings changed
         loadSettings()
@@ -92,9 +112,10 @@ class HomeActivity : UIObject, BaseFullActivity() {
 
     override fun onResume() {
         super.onResume()
-//        val home_background_image = findViewById<ImageView>(R.id.home_background_image)
-        if (home_background_image != null && getSavedTheme(this) == "custom")
-            home_background_image.setImageBitmap(background)
+        System.out.println("HOME :: OnResume")
+
+        if (binding.homeBackgroundImage != null && getSavedTheme(this) == "custom")
+            binding.homeBackgroundImage.setImageBitmap(background)
 
         // Applying the date / time format (changeable in settings)
         val dFormat = launcherPreferences.getInt(PREF_DATE_FORMAT, 0)
@@ -107,18 +128,69 @@ class HomeActivity : UIObject, BaseFullActivity() {
         clockTimer = fixedRateTimer("clockTimer", true, 0L, 100) {
             this@HomeActivity.runOnUiThread {
                 val t = timeFormat.format(Date())
-                if (home_lower_view.text != t)
-                    home_lower_view.text = t
+                if (binding.clockFrame.textViewClock.text != t)
+                    binding.clockFrame.textViewClock.text = t
 
                 val d = dateFormat.format(Date())
-                if (home_upper_view.text != d)
-                    home_upper_view.text = d
+                if (binding.clockFrame.textViewDate.text != d)
+                    binding.clockFrame.textViewDate.text = d
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
+        System.out.println("HOME :: OnPause")
+
         clockTimer.cancel()
+    }
+
+    lateinit var cursor: Cursor
+
+    // Request code for READ_CONTACTS. It can be any number > 0.
+    private val PERMISSIONS_REQUEST_READ_CONTACTS = 100
+    private var adapter: ContactCursorAdapter? = null
+
+    private fun getContacts() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.READ_CONTACTS),
+                PERMISSIONS_REQUEST_READ_CONTACTS
+            )
+            return
+        }
+        // create cursor and query the data
+        cursor = contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+        )!!
+        // creation of adapter using ContactCursorAdapter class
+        adapter = ContactCursorAdapter(this, cursor, view)
+        // Calling setAdaptor() method to set created adapter
+        binding.contactsFrame.listViewContacts.adapter = adapter
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted
+                getContacts()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Until you grant the permission, we cannot display the names",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
