@@ -145,6 +145,11 @@ class HomeActivity : UIObject, AppCompatActivity() {
         clockTimer.cancel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        System.out.println("HOME :: onDestroy")
+    }
+
     lateinit var cursor: Cursor
 
     // Request code for READ_CONTACTS. It can be any number > 0.
