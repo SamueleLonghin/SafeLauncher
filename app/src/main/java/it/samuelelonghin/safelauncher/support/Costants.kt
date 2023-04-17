@@ -26,6 +26,11 @@ const val PREF_STARTED = "startedBefore"
 const val PREF_STARTED_TIME = "firstStartup"
 
 
+/**
+ *
+ */
+const val PERMISSIONS_REQUEST_READ_CONTACTS = 100
+
 
 /**
  *  REQUEST CODES

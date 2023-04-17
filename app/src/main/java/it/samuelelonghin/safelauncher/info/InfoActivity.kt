@@ -25,7 +25,7 @@ class InfoActivity : AppCompatActivity(), UIObject {
             binding.viewContactFrame.imageViewViewContact.setImageBitmap(contact.getPhotoBitmap())
 
 
-        binding.viewContactFrame.buttonCall.setOnClickListener { v ->
+        binding.viewContactFrame.buttonCall.setOnClickListener {
             run {
                 if (checkUserCanCall(this)) {
                     val intent =
@@ -34,17 +34,13 @@ class InfoActivity : AppCompatActivity(), UIObject {
                 }
             }
         }
-        binding.viewContactFrame.backLayout.setOnClickListener { v ->
+        binding.viewContactFrame.backLayout.setOnClickListener {
             run {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
                 this.finish()
             }
         }
-        binding.viewContactFrame.backButton.setOnClickListener { v ->
+        binding.viewContactFrame.backButton.setOnClickListener {
             run {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
                 this.finish()
             }
         }

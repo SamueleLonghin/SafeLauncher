@@ -30,13 +30,17 @@ import kotlin.concurrent.fixedRateTimer
 
 
 class HomeActivity : UIObject, AppCompatActivity() {
+    /**
+     * View
+     */
     private lateinit var binding: HomeBinding
+    private lateinit var view: View
 
     // timers
     private var clockTimer = Timer()
-    private var tooltipTimer = Timer()
 
-    private lateinit var view: View
+    lateinit var cursor: Cursor
+    private var adapter: ContactCursorAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +107,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
         super<AppCompatActivity>.onStart()
         System.out.println("HOME :: onStart")
 
-        getContacts()
+//        getContacts()
 
         // for if the settings changed
         loadSettings()
@@ -114,7 +118,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
         super.onResume()
         System.out.println("HOME :: OnResume")
 
-        if (binding.homeBackgroundImage != null && getSavedTheme(this) == "custom")
+        if (getSavedTheme(this) == "custom")
             binding.homeBackgroundImage.setImageBitmap(background)
 
         // Applying the date / time format (changeable in settings)
@@ -136,6 +140,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
                     binding.clockFrame.textViewDate.text = d
             }
         }
+
     }
 
     override fun onPause() {
@@ -150,52 +155,46 @@ class HomeActivity : UIObject, AppCompatActivity() {
         System.out.println("HOME :: onDestroy")
     }
 
-    lateinit var cursor: Cursor
+//    private fun getContacts() {
+//        // Check the SDK version and whether the permission is already granted or not.
+//        if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(
+//                arrayOf(Manifest.permission.READ_CONTACTS),
+//                PERMISSIONS_REQUEST_READ_CONTACTS
+//            )
+//            return
+//        }
+//        // create cursor and query the data
+//        cursor = contentResolver.query(
+//            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//            null,
+//            "starred=?",
+//             arrayOf("1"),
+//            null
+//        )!!
+//        // creation of adapter using ContactCursorAdapter class
+//        adapter = ContactCursorAdapter(this, cursor, view)
+//        // Calling setAdaptor() method to set created adapter
+//        binding.contactsFrame.listViewContacts.adapter = adapter
+//    }
 
-    // Request code for READ_CONTACTS. It can be any number > 0.
-    private val PERMISSIONS_REQUEST_READ_CONTACTS = 100
-    private var adapter: ContactCursorAdapter? = null
-
-    private fun getContacts() {
-        // Check the SDK version and whether the permission is already granted or not.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(Manifest.permission.READ_CONTACTS),
-                PERMISSIONS_REQUEST_READ_CONTACTS
-            )
-            return
-        }
-        // create cursor and query the data
-        cursor = contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            null,
-            null,
-            null
-        )!!
-        // creation of adapter using ContactCursorAdapter class
-        adapter = ContactCursorAdapter(this, cursor, view)
-        // Calling setAdaptor() method to set created adapter
-        binding.contactsFrame.listViewContacts.adapter = adapter
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted
-                getContacts()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Until you grant the permission, we cannot display the names",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // Permission is granted
+//                getContacts()
+//            } else {
+//                Toast.makeText(
+//                    this,
+//                    "Until you grant the permission, we cannot display the names",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//    }
 }

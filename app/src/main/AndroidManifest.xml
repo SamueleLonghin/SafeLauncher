@@ -37,6 +37,12 @@
             android:name=".info.InfoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"></activity>
+        <activity
+            android:name=".info.EmptyActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"></activity>
     </application>
 
 </manifest>
+
+<!--    android:theme="@style/Theme.AppCompat.DayNight.Dialog"-->

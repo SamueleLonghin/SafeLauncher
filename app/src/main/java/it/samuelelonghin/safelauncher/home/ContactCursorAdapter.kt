@@ -14,6 +14,7 @@ import android.widget.CursorAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.info.EmptyActivity
 import it.samuelelonghin.safelauncher.info.InfoActivity
 import it.samuelelonghin.safelauncher.support.contactsList
 import java.io.FileNotFoundException
@@ -49,6 +50,8 @@ class ContactCursorAdapter(context: Context?, cursor: Cursor, private val parent
         text_view_contact.text = contact.name
         if (contact.photoURI != null)
             image_view_contact.setImageBitmap(contact.getPhotoBitmap())
+        else
+            image_view_contact.setImageDrawable(null)
 
 
         //Set onclick
@@ -57,7 +60,8 @@ class ContactCursorAdapter(context: Context?, cursor: Cursor, private val parent
             println("Da rimpiazzare")
             System.out.println(parent)
 //            parent.foreground.alpha = 220
-            val intent = Intent(context, InfoActivity::class.java)
+//            val intent = Intent(context, InfoActivity::class.java)
+            val intent = Intent(context, EmptyActivity::class.java)
             intent.putExtra("contact", contact)
             context.startActivity(intent)
         }
