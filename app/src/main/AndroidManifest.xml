@@ -20,6 +20,7 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.SafeLauncher"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +41,9 @@
         <activity
             android:name=".info.EmptyActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.SafeLauncher.Dialog"
             tools:ignore="LockedOrientationActivity"></activity>
     </application>
 
 </manifest>
 
-<!--    android:theme="@style/Theme.AppCompat.DayNight.Dialog"-->

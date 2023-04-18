@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/image_view_view_contact"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/default_text_view_contact"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -89,11 +89,10 @@
             android:textSize="@dimen/back_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageViewBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -102,8 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-            android:translationZ="100dp"
-            tools:ignore="ImageContrastCheck" />
+            android:translationZ="100dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

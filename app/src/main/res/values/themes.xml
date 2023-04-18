@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.SafeLauncher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -14,12 +14,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.SafeLauncher.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="Theme.SafeLauncher.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
     </style>
-
-    <style name="Theme.SafeLauncher.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.SafeLauncher.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

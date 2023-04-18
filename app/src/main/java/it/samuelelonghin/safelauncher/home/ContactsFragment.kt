@@ -1,11 +1,9 @@
 package it.samuelelonghin.safelauncher.home
 
-
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.AttributeSet
@@ -13,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -22,7 +19,6 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
-
 
 class ContactsFragment :
     Fragment(R.layout.contacts_frame),
@@ -67,7 +63,7 @@ class ContactsFragment :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the fragment layout
         binding = ContactsFrameBinding.inflate(inflater)
         _view = binding.root
@@ -125,13 +121,36 @@ class ContactsFragment :
 
 
         // create cursor and query the data
+        /**
+         * Versione dove trova duplicati in base a google / whatsapp ...
+         */
         contactCursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
-            "starred=?",
+            "starred=?" +" AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1",
             arrayOf("1"),
             null
         )!!
+
+        /**
+         * Versione che boh
+         */
+//        val PROJECTION: Array<String?> = arrayOf(
+//            ContactsContract.Contacts._ID,
+//            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,  // Honeycomb+ should use this
+//            ContactsContract.CommonDataKinds.Phone.NUMBER,
+////            ContactsContract.Contacts.DISPLAY_NAME,
+//            ContactsContract.Contacts.PHOTO_URI,
+//            ContactsContract.Contacts.HAS_PHONE_NUMBER,
+//        )
+//        contactCursor = context.contentResolver.query(
+//            ContactsContract.Contacts.CONTENT_URI,
+//            null,
+//            null,
+//            null,
+//            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " COLLATE NOCASE ASC"
+//        )!!
+
         // creation of adapter using ContactCursorAdapter class
         cursorAdapter = ContactCursorAdapter(context, contactCursor, _view)
         // Calling setAdaptor() method to set created adapter

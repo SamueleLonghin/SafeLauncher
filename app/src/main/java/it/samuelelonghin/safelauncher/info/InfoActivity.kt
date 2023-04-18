@@ -24,7 +24,6 @@ class InfoActivity : AppCompatActivity(), UIObject {
         if (contact.photoURI != null)
             binding.viewContactFrame.imageViewViewContact.setImageBitmap(contact.getPhotoBitmap())
 
-
         binding.viewContactFrame.buttonCall.setOnClickListener {
             run {
                 if (checkUserCanCall(this)) {

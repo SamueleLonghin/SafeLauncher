@@ -55,14 +55,14 @@ class ContactCursorAdapter(context: Context?, cursor: Cursor, private val parent
 
 
         //Set onclick
-        view.setOnClickListener { v: View? ->
-            println("Cliccato${contact.name}")
-            println("Da rimpiazzare")
-            System.out.println(parent)
+        view.setOnClickListener {
+            println("Cliccato ${contact.name}")
+//            System.out.println(parent)
 //            parent.foreground.alpha = 220
 //            val intent = Intent(context, InfoActivity::class.java)
             val intent = Intent(context, EmptyActivity::class.java)
             intent.putExtra("contact", contact)
+
             context.startActivity(intent)
         }
         println(contact.name)

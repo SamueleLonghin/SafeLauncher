@@ -41,37 +41,40 @@ class ViewContactFragment :
         // Inflate the fragment layout
         binding = ViewContactFrameBinding.inflate(inflater)
         _view = binding.root
-        System.out.println("ViewContactFragment :: CreateView")
+        println("ViewContactFragment :: CreateView")
 
-
+        // Get the contact
         val contact: ContactInfo =
             getSerializable(requireActivity().intent, "contact", ContactInfo::class.java)
         contact.setContext(requireContext())
+
+
         binding.textViewViewContact.text = contact.name
+
         if (contact.photoURI != null)
             binding.imageViewViewContact.setImageBitmap(contact.getPhotoBitmap())
+        else
+            binding.imageViewViewContact.setImageDrawable(null)
 
-
-        binding.buttonCall.setOnClickListener { v ->
-            run {
-                if (checkUserCanCall(requireActivity())) {
-                    val intent =
-                        Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.mobileNumber))
-                    startActivity(intent)
-                }
+        val handleButtonClick = View.OnClickListener {
+            if (checkUserCanCall(requireActivity())) {
+                val intent =
+                    Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.mobileNumber))
+                startActivity(intent)
             }
         }
-        binding.backLayout.setOnClickListener { v ->
+
+        binding.buttonCall.setOnClickListener(handleButtonClick)
+        binding.imageView2.setOnClickListener(handleButtonClick)
+        binding.imageViewBack.setOnClickListener(handleButtonClick)
+
+//        binding.backLayout.setOnClickListener {
+//            run {
+//                this.requireActivity().finish()
+//            }
+//        }
+        binding.backButton.setOnClickListener {
             run {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
-                this.requireActivity().finish()
-            }
-        }
-        binding.backButton.setOnClickListener { v ->
-            run {
-//                val intent = Intent(this, HomeActivity::class.java)
-//                startActivity(intent)
                 this.requireActivity().finish()
             }
         }
