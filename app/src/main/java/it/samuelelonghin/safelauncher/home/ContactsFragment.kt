@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
 
@@ -56,7 +57,7 @@ class ContactsFragment :
     lateinit var contactCursor: Cursor
 
     // Request code for READ_CONTACTS. It can be any number > 0.
-    private var cursorAdapter: ContactCursorAdapter? = null
+    private var cursorAdapter: ContactCursorGridAdapter? = null
 
     // A UI Fragment must inflate its View
     override fun onCreateView(
@@ -127,7 +128,7 @@ class ContactsFragment :
         contactCursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
-            "starred=?" +" AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1",
+            "starred=?" + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1",
             arrayOf("1"),
             null
         )!!
@@ -152,9 +153,39 @@ class ContactsFragment :
 //        )!!
 
         // creation of adapter using ContactCursorAdapter class
-        cursorAdapter = ContactCursorAdapter(context, contactCursor, _view)
+//        cursorAdapter = ContactCursorAdapter(context, contactCursor, _view)
+        cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
         // Calling setAdaptor() method to set created adapter
-        binding.listViewContacts.adapter = cursorAdapter
+//        binding.listViewContacts.adapter = cursorAdapter
+
+
+        var courseRV = binding.idRVCourses
+
+        // on below line we are initializing our list
+
+        // on below line we are creating a variable
+        // for our grid layout manager and specifying
+        // column count as 2
+        val layoutManager = GridLayoutManager(context, 2)
+
+        courseRV.layoutManager = layoutManager
+
+        // on below line we are initializing our adapter
+
+        // on below line we are setting
+        // adapter to our recycler view.
+        courseRV.adapter = cursorAdapter
+
+        // on below line we are adding data to our list
+//        courseList.add(CourseRVModal("Android Development", R.drawable.android))
+//        courseList.add(CourseRVModal("C++ Development", R.drawable.c))
+//        courseList.add(CourseRVModal("Java Development", R.drawable.java))
+//        courseList.add(CourseRVModal("Python Development", R.drawable.python))
+//        courseList.add(CourseRVModal("JavaScript Development", R.drawable.js))
+//
+//        // on below line we are notifying adapter
+//        // that data has been updated.
+//        courseRVAdapter.notifyDataSetChanged()
 
     }
 }
