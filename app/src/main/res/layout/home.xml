@@ -29,13 +29,14 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/contacts_frame"
-        android:name="it.samuelelonghin.safelauncher.home.ContactsFragment"
+        android:name="it.samuelelonghin.safelauncher.home.contacts.ContactsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/widget_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clock_frame" />
+        app:layout_constraintTop_toBottomOf="@+id/clock_frame"
+        tools:layout="@layout/contacts_frame" />
 
     <!--    <include-->
     <!--        android:id="@+id/contacts_frame"-->
@@ -47,14 +48,16 @@
     <!--        app:layout_constraintStart_toStartOf="parent"-->
     <!--        app:layout_constraintTop_toBottomOf="@+id/clock_frame" />-->
 
-    <include
+
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/widget_frame"
-        layout="@layout/widget_frame"
+        android:name="it.samuelelonghin.safelauncher.home.widgets.WidgetFragment"
         android:layout_width="0dp"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/widget_frame" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

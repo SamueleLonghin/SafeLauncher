@@ -1,7 +1,8 @@
-package it.samuelelonghin.safelauncher.home
+package it.samuelelonghin.safelauncher.home.contacts
 
 import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
@@ -20,6 +21,10 @@ import androidx.loader.content.Loader
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
+import it.samuelelonghin.safelauncher.support.CONTACTS_NUMBER_COLUMNS
+import it.samuelelonghin.safelauncher.support.contactsNumberColumns
+import it.samuelelonghin.safelauncher.support.launcherPreferences
+
 
 class ContactsFragment :
     Fragment(R.layout.contacts_frame),
@@ -54,10 +59,17 @@ class ContactsFragment :
 
 
     // An adapter that binds the result Cursor to the ListView
-    lateinit var contactCursor: Cursor
+    private lateinit var contactCursor: Cursor
 
     // Request code for READ_CONTACTS. It can be any number > 0.
     private var cursorAdapter: ContactCursorGridAdapter? = null
+
+    private val sharedPreferenceChangeListener = OnSharedPreferenceChangeListener { _, key ->
+        if (key == CONTACTS_NUMBER_COLUMNS) {
+            displayContacts()
+        }
+    }
+
 
     // A UI Fragment must inflate its View
     override fun onCreateView(
@@ -68,52 +80,61 @@ class ContactsFragment :
         // Inflate the fragment layout
         binding = ContactsFrameBinding.inflate(inflater)
         _view = binding.root
-        System.out.println("ContactsFragement :: CreateView")
+        println("ContactsFragement :: CreateView")
+
+        //Getting contacts from OS
         getContacts()
 
         return _view
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        println("ContactsFragement :: resume")
+
+        launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+        //Displaying contacts
+        displayContacts()
+    }
+
     override fun onStart() {
         super.onStart()
-        System.out.println("ContactsFragement :: Start")
-
+        println("ContactsFragement :: Start")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        System.out.println("ContactsFragement :: Create")
+        println("ContactsFragement :: Create")
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        System.out.println("ContactsFragement :: CreateLoader")
+        println("ContactsFragement :: CreateLoader")
         return activity?.let {
             CursorLoader(requireContext())
         } ?: throw IllegalStateException()
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        System.out.println("ContactsFragement :: LoadFinished")
+        println("ContactsFragement :: LoadFinished")
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
-        System.out.println("ContactsFragement :: LoaderReset")
+        println("ContactsFragement :: LoaderReset")
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        System.out.println("ContactsFragement :: ItemClick")
+        println("ContactsFragement :: ItemClick")
     }
 
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
-        System.out.println("ContactsFragement :: Inflate")
+        println("ContactsFragement :: Inflate")
     }
 
     private fun getContacts() {
         val context = requireContext()
-
 
         if (context.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
@@ -121,7 +142,6 @@ class ContactsFragment :
         }
 
 
-        // create cursor and query the data
         /**
          * Versione dove trova duplicati in base a google / whatsapp ...
          */
@@ -132,60 +152,32 @@ class ContactsFragment :
             arrayOf("1"),
             null
         )!!
+    }
 
-        /**
-         * Versione che boh
-         */
-//        val PROJECTION: Array<String?> = arrayOf(
-//            ContactsContract.Contacts._ID,
-//            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,  // Honeycomb+ should use this
-//            ContactsContract.CommonDataKinds.Phone.NUMBER,
-////            ContactsContract.Contacts.DISPLAY_NAME,
-//            ContactsContract.Contacts.PHOTO_URI,
-//            ContactsContract.Contacts.HAS_PHONE_NUMBER,
-//        )
-//        contactCursor = context.contentResolver.query(
-//            ContactsContract.Contacts.CONTENT_URI,
-//            null,
-//            null,
-//            null,
-//            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " COLLATE NOCASE ASC"
-//        )!!
+    private fun displayContacts() {
+        val context = requireContext()
+        if (::contactCursor.isInitialized) {
+            cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
 
-        // creation of adapter using ContactCursorAdapter class
-//        cursorAdapter = ContactCursorAdapter(context, contactCursor, _view)
-        cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
-        // Calling setAdaptor() method to set created adapter
-//        binding.listViewContacts.adapter = cursorAdapter
+            val courseRV = binding.idRVCourses
 
+            // on below line we are initializing our list
 
-        var courseRV = binding.idRVCourses
+            // on below line we are creating a variable
+            // for our grid layout manager and specifying
+            // column count as 2
+            val layoutManager = GridLayoutManager(context, contactsNumberColumns)
 
-        // on below line we are initializing our list
+            courseRV.layoutManager = layoutManager
 
-        // on below line we are creating a variable
-        // for our grid layout manager and specifying
-        // column count as 2
-        val layoutManager = GridLayoutManager(context, 2)
+            // on below line we are initializing our adapter
 
-        courseRV.layoutManager = layoutManager
-
-        // on below line we are initializing our adapter
-
-        // on below line we are setting
-        // adapter to our recycler view.
-        courseRV.adapter = cursorAdapter
-
-        // on below line we are adding data to our list
-//        courseList.add(CourseRVModal("Android Development", R.drawable.android))
-//        courseList.add(CourseRVModal("C++ Development", R.drawable.c))
-//        courseList.add(CourseRVModal("Java Development", R.drawable.java))
-//        courseList.add(CourseRVModal("Python Development", R.drawable.python))
-//        courseList.add(CourseRVModal("JavaScript Development", R.drawable.js))
-//
-//        // on below line we are notifying adapter
-//        // that data has been updated.
-//        courseRVAdapter.notifyDataSetChanged()
-
+            // on below line we are setting
+            // adapter to our recycler view.
+            courseRV.adapter = cursorAdapter
+        } else {
+            System.err.println("Cursor not loaded in ContactsFragment")
+            //todo display placeholder
+        }
     }
 }

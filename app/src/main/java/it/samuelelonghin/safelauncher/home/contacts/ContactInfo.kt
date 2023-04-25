@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.home
+package it.samuelelonghin.safelauncher.home.contacts
 
 import android.content.ContentResolver
 import android.content.Context
@@ -17,6 +17,7 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
 
     @Transient
     private var context: Context
+
     var id: String
     var name: String
     var mobileNumber: String? = null

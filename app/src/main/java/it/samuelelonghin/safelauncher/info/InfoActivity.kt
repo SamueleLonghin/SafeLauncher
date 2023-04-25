@@ -5,8 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import it.samuelelonghin.safelauncher.databinding.ViewContactActivityBinding
-import it.samuelelonghin.safelauncher.home.ContactInfo
-import it.samuelelonghin.safelauncher.home.HomeActivity
+import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.support.*
 
 

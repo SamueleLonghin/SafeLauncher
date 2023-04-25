@@ -39,3 +39,12 @@ const val REQUEST_PICK_IMAGE = 1
 const val REQUEST_CHOOSE_APP = 2
 const val REQUEST_UNINSTALL = 3
 const val REQUEST_PERMISSION_STORAGE = 4
+
+/**
+ * SHARED PREFERENCES
+ */
+const val IS_TUTORIAL_FINISHED = "is-tutorial-finished"
+const val WIDGET_NUMBER_COLUMNS = "widget-number-columns"
+const val WIDGET_NUMBER_ROWS = "widget-number-rows"
+const val CONTACTS_NUMBER_COLUMNS = "contacts-number-columns"
+const val WIDGETS_LIST = "widgets-list"

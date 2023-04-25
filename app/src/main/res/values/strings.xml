@@ -16,6 +16,7 @@
     <string name="default_text_view_contact">Aldo</string>
     <string name="call_button">Chiama</string>
     <string name="back">Indietro</string>
+    <string name="default_text_view_widget">Widget</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

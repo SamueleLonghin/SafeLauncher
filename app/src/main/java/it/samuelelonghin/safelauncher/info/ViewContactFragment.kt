@@ -16,7 +16,7 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ViewContactFrameBinding
-import it.samuelelonghin.safelauncher.home.ContactInfo
+import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.support.checkUserCanCall
 import it.samuelelonghin.safelauncher.support.getSerializable
 

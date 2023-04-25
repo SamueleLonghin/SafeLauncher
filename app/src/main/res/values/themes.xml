@@ -11,9 +11,15 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SafeLauncher.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+    <style name="Theme.SafeLauncher.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog"></style>
+
+    <style name="Theme.SafeLauncher.NoTitle" parent="Theme.SafeLauncher">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

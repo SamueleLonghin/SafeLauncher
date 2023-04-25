@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.home
+package it.samuelelonghin.safelauncher.home.contacts
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,7 @@ class ContactCursorGridAdapter(
     cursor: Cursor?
 ) : BaseCursorAdapter<ContactCursorGridAdapter.CourseViewHolder>(cursor) {
 
-    var cursor: Cursor?
+    private var cursor: Cursor?
 
     init {
         this.cursor = cursor
@@ -50,18 +50,16 @@ class ContactCursorGridAdapter(
 
         // Populate fields with extracted properties
         // Populate fields with extracted properties
-        holder.text_view_contact.text = contact.name
+        holder.textViewContact.text = contact.name
         if (contact.photoURI != null)
-            holder.image_view_contact.setImageBitmap(contact.getPhotoBitmap())
+            holder.imageViewContact.setImageBitmap(contact.getPhotoBitmap())
         else
-            holder.image_view_contact.setImageDrawable(null)
+            holder.imageViewContact.setImageDrawable(null)
 
 
         //Set onclick
         holder.itemView.setOnClickListener {
             println("Cliccato ${contact.name}")
-//            System.out.println(parent)
-//            parent.foreground.alpha = 220
 //            val intent = Intent(context, InfoActivity::class.java)
             val intent = Intent(context, EmptyActivity::class.java)
             intent.putExtra("contact", contact)
@@ -75,9 +73,9 @@ class ContactCursorGridAdapter(
 
 
     class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text_view_contact: TextView =
-            itemView.findViewById<TextView>(R.id.text_view_view_contact)
-        val image_view_contact: ImageView =
-            itemView.findViewById<ImageView>(R.id.image_view_contact)
+        val textViewContact: TextView =
+            itemView.findViewById(R.id.text_view_view_contact)
+        val imageViewContact: ImageView =
+            itemView.findViewById(R.id.image_view_contact)
     }
 }
