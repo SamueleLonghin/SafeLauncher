@@ -4,12 +4,10 @@ import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.MediaStore
-import it.samuelelonghin.safelauncher.R
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.Serializable
@@ -44,26 +42,52 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
             val cr: ContentResolver = this.context.contentResolver
 
             // Query phone here. Covered next
-            val phones: Cursor? = cr.query(
+
+            val cp = cr.query(
                 Phone.CONTENT_URI, null,
-                Phone.CONTACT_ID + " = " + id, null, null
+                Phone.CONTACT_ID + " = ?", arrayOf(id), null
             )
-            if (phones != null) {
-                while (phones.moveToNext()) {
-                    var number = phones.getString(phones.getColumnIndexOrThrow(Phone.NUMBER))
-                    val type = phones.getInt(phones.getColumnIndexOrThrow(Phone.TYPE))
-                    when (type) {
-                        Phone.TYPE_HOME,
-                        Phone.TYPE_WORK -> {
-                            if (mobileNumber == null) mobileNumber = number
-                        }
-                        Phone.TYPE_MOBILE -> {
-                            mobileNumber = number
-                        }
-                    }
-                }
+            var phone: String? = null
+            if (cp != null && cp.moveToFirst()) {
+                phone = cp.getString(cp.getColumnIndexOrThrow(Phone.NUMBER))
+                cp.close()
             }
-            phones?.close()
+            var email: String? = null
+            val ce = cr.query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", arrayOf(id), null
+            )
+            if (ce != null && ce.moveToFirst()) {
+                email =
+                    ce.getString(ce.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA))
+                ce.close()
+            }
+            System.out.print(name + " " + id + " " + email + " ")
+            System.out.println("Numero: " + phone)
+
+
+//            val phones: Cursor? = cr.query(
+//                Phone.CONTENT_URI, null,
+//                Phone.CONTACT_ID + " = " + id, null, null
+//            )
+//            if (phones != null) {
+//                while (phones.moveToNext()) {
+//                    var number = phones.getString(phones.getColumnIndexOrThrow(Phone.NUMBER))
+//                    val type = phones.getInt(phones.getColumnIndexOrThrow(Phone.TYPE))
+//                    when (type) {
+//                        Phone.TYPE_HOME,
+//                        Phone.TYPE_WORK -> {
+//                            if (mobileNumber == null) mobileNumber = number
+//                        }
+//                        Phone.TYPE_MOBILE -> {
+//                            mobileNumber = number
+//                        }
+//                    }
+//                    System.out.print(name + " ")
+//                    System.out.println("Numero: " + number + " type: " + type)
+//                }
+//            }
+//            phones?.close()
         }
     }
 

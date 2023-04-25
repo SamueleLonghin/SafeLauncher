@@ -1,20 +1,13 @@
 package it.samuelelonghin.safelauncher.home;
 
 
-import android.Manifest
-import android.R.id
-import android.content.ContentUris
 import android.content.Context
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.View
-import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.BuildConfig.VERSION_NAME
@@ -23,7 +16,6 @@ import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
@@ -113,6 +105,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
         loadSettings()
         super<UIObject>.onStart()
     }
+
 
     override fun onResume() {
         super.onResume()

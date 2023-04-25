@@ -65,7 +65,9 @@ class ContactCursorAdapter(context: Context?, cursor: Cursor, private val parent
 
             context.startActivity(intent)
         }
-        println(contact.name)
+        print(contact.name)
+        print(" -> ")
+        println(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER)))
 
 
         //photo_uri
