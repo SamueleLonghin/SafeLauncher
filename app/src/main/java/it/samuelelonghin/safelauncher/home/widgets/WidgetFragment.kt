@@ -17,14 +17,6 @@ class WidgetFragment :
     Fragment(R.layout.widget_frame) {
 
 
-    private val sharedPreferenceChangeListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == WIDGET_NUMBER_ROWS || key == WIDGET_NUMBER_COLUMNS) {
-                renderGrid()
-            }
-        }
-
-
     /**
      * View
      */
@@ -62,6 +54,14 @@ class WidgetFragment :
 
     override fun onResume() {
         super.onResume()
+        println("WidgetFragement :: Resume")
+        val sharedPreferenceChangeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == WIDGET_NUMBER_ROWS || key == WIDGET_NUMBER_COLUMNS) {
+                    renderGrid()
+                }
+            }
+
         launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
         renderGrid()
     }
@@ -69,8 +69,13 @@ class WidgetFragment :
     private fun renderGrid() {
         val context = requireContext()
 
-        binding.gridViewWidgets.numColumns = widgetNumberColumns
-
+        val nCols = launcherPreferences.getInt(
+            WIDGET_NUMBER_COLUMNS,
+            WIDGET_NUMBER_COLUMNS_PREF
+        )
+        println("Numero di colonne widget:" + nCols)
+        binding.gridViewWidgets.numColumns = nCols
+        widgetsList.clear()
 
         // on below line we are adding data to
         // our course list with image and course name.

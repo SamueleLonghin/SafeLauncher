@@ -16,7 +16,6 @@ class SettingsActivity : AppCompatActivity(), UIObject {
         binding = SettingsBinding.inflate(layoutInflater)
         val view = binding.root
 
-
         // Initialise layout
         setContentView(view)
     }
@@ -39,9 +38,6 @@ class SettingsActivity : AppCompatActivity(), UIObject {
     override fun applyTheme() {
         binding.settingsContainer.setBackgroundColor(dominantColor)
         binding.settingsAppbar.setBackgroundColor(dominantColor)
-
-        binding.settingsSystem.setTextColor(vibrantColor)
-        binding.settingsClose.setTextColor(vibrantColor)
     }
 
     override fun setOnClicks() {
@@ -54,11 +50,4 @@ class SettingsActivity : AppCompatActivity(), UIObject {
         }
     }
 
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        when (requestCode) {
-//            REQUEST_CHOOSE_APP -> saveListActivityChoice(data)
-//            else -> super.onActivityResult(requestCode, resultCode, data)
-//        }
-//    }
 }

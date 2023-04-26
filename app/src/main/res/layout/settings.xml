@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +11,10 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/settings_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,14 +35,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <it.samuelelonghin.safelauncher.libraries.FontAwesome
+            <TextView
                 android:id="@+id/settings_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
                 android:gravity="center"
                 android:includeFontPadding="true"
                 android:paddingLeft="16sp"
+                android:paddingEnd="8dp"
                 android:paddingRight="16sp"
                 android:text="@string/fa_close_window"
                 android:textColor="?attr/colorAccent"
@@ -50,13 +52,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 custom:type="solid" />
 
-            <it.samuelelonghin.safelauncher.libraries.FontAwesome
+            <TextView
                 android:id="@+id/settings_system"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:gravity="center"
                 android:includeFontPadding="true"
+                android:paddingStart="8dp"
                 android:paddingLeft="16sp"
                 android:paddingRight="16sp"
                 android:text="@string/fas_settings"
@@ -65,21 +68,30 @@
                 custom:layout_constraintBottom_toBottomOf="parent"
                 custom:layout_constraintStart_toStartOf="parent"
                 custom:layout_constraintTop_toTopOf="parent"
-                custom:type="solid"
-                android:layout_marginStart="8dp" />
+                custom:type="solid" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/settings_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabTextColor="?attr/android:textColor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/settings_viewpager"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="0dp"
+        android:scrollbarStyle="outsideInset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_appbar">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/widget_frame"
+            android:name="it.samuelelonghin.safelauncher.settings.SettingsFragmentLauncher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout="@layout/widget_frame" />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

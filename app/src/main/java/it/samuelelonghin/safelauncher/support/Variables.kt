@@ -25,9 +25,5 @@ var intendedSettingsPause = false // know when to close
  * PREFERENCES
  */
 
-var widgetNumberColumns: Int = 0
-var widgetNumberRows: Int = 0
-var contactsNumberColumns: Int = 0
-
 var widgetsList: MutableList<WidgetInfo> = mutableListOf()
 

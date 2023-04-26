@@ -48,3 +48,13 @@ const val WIDGET_NUMBER_COLUMNS = "widget-number-columns"
 const val WIDGET_NUMBER_ROWS = "widget-number-rows"
 const val CONTACTS_NUMBER_COLUMNS = "contacts-number-columns"
 const val WIDGETS_LIST = "widgets-list"
+
+
+/**
+ * DEFAULT PREFERENCES
+ */
+
+const val CONTACTS_NUMBER_COLUMNS_PREF = 3
+const val WIDGET_NUMBER_COLUMNS_PREF = 5
+const val WIDGET_NUMBER_ROWS_PREF = 2
+

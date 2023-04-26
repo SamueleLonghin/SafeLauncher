@@ -21,9 +21,7 @@ import androidx.loader.content.Loader
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
-import it.samuelelonghin.safelauncher.support.CONTACTS_NUMBER_COLUMNS
-import it.samuelelonghin.safelauncher.support.contactsNumberColumns
-import it.samuelelonghin.safelauncher.support.launcherPreferences
+import it.samuelelonghin.safelauncher.support.*
 
 
 class ContactsFragment :
@@ -161,12 +159,15 @@ class ContactsFragment :
 
             val courseRV = binding.idRVCourses
 
-            // on below line we are initializing our list
-
-            // on below line we are creating a variable
-            // for our grid layout manager and specifying
-            // column count as 2
-            val layoutManager = GridLayoutManager(context, contactsNumberColumns)
+            val nCols = launcherPreferences.getInt(
+                CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
+            )
+            println("Numero di colonne contatti:" + nCols)
+            val layoutManager = GridLayoutManager(
+                context, launcherPreferences.getInt(
+                    CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
+                )
+            )
 
             courseRV.layoutManager = layoutManager
 

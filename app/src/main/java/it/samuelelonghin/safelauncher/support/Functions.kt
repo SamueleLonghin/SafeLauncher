@@ -151,10 +151,22 @@ fun loadPreferences(activity: Activity) {
     launcherPreferences = activity.getSharedPreferences(
         activity.getString(R.string.preference_file_key), Context.MODE_PRIVATE
     )
-    widgetNumberColumns = launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, 3)
-    widgetNumberRows = launcherPreferences.getInt(WIDGET_NUMBER_ROWS, 2)
-    contactsNumberColumns = launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, 2)
+//    widgetNumberColumns = launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, 3)
+//    widgetNumberRows = launcherPreferences.getInt(WIDGET_NUMBER_ROWS, 2)
+//    contactsNumberColumns = launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, 2)
 
+}
+
+fun updatePreference(key: String, value: Int) {
+    val editor = launcherPreferences.edit()
+    editor.putInt(key, value)
+    editor.apply()
+}
+
+fun updatePreference(key: String, value: String) {
+    val editor = launcherPreferences.edit()
+    editor.putString(key, value)
+    editor.apply()
 }
 
 class WidgetListWrapper(list: MutableList<WidgetInfo>) : Serializable {
@@ -184,8 +196,9 @@ fun loadWidgets() {
 }
 
 fun saveWidgets() {
-    val editor = launcherPreferences.edit()
+//    val editor = launcherPreferences.edit()
     val json = serializeWidgets(widgetsList)
-    editor.putString(WIDGETS_LIST, json)
-    editor.apply()
+    updatePreference(WIDGETS_LIST, json)
+//    editor.putString(WIDGETS_LIST, json)
+//    editor.apply()
 }
