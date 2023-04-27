@@ -1,6 +1,11 @@
 package it.samuelelonghin.safelauncher.home
 
 
+import android.content.ComponentName
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -83,6 +88,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
                     binding.clockFrame.textViewDate.text = d
             }
         }
+        checkDefaultLauncher()
 
     }
 
@@ -96,5 +102,84 @@ class HomeActivity : UIObject, AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         println("HOME :: onDestroy")
+    }
+
+
+    fun getDefaultLauncher(): String {
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        val resolveInfo: ResolveInfo =
+            this.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)!!
+        val currentLauncherPackageName: String = resolveInfo.activityInfo.packageName
+        val currentLauncherClassName: String = resolveInfo.activityInfo.name
+        return currentLauncherClassName
+    }
+
+
+    private fun isMyAppLauncherDefault(): Boolean {
+        val filter = IntentFilter(Intent.ACTION_MAIN)
+        filter.addCategory(Intent.CATEGORY_HOME)
+        val filters: MutableList<IntentFilter> = ArrayList()
+        filters.add(filter)
+        val myPackageName = packageName
+        val activities: List<ComponentName> = ArrayList()
+        val packageManager = packageManager as PackageManager
+        packageManager.getPreferredActivities(filters, activities, null)
+        for (activity in activities) {
+            if (myPackageName == activity.packageName) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun checkDefaultLauncher() {
+
+
+        if (!isMyAppLauncherDefault()) {
+
+            println("CHIEDO DI METTERLO COME DEFAULT")
+
+            val packageManager: PackageManager = this.getPackageManager()
+            val componentName =
+                ComponentName(this, FakeActivity::class.java)
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+            )
+
+            val selector = Intent(Intent.ACTION_MAIN)
+            selector.addCategory(Intent.CATEGORY_HOME)
+            selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            this.startActivity(selector)
+
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                PackageManager.DONT_KILL_APP
+            )
+
+
+//            val packageManager: PackageManager = this.packageManager
+//            val componentName = ComponentName(this, HomeActivity::class.java)
+//            packageManager.setComponentEnabledSetting(
+//                componentName,
+//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                PackageManager.DONT_KILL_APP
+//            )
+//
+//            val selector: Intent = Intent(Intent.ACTION_MAIN);
+//            selector.addCategory(Intent.CATEGORY_HOME);
+//            selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+//            startActivity(selector)
+//
+//            packageManager.setComponentEnabledSetting(
+//                componentName,
+//                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+//                PackageManager.DONT_KILL_APP
+//            )
+        }
+//
     }
 }

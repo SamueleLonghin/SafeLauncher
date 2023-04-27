@@ -58,16 +58,26 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_open_whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_whatsapp_open_chat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_call" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
-        android:layout_width="409dp"
-        android:layout_height="424dp"
+        android:id="@+id/list_view_notification"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:minHeight="100dp"
         app:layout_constraintBottom_toTopOf="@+id/back_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +87,7 @@
         android:id="@+id/back_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -97,11 +108,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:contentDescription="@string/back"
+            android:translationZ="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-            android:translationZ="100dp" />
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -169,6 +169,12 @@ fun updatePreference(key: String, value: String) {
     editor.apply()
 }
 
+fun updatePreference(key: String, value: Boolean) {
+    val editor = launcherPreferences.edit()
+    editor.putBoolean(key, value)
+    editor.apply()
+}
+
 class WidgetListWrapper(list: MutableList<WidgetInfo>) : Serializable {
     private val list: MutableList<WidgetInfo>
 

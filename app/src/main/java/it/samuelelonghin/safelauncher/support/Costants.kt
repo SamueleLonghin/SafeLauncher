@@ -47,6 +47,7 @@ const val IS_TUTORIAL_FINISHED = "is-tutorial-finished"
 const val WIDGET_NUMBER_COLUMNS = "widget-number-columns"
 const val WIDGET_NUMBER_ROWS = "widget-number-rows"
 const val CONTACTS_NUMBER_COLUMNS = "contacts-number-columns"
+const val CONTACTS_IS_SCROLLABLE = "contacts-is-scrollable"
 const val WIDGETS_LIST = "widgets-list"
 
 
@@ -57,4 +58,5 @@ const val WIDGETS_LIST = "widgets-list"
 const val CONTACTS_NUMBER_COLUMNS_PREF = 3
 const val WIDGET_NUMBER_COLUMNS_PREF = 5
 const val WIDGET_NUMBER_ROWS_PREF = 2
+const val CONTACTS_IS_SCROLLABLE_PREF = true
 

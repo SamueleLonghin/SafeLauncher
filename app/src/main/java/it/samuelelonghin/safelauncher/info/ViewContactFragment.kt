@@ -56,30 +56,34 @@ class ViewContactFragment :
         else
             binding.imageViewViewContact.setImageDrawable(null)
 
-        val handleButtonClick = View.OnClickListener {
+        val handleCall = View.OnClickListener {
             if (checkUserCanCall(requireActivity())) {
-                val intent =
-                    Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.mobileNumber))
+                val intent = Intent(
+                    Intent.ACTION_CALL,
+                    Uri.parse("tel:${contact.mobileNumber}")
+                )
                 startActivity(intent)
             }
         }
-
-        binding.buttonCall.setOnClickListener(handleButtonClick)
-        binding.imageView2.setOnClickListener(handleButtonClick)
-        binding.imageViewBack.setOnClickListener(handleButtonClick)
-
-//        binding.backLayout.setOnClickListener {
-//            run {
-//                this.requireActivity().finish()
-//            }
-//        }
-        binding.backButton.setOnClickListener {
-            run {
-                this.requireActivity().finish()
-            }
+        val handleChat = View.OnClickListener {
+            println("WH")
+            val url = "https://api.whatsapp.com/send?phone=${contact.mobileNumber}"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
+        val handleBack = View.OnClickListener {
+            this.requireActivity().finish()
         }
 
+        binding.buttonCall.setOnClickListener(handleCall)
+        binding.imageView2.setOnClickListener(handleCall)
+        binding.imageViewBack.setOnClickListener(handleBack)
 
+        binding.backLayout.setOnClickListener(handleBack)
+        binding.backButton.setOnClickListener(handleBack)
+
+        binding.buttonOpenWhatsapp.setOnClickListener(handleChat)
 
         return _view
     }

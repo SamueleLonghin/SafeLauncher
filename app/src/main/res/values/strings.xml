@@ -31,6 +31,7 @@
     <string name="settings_contatti_righe_label">Numero di Righe</string>
     <string name="settings_widgets_colonne_label">Numero di Colonne</string>
     <string name="settings_widgets_righe_label">Numero di Righe</string>
+    <string name="btn_whatsapp_open_chat">Apri Chat</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

@@ -41,51 +41,50 @@
             </LinearLayout>
 
 
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/inputFirst"
-                android:hint="@string/app_name">
+                android:hint="@string/settings_contatti_colonne_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/settings_contacts_number_columns_input"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16sp"
-                android:layout_marginBottom="16sp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingHorizontal="8sp">
 
-                <TextView
-                    android:id="@+id/settings_contacts_number_columns_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="0dp"
-                    android:padding="0dp"
-                    android:text="@string/settings_contatti_colonne_label"
-                    android:textSize="16sp" />
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="16sp"-->
+            <!--                android:layout_marginBottom="16sp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:paddingHorizontal="8sp">-->
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/settings_contacts_number_columns_input"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/settings_contatti_colonne_helperText"
-                    android:inputType="number"
-                    android:textColorHint="#757575"
-                    tools:ignore="LabelFor" />
+            <!--                <TextView-->
+            <!--                    android:id="@+id/settings_contacts_number_columns_label"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_margin="0dp"-->
+            <!--                    android:padding="0dp"-->
+            <!--                    android:text="@string/settings_contatti_colonne_label"-->
+            <!--                    android:textSize="16sp" />-->
 
-
-            </LinearLayout>
+            <!--                <com.google.android.material.textview.MaterialTextView-->
+            <!--                    android:id="@+id/settings_contacts_number_columns_input_v"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:layout_height="48dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:autofillHints=""-->
+            <!--                    android:ems="10"-->
+            <!--                    android:hint="@string/settings_contatti_colonne_helperText"-->
+            <!--                    android:inputType="number"-->
+            <!--                    android:textColorHint="#757575"-->
+            <!--                    tools:ignore="LabelFor" />-->
+            <!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -21,8 +21,8 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
     var id: String
     var name: String
     var mobileNumber: String? = null
+    var email: String? = null
 
-    //    var photo: Bitmap? = null
     var photoURI: String? = null
 
 //    lateinit var notification: MutableList<Notification>
@@ -51,9 +51,9 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
             var phone: String? = null
             if (cp != null && cp.moveToFirst()) {
                 phone = cp.getString(cp.getColumnIndexOrThrow(Phone.NUMBER))
+                phone = phone.replace("\\s".toRegex(), "")
                 cp.close()
             }
-            var email: String? = null
             val ce = cr.query(
                 ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", arrayOf(id), null
@@ -63,6 +63,7 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
                     ce.getString(ce.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA))
                 ce.close()
             }
+            mobileNumber = phone
             System.out.print(name + " " + id + " " + email + " ")
             System.out.println("Numero: " + phone)
 

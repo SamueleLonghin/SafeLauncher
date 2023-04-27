@@ -21,9 +21,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
     private lateinit var binding: SettingsLauncherFragmentBinding
     private lateinit var _view: View
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the fragment layout
         binding = SettingsLauncherFragmentBinding.inflate(inflater)
@@ -64,9 +62,20 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 )
             }
         }
+        binding.settingsContactsIsScrollableInput.isChecked =
+            launcherPreferences.getBoolean(CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF)
+        binding.settingsContactsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                CONTACTS_IS_SCROLLABLE, binding.settingsContactsIsScrollableInput.isChecked
+            )
+
+        }
+
+
+
         binding.settingsWidgetsNumberColumnsInput.setText(
-            launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF)
-                .toString()
+            launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF).toString()
         )
         binding.settingsWidgetsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -79,16 +88,14 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             }
         }
         binding.settingsWidgetsNumberRowsInput.setText(
-            launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF)
-                .toString()
+            launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF).toString()
         )
         binding.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 println("Widgets Rows Ha il fuoco")
             } else {
                 updatePreference(
-                    WIDGET_NUMBER_ROWS,
-                    getIntValue(binding.settingsWidgetsNumberRowsInput.text)
+                    WIDGET_NUMBER_ROWS, getIntValue(binding.settingsWidgetsNumberRowsInput.text)
                 )
 
             }
