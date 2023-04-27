@@ -6,6 +6,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBinding
 import it.samuelelonghin.safelauncher.support.*
@@ -48,6 +49,9 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
     }
 
     override fun setOnClicks() {
+        /**
+         * Contacts
+         */
         binding.settingsContactsNumberColumnsInput.setText(
             launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF)
                 .toString()
@@ -69,10 +73,73 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             updatePreference(
                 CONTACTS_IS_SCROLLABLE, binding.settingsContactsIsScrollableInput.isChecked
             )
-
         }
 
+        /**
+         * View Contact
+         */
+        //Rapid Call
+        binding.settingsViewContactShowRapidCallInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_SHOW_RAPID_CALL,
+                VIEW_CONTACT_SHOW_RAPID_CALL_PREF
+            )
+        binding.settingsViewContactShowRapidCallInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                VIEW_CONTACT_SHOW_RAPID_CALL,
+                binding.settingsViewContactShowRapidCallInput.isChecked
+            )
+        }
+        //Rapid Chat
+        binding.settingsViewContactShowRapidChatInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_SHOW_RAPID_CHAT,
+                VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
+            )
+        binding.settingsViewContactShowRapidChatInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                VIEW_CONTACT_SHOW_RAPID_CHAT,
+                binding.settingsViewContactShowRapidChatInput.isChecked
+            )
+        }
+        //Notifications
+        binding.settingsViewContactShowNotificationsInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_SHOW_NOTIFICATIONS,
+                VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
+            )
+        binding.settingsViewContactShowNotificationsInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                VIEW_CONTACT_SHOW_NOTIFICATIONS,
+                binding.settingsViewContactShowNotificationsInput.isChecked
+            )
+        }
+        // Rapid Chat App
+        val appInt: Int = VIEW_CONTACT_RAPID_APP_TO_INDEX[launcherPreferences.getString(
+            VIEW_CONTACT_RAPID_CHAT_APP,
+            VIEW_CONTACT_RAPID_CHAT_APP_PREF
+        )]!!
+        binding.settingsViewContactRapidChatAppInput.setSelection(appInt)
+        binding.settingsViewContactRapidChatAppInput.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    val app: String = VIEW_CONTACT_RAPID_INDEX_TO_APP[position]!!
+                    updatePreference(VIEW_CONTACT_RAPID_CHAT_APP, app)
+                }
 
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        /**
+         * Widgets
+         */
 
         binding.settingsWidgetsNumberColumnsInput.setText(
             launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF).toString()

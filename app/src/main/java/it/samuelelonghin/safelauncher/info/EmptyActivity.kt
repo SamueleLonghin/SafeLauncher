@@ -1,13 +1,9 @@
 package it.samuelelonghin.safelauncher.info
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import it.samuelelonghin.safelauncher.databinding.EmptyActivityBinding
-import it.samuelelonghin.safelauncher.databinding.ViewContactActivityBinding
-import it.samuelelonghin.safelauncher.databinding.ViewContactFrameBinding
 import it.samuelelonghin.safelauncher.support.UIObject
 
 
@@ -15,14 +11,14 @@ class EmptyActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: EmptyActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        System.out.println("Empty :: onCreate")
+        println("Empty :: onCreate")
         binding = EmptyActivityBinding.inflate(layoutInflater)
         val view = binding.root
 
         view.minimumHeight = 400
         view.minimumWidth = 300
 
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(view)
 
         val metrics = resources.displayMetrics
@@ -35,8 +31,7 @@ class EmptyActivity : AppCompatActivity(), UIObject {
     override fun onStart() {
         super<AppCompatActivity>.onStart()
         super<UIObject>.onStart()
-
-        System.out.println("Empty :: start")
+        println("Empty :: start")
 
     }
 

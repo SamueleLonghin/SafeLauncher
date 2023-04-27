@@ -10,13 +10,11 @@ import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.drawer.apps.AppInfo
+import it.samuelelonghin.safelauncher.drawer.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNull.serializer
 import java.io.Serializable
 
 fun <T : Serializable?> getSerializable(intent: Intent, name: String, clazz: Class<T>): T {

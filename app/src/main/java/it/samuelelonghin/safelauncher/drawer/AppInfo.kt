@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.drawer.apps
+package it.samuelelonghin.safelauncher.drawer
 
 import android.graphics.drawable.Drawable
 

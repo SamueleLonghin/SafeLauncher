@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="settings_view_contact_rapid_chat_app_items">
+        <item>Classic</item>
+        <item>WhatsApp</item>
+        <item>Telegram</item>
+    </string-array>
+</resources>

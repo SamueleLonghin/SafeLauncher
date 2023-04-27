@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.WidgetFrameBinding
+import it.samuelelonghin.safelauncher.drawer.DrawerActivity
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
 import it.samuelelonghin.safelauncher.support.*
 
@@ -84,6 +85,13 @@ class WidgetFragment :
             WidgetInfo.WidgetType.ACTIVITY,
             androidx.loader.R.drawable.notification_icon_background,
             SettingsActivity::class.java
+        )
+
+        widgetsList += WidgetInfo(
+            "Apps",
+            WidgetInfo.WidgetType.ACTIVITY,
+            androidx.loader.R.drawable.notification_icon_background,
+            DrawerActivity::class.java
         )
 
 

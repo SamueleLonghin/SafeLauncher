@@ -63,7 +63,6 @@ class ContactCursorGridAdapter(
 //            val intent = Intent(context, InfoActivity::class.java)
             val intent = Intent(context, EmptyActivity::class.java)
             intent.putExtra("contact", contact)
-
             context.startActivity(intent)
         }
         print(contact.name)

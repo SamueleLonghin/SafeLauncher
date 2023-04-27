@@ -32,6 +32,12 @@
     <string name="settings_widgets_colonne_label">Numero di Colonne</string>
     <string name="settings_widgets_righe_label">Numero di Righe</string>
     <string name="btn_whatsapp_open_chat">Apri Chat</string>
+    <string name="back_image">Indietro</string>
+    <string name="settings_view_contact_title">Pagina Contatto</string>
+    <string name="settings_view_contact_show_notifications_label">Mostra Noficiche</string>
+    <string name="settings_view_contact_show_rapid_call_label">Mostra pulsante per Chiamata</string>
+    <string name="settings_view_contact_show_rapid_chat_label">Mostra pulsante per Chat</string>
+    <string name="settings_view_contact_rapid_chat_app_label">App per Chat</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

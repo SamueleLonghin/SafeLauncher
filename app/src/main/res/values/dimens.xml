@@ -9,4 +9,7 @@
     <dimen name="app_icon_side">40dip</dimen>
     <dimen name="app_action_height">48dip</dimen>
     <dimen name="back_text_size">30sp</dimen>
+    <dimen name="main_button_padding_vertical">6dp</dimen>
+    <dimen name="main_button_padding_horizontal">6dp</dimen>
+    <dimen name="call_button_text_size">20sp</dimen>
 </resources>

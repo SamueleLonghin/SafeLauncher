@@ -105,17 +105,6 @@ class HomeActivity : UIObject, AppCompatActivity() {
     }
 
 
-    fun getDefaultLauncher(): String {
-        val intent = Intent(Intent.ACTION_MAIN)
-        intent.addCategory(Intent.CATEGORY_HOME)
-        val resolveInfo: ResolveInfo =
-            this.packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY)!!
-        val currentLauncherPackageName: String = resolveInfo.activityInfo.packageName
-        val currentLauncherClassName: String = resolveInfo.activityInfo.name
-        return currentLauncherClassName
-    }
-
-
     private fun isMyAppLauncherDefault(): Boolean {
         val filter = IntentFilter(Intent.ACTION_MAIN)
         filter.addCategory(Intent.CATEGORY_HOME)
@@ -140,7 +129,7 @@ class HomeActivity : UIObject, AppCompatActivity() {
 
             println("CHIEDO DI METTERLO COME DEFAULT")
 
-            val packageManager: PackageManager = this.getPackageManager()
+            val packageManager: PackageManager = this.packageManager
             val componentName =
                 ComponentName(this, FakeActivity::class.java)
             packageManager.setComponentEnabledSetting(
@@ -159,27 +148,6 @@ class HomeActivity : UIObject, AppCompatActivity() {
                 PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
                 PackageManager.DONT_KILL_APP
             )
-
-
-//            val packageManager: PackageManager = this.packageManager
-//            val componentName = ComponentName(this, HomeActivity::class.java)
-//            packageManager.setComponentEnabledSetting(
-//                componentName,
-//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//                PackageManager.DONT_KILL_APP
-//            )
-//
-//            val selector: Intent = Intent(Intent.ACTION_MAIN);
-//            selector.addCategory(Intent.CATEGORY_HOME);
-//            selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-//            startActivity(selector)
-//
-//            packageManager.setComponentEnabledSetting(
-//                componentName,
-//                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-//                PackageManager.DONT_KILL_APP
-//            )
         }
-//
     }
 }
