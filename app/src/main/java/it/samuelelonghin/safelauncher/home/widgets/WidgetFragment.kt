@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.WidgetFrameBinding
 import it.samuelelonghin.safelauncher.drawer.DrawerActivity
+import it.samuelelonghin.safelauncher.list.ListActivity
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
 import it.samuelelonghin.safelauncher.support.*
 
@@ -23,6 +24,12 @@ class WidgetFragment :
      */
     private lateinit var binding: WidgetFrameBinding
     private lateinit var _view: View
+
+    enum class Mode {
+        PICK, USE
+    }
+
+    var mode: Mode = Mode.USE
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,13 +51,20 @@ class WidgetFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         println("WidgetFragement :: Create")
     }
 
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
         println("WidgetFragement :: Inflate")
+    }
+
+    fun newInstance(mode: Mode): WidgetFragment {
+        val f = WidgetFragment()
+        val b = Bundle()
+        b.putSerializable("mode", mode)
+        f.arguments = b
+        return f
     }
 
     override fun onResume() {
@@ -74,7 +88,7 @@ class WidgetFragment :
             WIDGET_NUMBER_COLUMNS,
             WIDGET_NUMBER_COLUMNS_PREF
         )
-        println("Numero di colonne widget:" + nCols)
+        println("Numero di colonne widget:$nCols")
         binding.gridViewWidgets.numColumns = nCols
         widgetsList.clear()
 
@@ -84,14 +98,23 @@ class WidgetFragment :
             "Settings",
             WidgetInfo.WidgetType.ACTIVITY,
             androidx.loader.R.drawable.notification_icon_background,
+            mode,
             SettingsActivity::class.java
         )
 
+//        widgetsList += WidgetInfo(
+//            "Apps",
+//            WidgetInfo.WidgetType.ACTIVITY,
+//            androidx.loader.R.drawable.notification_icon_background,
+//            mode,
+//            DrawerActivity::class.java,
+//        )
         widgetsList += WidgetInfo(
             "Apps",
             WidgetInfo.WidgetType.ACTIVITY,
             androidx.loader.R.drawable.notification_icon_background,
-            DrawerActivity::class.java
+            mode,
+            ListActivity::class.java,
         )
 
 

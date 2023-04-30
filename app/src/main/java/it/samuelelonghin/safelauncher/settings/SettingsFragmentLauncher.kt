@@ -1,14 +1,24 @@
 package it.samuelelonghin.safelauncher.settings
 
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBinding
+import it.samuelelonghin.safelauncher.drawer.DrawerActivity
+import it.samuelelonghin.safelauncher.home.widgets.WidgetFragment
+import it.samuelelonghin.safelauncher.info.EmptyActivity
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -21,6 +31,8 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
     private lateinit var binding: SettingsLauncherFragmentBinding
     private lateinit var _view: View
+    private lateinit var selectApp: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -28,7 +40,11 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         binding = SettingsLauncherFragmentBinding.inflate(inflater)
         _view = binding.root
         println("SettingsFragmentLauncher :: CreateView")
-
+        setLayout()
+        selectApp =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                println("RESULT: $result")
+            }
         return _view
     }
 
@@ -48,6 +64,16 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         return out
     }
 
+    private fun setLayout() {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        val widgetFragment = WidgetFragment()
+        widgetFragment.mode = WidgetFragment.Mode.PICK
+        fragmentTransaction.add(R.id.widgets_settings, widgetFragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
+
     override fun setOnClicks() {
         /**
          * Contacts
@@ -57,9 +83,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 .toString()
         )
         binding.settingsContactsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                println("Colonne Ha il fuoco")
-            } else {
+            if (!hasFocus) {
                 updatePreference(
                     CONTACTS_NUMBER_COLUMNS,
                     getIntValue(binding.settingsContactsNumberColumnsInput.editableText)
@@ -166,6 +190,12 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 )
 
             }
+        }
+
+
+        binding.widgetsButton.setOnClickListener {
+            println("Cliccato widget")
+            selectApp.launch(Intent(context, DrawerActivity::class.java))
         }
     }
 

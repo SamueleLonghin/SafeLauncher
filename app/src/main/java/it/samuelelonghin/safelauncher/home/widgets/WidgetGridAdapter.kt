@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import java.io.Console
 
 internal class WidgetGridAdapter(
     private val context: Context,
@@ -57,7 +55,7 @@ internal class WidgetGridAdapter(
         imageView.setImageResource(widgetsList[position].icon)
 
         convertView.setOnClickListener {
-            println("Cliccato widget " + widgetsList[position].name)
+//            println("Cliccato widget " + widgetsList[position].name)
             widgetsList[position].onClick(context)
         }
         return convertView

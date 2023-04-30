@@ -3,10 +3,14 @@ package it.samuelelonghin.safelauncher.support
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
@@ -16,6 +20,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.Serializable
+
 
 fun <T : Serializable?> getSerializable(intent: Intent, name: String, clazz: Class<T>): T {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getSerializableExtra(
@@ -64,13 +69,15 @@ fun loadApps(packageManager: PackageManager) {
 
     val i = Intent(Intent.ACTION_MAIN, null)
     i.addCategory(Intent.CATEGORY_LAUNCHER)
-    val allApps = packageManager.queryIntentActivities(i, 0)
+    val allApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
     for (ri in allApps) {
-        val app = AppInfo()
-        app.label = ri.loadLabel(packageManager)
-        app.packageName = ri.activityInfo.packageName
-        app.icon = ri.activityInfo.loadIcon(packageManager)
-        loadList.add(app)
+        if (ri.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+            val app = AppInfo()
+            app.label = ri.loadLabel(packageManager)
+            app.packageName = ri.packageName
+            app.icon = ri.loadIcon(packageManager)
+            loadList.add(app)
+        }
     }
     loadList.sortBy { it.label.toString() }
 
@@ -205,4 +212,91 @@ fun saveWidgets() {
     updatePreference(WIDGETS_LIST, json)
 //    editor.putString(WIDGETS_LIST, json)
 //    editor.apply()
+}
+
+
+private fun getIntent(packageName: String, context: Context): Intent? {
+    val intent: Intent? = context.packageManager.getLaunchIntentForPackage(packageName)
+    intent?.addCategory(Intent.CATEGORY_LAUNCHER)
+    return intent
+}
+
+fun isInstalled(uri: String, context: Context): Boolean {
+    if (uri.startsWith("safeLauncher:")) return true // All internal actions
+
+    try {
+        context.packageManager.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+        return true
+    } catch (_: PackageManager.NameNotFoundException) {
+    }
+    return false
+}
+
+
+fun launch(
+    data: String, activity: Activity,
+    animationIn: Int = android.R.anim.fade_in, animationOut: Int = android.R.anim.fade_out
+) {
+
+    if (data.startsWith("launcher:")) // [type]:[info]
+        when (data.split(":")[1]) {
+//            "settings" -> openSettings(activity)
+//            "choose" -> openAppsList(activity)
+//            "volumeUp" -> audioVolumeUp(activity)
+//            "volumeDown" -> audioVolumeDown(activity)
+//            "nextTrack" -> audioNextTrack(activity)
+//            "previousTrack" -> audioPreviousTrack(activity)
+//            "tutorial" -> openTutorial(activity)
+        }
+    else launchApp(data, activity) // app
+
+    activity.overridePendingTransition(animationIn, animationOut)
+}
+
+fun launchApp(packageName: String, context: Context) {
+    val intent = getIntent(packageName, context)
+
+    if (intent != null) {
+        context.startActivity(intent)
+    } else {
+        Toast.makeText(
+            context,
+            "Non riesco ad aprire l'app scelta",
+            Toast.LENGTH_SHORT
+        ).show()
+//        if (isInstalled(packageName, context)) {
+//
+//            AlertDialog.Builder(
+//                context,
+////                R.style.AlertDialogCustom
+//            )
+//                .setTitle(context.getString(R.string.alert_cant_open_title))
+//                .setMessage(context.getString(R.string.alert_cant_open_message))
+//                .setPositiveButton(android.R.string.yes,
+//                    DialogInterface.OnClickListener { dialog, which ->
+//                        openAppSettings(
+//                            packageName,
+//                            context
+//                        )
+//                    })
+//                .setNegativeButton(android.R.string.no, null)
+//                .setIcon(android.R.drawable.ic_dialog_info)
+//                .show()
+//        } else {
+//            Toast.makeText(
+//                context,
+//                context.getString(R.string.toast_cant_open_message),
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+    }
+}
+
+
+// Taken form https://stackoverflow.com/a/50743764/12787264
+fun openSoftKeyboard(context: Context, view: View) {
+    view.requestFocus()
+    // open the soft keyboard
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 }

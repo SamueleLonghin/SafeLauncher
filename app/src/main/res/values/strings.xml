@@ -10,7 +10,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="settings_title">\"Impostazioni</string>
+    <string name="settings_title">Impostazioni</string>
     <string name="example_text_view_name">Sabato 30 Gennaio 2023</string>
     <string name="example_text_view_clock">12 : 34</string>
     <string name="default_text_view_contact">Aldo</string>
@@ -38,6 +38,16 @@
     <string name="settings_view_contact_show_rapid_call_label">Mostra pulsante per Chiamata</string>
     <string name="settings_view_contact_show_rapid_chat_label">Mostra pulsante per Chat</string>
     <string name="settings_view_contact_rapid_chat_app_label">App per Chat</string>
+    <string name="list_apps_search_hint">Ricerca una Applicazione</string>
+    <string name="drawer_title">Applicazioni</string>
+    <string name="list_title_pick">Scegli un\'App</string>
+    <string name="list_title_view">Tutte le App</string>
+    <string name="list_tab_app">Apps</string>
+    <string name="list_tab_other">Altro</string>
+    <string name="list_removed">Applicazione rimossa</string>
+    <string name="list_not_removed">Impossibile rimuovere l\'applicazione</string>
+    <string name="list_other_settings">Impostazioni Launcher</string>
+    <string name="list_other_list">Tutte le App</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

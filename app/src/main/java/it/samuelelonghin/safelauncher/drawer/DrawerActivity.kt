@@ -16,9 +16,7 @@ import kotlinx.coroutines.launch
 
 var intendedChoosePause = false // know when to close
 
-// TODO: Better solution for this intercommunication fuctionality (used in list-fragments)
-var intention = "view"
-var forApp = ""
+
 
 /**
  * The [ListActivity] is the most general purpose activity in Launcher:
@@ -30,7 +28,6 @@ var forApp = ""
 class DrawerActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: DrawerActivityBinding
 
-    //
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,10 +62,12 @@ class DrawerActivity : AppCompatActivity(), UIObject {
             }
         }
     }
+
     override fun setOnClicks() {
-//        binding.back.setOnClickListener() { finish() }
+        binding.backLayout.root.setOnClickListener { finish() }
     }
-//
+
+    //
 //    override fun adjustLayout() {
 //        // get info about which action this activity is open for
 //        val bundle = intent.extras
@@ -100,35 +99,3 @@ class DrawerActivity : AppCompatActivity(), UIObject {
         println("Drawer :: onStart")
     }
 }
-//
-//private val TAB_TITLES = arrayOf(
-//    R.string.list_tab_app,
-//    R.string.list_tab_other
-//)
-//
-///**
-// * The [ListSectionsPagerAdapter] returns the fragment,
-// * which corresponds to the selected tab in [ListActivity].
-// */
-//class ListSectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
-//    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-//
-//    override fun getItem(position: Int): Fragment {
-//        return when (position) {
-//            0 -> ListFragmentApps()
-//            1 -> ListFragmentOther()
-//            else -> Fragment()
-//        }
-//    }
-//
-//    override fun getPageTitle(position: Int): CharSequence? {
-//        return context.resources.getString(TAB_TITLES[position])
-//    }
-//
-//    override fun getCount(): Int {
-//        return when (intention) {
-//            "view" -> 1
-//            else -> 2
-//        }
-//    }
-//}
