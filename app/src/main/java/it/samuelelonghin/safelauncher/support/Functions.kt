@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.drawer.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
+import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -180,38 +181,39 @@ fun updatePreference(key: String, value: Boolean) {
     editor.apply()
 }
 
-class WidgetListWrapper(list: MutableList<WidgetInfo>) : Serializable {
-    private val list: MutableList<WidgetInfo>
+@kotlinx.serialization.Serializable
+data class WidgetListWrapper(
+    private val list: MutableList<WidgetSerial>
+)
 
-    init {
-        this.list = list
-    }
 
-    fun getList(): MutableList<WidgetInfo> {
-        return list
-    }
-}
-
-fun serializeWidgets(widgets: MutableList<WidgetInfo>): String {
+fun serializeWidgets(widgets: MutableList<WidgetSerial>): String {
     val widgetListWrapper = WidgetListWrapper(widgetsList)
-    return Json.encodeToString(widgetListWrapper)
+    return Json.encodeToString(widgetsList)
+//    return Json.encodeToString(widgetListWrapper)
 }
 
-fun deserializeWidgets(serialisedList: String): MutableList<WidgetInfo> {
-    return Json.decodeFromString<WidgetListWrapper>(serialisedList).getList()
+fun deserializeWidgets(serialisedList: String): MutableList<WidgetSerial> {
+    return Json.decodeFromString<MutableList<WidgetSerial>>(serialisedList)
+//    return Json.decodeFromString<WidgetListWrapper>(serialisedList)
+}
+
+fun setWidgetListItem(position: Int, ws: WidgetSerial) {
+    if (widgetsList.size <= position) widgetsList.add(ws)
+    else widgetsList[position] = ws
+    saveWidgets()
 }
 
 fun loadWidgets() {
-    val json = launcherPreferences.getString(WIDGETS_LIST, """{"list":[]}""")
+    val json = launcherPreferences.getString(WIDGETS_LIST, """[]""")
     widgetsList = deserializeWidgets(json!!)
+    System.err.println("WIDGETS CARICATI CORRETTAMENTE, lunghezza: ${widgetsList.size}")
 }
 
 fun saveWidgets() {
-//    val editor = launcherPreferences.edit()
     val json = serializeWidgets(widgetsList)
     updatePreference(WIDGETS_LIST, json)
-//    editor.putString(WIDGETS_LIST, json)
-//    editor.apply()
+    System.err.println("WIDGETS SALVATI CORRETTAMENTE, lunghezza: ${widgetsList.size}")
 }
 
 

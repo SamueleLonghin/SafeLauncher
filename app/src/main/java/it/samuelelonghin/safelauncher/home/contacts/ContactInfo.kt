@@ -64,8 +64,8 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
                 ce.close()
             }
             mobileNumber = phone
-            System.out.print(name + " " + id + " " + email + " ")
-            System.out.println("Numero: " + phone)
+//            System.out.print(name + " " + id + " " + email + " ")
+//            System.out.println("Numero: " + phone)
 
 
 //            val phones: Cursor? = cr.query(

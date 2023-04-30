@@ -1,8 +1,12 @@
 package it.samuelelonghin.safelauncher.support
 
+import android.app.Activity
+import it.samuelelonghin.safelauncher.list.ListActivity
+import it.samuelelonghin.safelauncher.settings.SettingsActivity
+
 
 const val PREF_VERSION = "version"
-
+const val DEFAULT_INDEX = 1000
 
 /**
  * THEME
@@ -72,15 +76,29 @@ const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
 
 
 /**
+ * ACTIVITIES
+ */
+const val ACTIVITY_APPS = "activity_apps"
+const val ACTIVITY_SETTINGS = "activity_settings"
+
+
+val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(
+    ACTIVITY_SETTINGS to SettingsActivity::class.java, ACTIVITY_APPS to ListActivity::class.java
+).withDefault { SettingsActivity::class.java }
+
+val ACTIVITY_TO_NAME: Map<String, String> = mapOf(
+    ACTIVITY_SETTINGS to "Settings", ACTIVITY_APPS to "APPS"
+).withDefault { "Errore" }
+
+/**
  * View User
  */
 
-val VIEW_CONTACT_RAPID_APP_URL: Map<String, String> =
-    mapOf(
-        "WhatsApp" to "https://api.whatsapp.com/send?phone=%s",
-        "Telegram" to "tg://resolve?to=%s",
-        "Default" to "smsto:%s"
-    )
+val VIEW_CONTACT_RAPID_APP_URL: Map<String, String> = mapOf(
+    "WhatsApp" to "https://api.whatsapp.com/send?phone=%s",
+    "Telegram" to "tg://resolve?to=%s",
+    "Default" to "smsto:%s"
+)
 
 val VIEW_CONTACT_RAPID_APP_TO_INDEX: Map<String, Int> =
     mapOf("Default" to 0, "WhatsApp" to 1, "Telegram" to 2).withDefault { 0 }

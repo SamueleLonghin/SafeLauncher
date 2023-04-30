@@ -14,7 +14,7 @@ import it.samuelelonghin.safelauncher.databinding.ListOtherBinding
  *
  * It lists `other` things like internal activities to be launched as an action.
  */
-class ListFragmentOther : Fragment() {
+class ListFragmentOther(val index: Int) : Fragment() {
     private lateinit var binding: ListOtherBinding
 
     override fun onCreateView(
@@ -29,7 +29,7 @@ class ListFragmentOther : Fragment() {
 
         // set up the list / recycler
         val viewManager = LinearLayoutManager(context)
-        val viewAdapter = OtherRecyclerAdapter(requireActivity())
+        val viewAdapter = OtherRecyclerAdapter(requireActivity(), index)
 
         binding.listOtherRview.apply {
             // improve performance (since content changes don't change the layout size)

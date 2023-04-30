@@ -65,9 +65,6 @@ class ContactCursorGridAdapter(
             intent.putExtra("contact", contact)
             context.startActivity(intent)
         }
-        print(contact.name)
-        print(" -> ")
-        println(cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER)))
     }
 
 

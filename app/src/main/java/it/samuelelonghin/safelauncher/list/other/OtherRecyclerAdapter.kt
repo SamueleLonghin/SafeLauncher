@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.list.forApp
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.*
 import it.samuelelonghin.safelauncher.support.REQUEST_CHOOSE_APP
 
 /**
@@ -19,7 +19,7 @@ import it.samuelelonghin.safelauncher.support.REQUEST_CHOOSE_APP
  * It lists `other` things to be launched that are not really represented by a URI,
  * rather by Launcher- internal conventions.
  */
-class OtherRecyclerAdapter(val activity: Activity):
+class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
     RecyclerView.Adapter<OtherRecyclerAdapter.ViewHolder>() {
 
     private val othersList: MutableList<OtherInfo>
@@ -34,10 +34,12 @@ class OtherRecyclerAdapter(val activity: Activity):
             val pos = adapterPosition
             val content = othersList[pos]
 
-            returnChoiceIntent(forApp, content.data.toString())
+            returnChoiceIntent(index, content.data.toString())
         }
 
-        init { itemView.setOnClickListener(this) }
+        init {
+            itemView.setOnClickListener(this)
+        }
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
@@ -48,7 +50,9 @@ class OtherRecyclerAdapter(val activity: Activity):
         viewHolder.iconView.text = icon
     }
 
-    override fun getItemCount(): Int { return othersList.size }
+    override fun getItemCount(): Int {
+        return othersList.size
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -59,19 +63,27 @@ class OtherRecyclerAdapter(val activity: Activity):
     init {
         othersList = ArrayList()
         othersList.add(
-            OtherInfo(activity.getString(R.string.list_other_settings),
-            "launcher:settings",
-                activity.getString(R.string.fas_settings)))
+            OtherInfo(
+                activity.getString(R.string.list_other_settings),
+                "launcher:settings",
+                activity.getString(R.string.fas_settings)
+            )
+        )
         othersList.add(
-            OtherInfo(activity.getString(R.string.list_other_list),
+            OtherInfo(
+                activity.getString(R.string.list_other_list),
                 "launcher:choose",
-                activity.getString(R.string.fas_bars)))
+                activity.getString(R.string.fas_bars)
+            )
+        )
     }
 
-    private fun returnChoiceIntent(forAction: String, value: String) {
+    private fun returnChoiceIntent(index: Int, value: String) {
         val returnIntent = Intent()
+        returnIntent.putExtra("index", index)
         returnIntent.putExtra("value", value)
-        returnIntent.putExtra("forApp", forApp)
+        returnIntent.putExtra("name", "COSE DA CAMBIARE")
+        returnIntent.putExtra("type", WidgetType.ACTION.ordinal)
         activity.setResult(REQUEST_CHOOSE_APP, returnIntent)
         activity.finish()
     }

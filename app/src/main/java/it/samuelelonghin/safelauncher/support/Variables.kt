@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import it.samuelelonghin.safelauncher.drawer.AppInfo
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
+import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 
 lateinit var launcherPreferences: SharedPreferences
 
@@ -25,5 +26,5 @@ var intendedSettingsPause = false // know when to close
  * PREFERENCES
  */
 
-var widgetsList: MutableList<WidgetInfo> = mutableListOf()
+var widgetsList: MutableList<WidgetSerial> = mutableListOf()
 

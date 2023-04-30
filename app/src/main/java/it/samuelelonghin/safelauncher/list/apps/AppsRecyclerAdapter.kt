@@ -16,7 +16,7 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.libraries.FontAwesome
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.support.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,7 +32,7 @@ import kotlin.collections.ArrayList
 class AppsRecyclerAdapter(
     val activity: Activity,
     val intention: String? = "view",
-    val forApp: String? = ""
+    val index: Int = DEFAULT_INDEX
 ) :
     RecyclerView.Adapter<AppsRecyclerAdapter.ViewHolder>() {
 
@@ -178,6 +178,7 @@ class AppsRecyclerAdapter(
             val pos = adapterPosition
             val context: Context = v.context
             val appPackageName = appsListDisplayed[pos].packageName.toString()
+            val appName = appsListDisplayed[pos].label.toString()
 
             when (intention) {
                 "view" -> {
@@ -188,7 +189,10 @@ class AppsRecyclerAdapter(
                 "pick" -> {
                     val returnIntent = Intent()
                     returnIntent.putExtra("value", appPackageName)
-                    returnIntent.putExtra("forApp", forApp)
+                    returnIntent.putExtra("name", appName)
+                    returnIntent.putExtra("type", WidgetInfo.WidgetType.APP)
+                    returnIntent.putExtra("index", index)
+
                     activity.setResult(REQUEST_CHOOSE_APP, returnIntent)
                     activity.finish()
                 }

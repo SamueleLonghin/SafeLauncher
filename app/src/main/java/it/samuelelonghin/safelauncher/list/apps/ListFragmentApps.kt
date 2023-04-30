@@ -7,12 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.samuelelonghin.safelauncher.databinding.ListAppsBinding
-import it.samuelelonghin.safelauncher.list.forApp
-import it.samuelelonghin.safelauncher.list.intention
-import it.samuelelonghin.safelauncher.support.PREF_SEARCH_AUTO_KEYBOARD
-import it.samuelelonghin.safelauncher.support.UIObject
-import it.samuelelonghin.safelauncher.support.launcherPreferences
-import it.samuelelonghin.safelauncher.support.openSoftKeyboard
+import it.samuelelonghin.safelauncher.support.*
 
 
 /**
@@ -20,7 +15,9 @@ import it.samuelelonghin.safelauncher.support.openSoftKeyboard
  *
  * It is a list of all installed applications that are can be launched.
  */
-class ListFragmentApps : Fragment(), UIObject {
+class ListFragmentApps(private val intention: String, private val index: Int = DEFAULT_INDEX) :
+    Fragment(),
+    UIObject {
     private lateinit var binding: ListAppsBinding
 
     override fun onCreateView(
@@ -40,7 +37,7 @@ class ListFragmentApps : Fragment(), UIObject {
 
     override fun adjustLayout() {
 
-        val appsRViewAdapter = AppsRecyclerAdapter(requireActivity(), intention, forApp)
+        val appsRViewAdapter = AppsRecyclerAdapter(requireActivity(), intention, index)
 
         // set up the list / recycler
         binding.listAppsRview.apply {
