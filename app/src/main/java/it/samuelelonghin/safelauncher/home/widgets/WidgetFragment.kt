@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.WidgetFrameBinding
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType.ACTIVITY
@@ -102,17 +103,7 @@ class WidgetFragment :
         renderGrid()
     }
 
-    private fun renderGrid() {
-        val context = requireContext()
-
-        val nCols = launcherPreferences.getInt(
-            WIDGET_NUMBER_COLUMNS,
-            WIDGET_NUMBER_COLUMNS_PREF
-        )
-        println("Numero di colonne widget:$nCols")
-        binding.gridViewWidgets.numColumns = nCols
-
-
+    private fun getWidgets(): MutableList<WidgetInfo> {
         var foundSettings = false
         var foundApps = false
 
@@ -145,16 +136,36 @@ class WidgetFragment :
             wl.add(WidgetInfo(ACTIVITY_SETTINGS))
         if (!foundApps)
             wl.add(WidgetInfo(ACTIVITY_APPS))
+        return wl
+    }
 
+    private fun renderGrid() {
+        val context = requireContext()
+        val widgetsRecycleView = binding.listWidgets
+
+        val nCols = launcherPreferences.getInt(
+            WIDGET_NUMBER_COLUMNS,
+            WIDGET_NUMBER_COLUMNS_PREF
+        )
+        widgetsRecycleView.numColumns = nCols
+
+//
+//        val isScrollable = launcherPreferences.getBoolean(
+//            CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
+//        )
+//
+//        val layoutManager = object : GridLayoutManager(context, nCols) {
+//            override fun canScrollVertically() = isScrollable
+//        }
 
         // on below line we are initializing our course adapter
         // and passing course list and context.
         // on below line we are initializing our course adapter
         // and passing course list and context.
-        val courseAdapter = WidgetGridAdapter(context, wl, mode)
+        val courseAdapter = WidgetGridAdapter(context, getWidgets(), mode)
         courseAdapter.selectApp = selectApp
 
         // on below line we are setting adapter to our grid view.
-        binding.gridViewWidgets.adapter = courseAdapter
+        widgetsRecycleView.adapter = courseAdapter
     }
 }

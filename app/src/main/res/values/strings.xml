@@ -48,6 +48,10 @@
     <string name="list_not_removed">Impossibile rimuovere l\'applicazione</string>
     <string name="list_other_settings">Impostazioni Launcher</string>
     <string name="list_other_list">Tutte le App</string>
+    <string name="settings_widgets_show_label">Mostra etichette</string>
+    <string name="add">Aggiungi</string>
+    <string name="settings_contacts_is_scrollable_label">Possibilità di scorrere</string>
+    <string name="settings_widgets_is_scrollable_label">Possibilità di scorrere</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

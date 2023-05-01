@@ -37,16 +37,6 @@
         app:layout_constraintTop_toBottomOf="@+id/clock_frame"
         tools:layout="@layout/contacts_frame" />
 
-    <!--    <include-->
-    <!--        android:id="@+id/contacts_frame"-->
-    <!--        layout="@layout/contacts_frame"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@+id/widget_frame"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/clock_frame" />-->
-
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/widget_frame"
@@ -55,8 +45,7 @@
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout="@layout/widget_frame" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

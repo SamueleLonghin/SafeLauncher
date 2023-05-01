@@ -139,11 +139,10 @@ class ContactsFragment :
             return
         }
 
-
         /**
          * Versione dove trova duplicati in base a google / whatsapp ...
          */
-        println("TAbella: "+ ContactsContract.Contacts.CONTENT_URI)
+        println("TAbella: " + ContactsContract.Contacts.CONTENT_URI)
         contactCursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
@@ -156,27 +155,25 @@ class ContactsFragment :
     private fun displayContacts() {
         val context = requireContext()
         if (::contactCursor.isInitialized) {
-            cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
 
-            val courseRV = binding.idRVCourses
+            cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
+            val contactsRecycleView = binding.listContacts
 
             val nCols = launcherPreferences.getInt(
                 CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
             )
-            println("Numero di colonne contatti:" + nCols)
-            val layoutManager = GridLayoutManager(
-                context, launcherPreferences.getInt(
-                    CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
-                )
+
+            val isScrollable = launcherPreferences.getBoolean(
+                CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
             )
 
-            courseRV.layoutManager = layoutManager
+            val layoutManager = object : GridLayoutManager(context, nCols) {
+                override fun canScrollVertically() = isScrollable
+            }
 
-            // on below line we are initializing our adapter
 
-            // on below line we are setting
-            // adapter to our recycler view.
-            courseRV.adapter = cursorAdapter
+            contactsRecycleView.layoutManager = layoutManager
+            contactsRecycleView.adapter = cursorAdapter
         } else {
             System.err.println("Cursor not loaded in ContactsFragment")
             //todo display placeholder

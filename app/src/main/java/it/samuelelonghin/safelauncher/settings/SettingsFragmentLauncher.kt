@@ -1,10 +1,7 @@
 package it.samuelelonghin.safelauncher.settings
 
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -17,12 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBinding
-import it.samuelelonghin.safelauncher.drawer.DrawerActivity
 import it.samuelelonghin.safelauncher.home.widgets.WidgetFragment
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
-import it.samuelelonghin.safelauncher.info.EmptyActivity
 import it.samuelelonghin.safelauncher.list.ListActivity
 import it.samuelelonghin.safelauncher.support.*
 
@@ -87,7 +81,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         val widgetFragment = WidgetFragment()
         widgetFragment.mode = WidgetFragment.Mode.PICK
 
-        fragmentTransaction.add(R.id.widgets_settings, widgetFragment)
+        fragmentTransaction.add(R.id.widgets_frame, widgetFragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
@@ -201,7 +195,31 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
             }
         }
+        //Show text
+        binding.settingsWidgetsShowLabelsInput.isChecked =
+            launcherPreferences.getBoolean(
+                WIDGET_SHOW_LABELS, WIDGET_SHOW_LABELS_PREF
+            )
+        binding.settingsWidgetsShowLabelsInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                WIDGET_SHOW_LABELS,
+                binding.settingsWidgetsShowLabelsInput.isChecked
+            )
+        }
 
+        // Possibilità di scorrere
+        binding.settingsWidgetsIsScrollableInput.isChecked =
+            launcherPreferences.getBoolean(
+                WIDGET_IS_SCROLLABLE, WIDGET_IS_SCROLLABLE_PREF
+            )
+        binding.settingsWidgetsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                WIDGET_IS_SCROLLABLE,
+                binding.settingsWidgetsIsScrollableInput.isChecked
+            )
+        }
 
         binding.widgetsButton.setOnClickListener {
             println("Cliccato widget")

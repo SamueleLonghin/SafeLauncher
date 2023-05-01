@@ -3,6 +3,7 @@ package it.samuelelonghin.safelauncher.home.widgets
 import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
+import android.widget.TextView
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -62,6 +63,26 @@ class WidgetInfo(name: String, type: WidgetType) {
                     if (context != null) {
                         val icon = context.packageManager.getApplicationIcon(app!!)
                         imageView.setImageDrawable(icon)
+                    } else {
+                        System.err.println("È necessario il context per trovare l'icona del pacchetto $app")
+                    }
+                } catch (_: Exception) {
+                    System.err.println("Errore nel icon di ${name}")
+                }
+            }
+        }
+    }
+
+    fun setLabel(textView: TextView, context: Context? = null) {
+        when (type) {
+            WidgetType.ACTIVITY -> textView.text = ACTIVITY_TO_NAME[name]!!
+            WidgetType.ACTION -> textView.text = ACTION_TO_NAME[name]!![0]
+
+            else -> {
+                try {
+                    if (context != null) {
+                        val info = getAppInfo(context, app!!)
+                        textView.text = info.loadLabel(context.packageManager)
                     } else {
                         System.err.println("È necessario il context per trovare l'icona del pacchetto $app")
                     }

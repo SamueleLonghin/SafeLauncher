@@ -50,15 +50,16 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
         viewHolder.iconView.text = icon
     }
 
-    override fun getItemCount(): Int {
-        return othersList.size
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view: View = inflater.inflate(R.layout.list_other_row, parent, false)
         return ViewHolder(view)
     }
+
+    override fun getItemCount(): Int {
+        return othersList.size
+    }
+
 
     init {
         othersList = ArrayList()

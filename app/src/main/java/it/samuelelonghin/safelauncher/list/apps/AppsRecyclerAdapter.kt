@@ -41,7 +41,6 @@ class AppsRecyclerAdapter(
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val appLabel = appsListDisplayed[i].label.toString()
-        val appPackageName = appsListDisplayed[i].packageName.toString()
         val appIcon = appsListDisplayed[i].icon
         val isSystemApp = appsListDisplayed[i].isSystemApp
 
@@ -51,65 +50,29 @@ class AppsRecyclerAdapter(
 
         // decide when to show the options popup menu about
         if (isSystemApp || intention == "pick") {
-            viewHolder.menuDots.visibility = View.VISIBLE
+//            viewHolder.menuDots.visibility = View.VISIBLE
         } else {
-            viewHolder.menuDots.visibility = View.VISIBLE
-
-            viewHolder.menuDots.setOnClickListener { showOptionsPopup(viewHolder, appPackageName) }
-            viewHolder.menuDots.setOnLongClickListener {
-                showOptionsPopup(
-                    viewHolder,
-                    appPackageName
-                )
-            }
-            viewHolder.textView.setOnLongClickListener {
-                showOptionsPopup(
-                    viewHolder,
-                    appPackageName
-                )
-            }
-            viewHolder.img.setOnLongClickListener { showOptionsPopup(viewHolder, appPackageName) }
+//            viewHolder.menuDots.visibility = View.VISIBLE
+//
+//            viewHolder.menuDots.setOnClickListener { showOptionsPopup(viewHolder, appPackageName) }
+//            viewHolder.menuDots.setOnLongClickListener {
+//                showOptionsPopup(
+//                    viewHolder,
+//                    appPackageName
+//                )
+//            }
+//            viewHolder.textView.setOnLongClickListener {
+//                showOptionsPopup(
+//                    viewHolder,
+//                    appPackageName
+//                )
+//            }
+//            viewHolder.img.setOnLongClickListener { showOptionsPopup(viewHolder, appPackageName) }
 
             // ensure onClicks are actually caught
             viewHolder.textView.setOnClickListener { viewHolder.onClick(viewHolder.textView) }
             viewHolder.img.setOnClickListener { viewHolder.onClick(viewHolder.img) }
         }
-    }
-
-    private fun showOptionsPopup(viewHolder: ViewHolder, appPackageName: String): Boolean {
-        //create the popup menu
-
-        val popup = PopupMenu(activity, viewHolder.menuDots)
-//        popup.inflate(R.menu.menu_app)
-//
-//        popup.setOnMenuItemClickListener {
-//            when (it.itemId) {
-//                R.id.app_menu_delete -> { // delete
-//                    intendedChoosePause = true
-//                    val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-//                    intent.data = Uri.parse("package:$appPackageName")
-//                    intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
-//                    activity.startActivityForResult(
-//                        intent,
-//                        REQUEST_UNINSTALL
-//                    )
-//
-//                    true
-//                }
-//                R.id.app_menu_info -> { // open app settings
-//                    intendedChoosePause = true
-//                    openAppSettings(
-//                        appPackageName,
-//                        activity
-//                    )
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//
-//        popup.show()
-        return true
     }
 
     override fun getItemCount(): Int {
@@ -172,7 +135,7 @@ class AppsRecyclerAdapter(
         View.OnClickListener {
         var textView: TextView = itemView.findViewById(R.id.list_apps_row_name)
         var img: ImageView = itemView.findViewById(R.id.list_apps_row_icon) as ImageView
-        var menuDots: Button = itemView.findViewById(R.id.list_apps_row_menu)
+//        var menuDots: Button = itemView.findViewById(R.id.list_apps_row_menu)
 
         override fun onClick(v: View) {
             val pos = adapterPosition

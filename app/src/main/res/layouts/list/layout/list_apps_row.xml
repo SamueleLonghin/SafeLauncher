@@ -15,31 +15,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_error_240"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/list_apps_row_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60sp"
         android:layout_marginEnd="5dp"
+        android:layout_marginStart="12dp"
         android:gravity="start"
         android:text=""
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/list_apps_row_menu"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/list_apps_row_menu"
-        android:layout_width="30sp"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/fas_three_dots"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/list_apps_row_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

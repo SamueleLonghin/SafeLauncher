@@ -1,6 +1,7 @@
 package it.samuelelonghin.safelauncher.support
 
 import android.app.Activity
+import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.ListActivity
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
 
@@ -50,6 +51,8 @@ const val REQUEST_PERMISSION_STORAGE = 4
 const val IS_TUTORIAL_FINISHED = "is-tutorial-finished"
 const val WIDGET_NUMBER_COLUMNS = "widget-number-columns"
 const val WIDGET_NUMBER_ROWS = "widget-number-rows"
+const val WIDGET_SHOW_LABELS = "widget-show-labels"
+const val WIDGET_IS_SCROLLABLE = "widget-is-scrollable"
 const val CONTACTS_NUMBER_COLUMNS = "contacts-number-columns"
 const val CONTACTS_IS_SCROLLABLE = "contacts-is-scrollable"
 const val WIDGETS_LIST = "widgets-list"
@@ -67,7 +70,9 @@ const val DRAWER_SEARCH_AT_LAUNCH = "drawer-search-at-launch"
 const val CONTACTS_NUMBER_COLUMNS_PREF = 3
 const val WIDGET_NUMBER_COLUMNS_PREF = 5
 const val WIDGET_NUMBER_ROWS_PREF = 2
+const val WIDGET_SHOW_LABELS_PREF = false
 const val CONTACTS_IS_SCROLLABLE_PREF = true
+const val WIDGET_IS_SCROLLABLE_PREF = true
 const val VIEW_CONTACT_SHOW_RAPID_CALL_PREF = true
 const val VIEW_CONTACT_SHOW_RAPID_CHAT_PREF = true
 const val VIEW_CONTACT_RAPID_CHAT_APP_PREF = "WhatsApp"
@@ -81,14 +86,49 @@ const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
 const val ACTIVITY_APPS = "activity_apps"
 const val ACTIVITY_SETTINGS = "activity_settings"
 
+/**
+ * ACTIONS
+ */
+const val ACTION_NOTIFICATIONS = "action_notifications"
+const val ACTION_FLASH = "action_flash"
+
 
 val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(
-    ACTIVITY_SETTINGS to SettingsActivity::class.java, ACTIVITY_APPS to ListActivity::class.java
+    ACTIVITY_SETTINGS to SettingsActivity::class.java,
+    ACTIVITY_APPS to ListActivity::class.java
 ).withDefault { SettingsActivity::class.java }
 
 val ACTIVITY_TO_NAME: Map<String, String> = mapOf(
-    ACTIVITY_SETTINGS to "Settings", ACTIVITY_APPS to "APPS"
+    ACTIVITY_SETTINGS to "Settings",
+    ACTIVITY_APPS to "APPS"
 ).withDefault { "Errore" }
+
+val ACTIVITY_TO_RESOURCE_ICON: Map<String, Int> = mapOf(
+    ACTIVITY_SETTINGS to R.drawable.ic_baseline_settings_24,
+    ACTIVITY_APPS to R.drawable.ic_baseline_apps_24
+).withDefault { R.drawable.ic_baseline_error_24 }
+
+val ACTION_TO_RESOURCE_ICON: Map<String, List<Int>> = mapOf(
+    ACTION_NOTIFICATIONS to listOf(
+        R.drawable.ic_baseline_notifications_active_24,
+        R.drawable.ic_baseline_notifications_off_24
+    ),
+    ACTION_FLASH to listOf(
+        R.drawable.ic_baseline_flashlight_on_24,
+        R.drawable.ic_baseline_flashlight_off_24
+    )
+).withDefault { listOf(R.drawable.ic_baseline_error_24) }
+
+val ACTION_TO_NAME: Map<String, List<String>> = mapOf(
+    ACTION_NOTIFICATIONS to listOf(
+        "Mute",
+        "UnMute"
+    ),
+    ACTION_FLASH to listOf(
+        "Light",
+        "Light Off"
+    )
+).withDefault { listOf("Error") }
 
 /**
  * View User

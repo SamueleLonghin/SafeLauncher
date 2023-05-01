@@ -15,7 +15,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.drawer.AppInfo
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -84,6 +83,22 @@ fun loadApps(packageManager: PackageManager) {
 
     appsList.clear()
     appsList.addAll(loadList)
+}
+
+fun getAppInfo(context: Context, packageName: String): ApplicationInfo {
+
+    val packageManager = context.packageManager;
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.ApplicationInfoFlags.of(0)
+        )
+    } else {
+        packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.GET_META_DATA
+        )
+    }
 }
 
 fun resetSettings(context: Context) {

@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -123,8 +122,6 @@ class HomeActivity : UIObject, AppCompatActivity() {
     }
 
     private fun checkDefaultLauncher() {
-
-
         if (!isMyAppLauncherDefault()) {
 
             println("CHIEDO DI METTERLO COME DEFAULT")

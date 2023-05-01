@@ -17,7 +17,7 @@ class ListSectionsPagerAdapter(
     private val context: Context,
     fm: FragmentManager,
     private val intention: String,
-    private val index: Int
+    val index: Int
 ) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
