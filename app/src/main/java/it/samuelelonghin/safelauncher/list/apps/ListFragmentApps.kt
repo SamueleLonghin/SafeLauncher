@@ -37,26 +37,26 @@ class ListFragmentApps(private val intention: String, private val index: Int = D
 
     override fun adjustLayout() {
 
-        val appsRViewAdapter = AppsRecyclerAdapter(requireActivity(), intention, index)
+        val appsAdapter = AppsRecyclerAdapter(requireActivity(), intention, index)
 
         // set up the list / recycler
         binding.listAppsRview.apply {
             // improve performance (since content changes don't change the layout size)
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = appsRViewAdapter
+            adapter = appsAdapter
         }
 
         binding.listAppsSearchview.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
-                appsRViewAdapter.filter(query);
+                appsAdapter.filter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                appsRViewAdapter.filter(newText);
+                appsAdapter.filter(newText)
                 return false
             }
         })

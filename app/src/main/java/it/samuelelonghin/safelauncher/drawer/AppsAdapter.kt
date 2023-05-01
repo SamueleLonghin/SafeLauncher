@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
 import it.samuelelonghin.safelauncher.support.*
 import java.util.*

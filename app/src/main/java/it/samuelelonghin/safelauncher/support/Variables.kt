@@ -2,9 +2,8 @@ package it.samuelelonghin.safelauncher.support
 
 import android.content.SharedPreferences
 import android.graphics.Bitmap
-import it.samuelelonghin.safelauncher.drawer.AppInfo
+import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 
 lateinit var launcherPreferences: SharedPreferences

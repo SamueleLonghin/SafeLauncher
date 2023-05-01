@@ -3,23 +3,22 @@ package it.samuelelonghin.safelauncher.list.apps
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
+import it.samuelelonghin.safelauncher.settings.SettingsActivity
 import it.samuelelonghin.safelauncher.support.*
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 /**
  * A [RecyclerView] (efficient scrollable list) containing all apps on the users device.
@@ -27,7 +26,7 @@ import kotlin.collections.ArrayList
  *
  * @param activity - the activity this is in
  * @param intention - why the list is displayed ("view", "pick")
- * @param forApp - the action which an app is chosen for (when the intention is "pick")
+ * @param index -
  */
 class AppsRecyclerAdapter(
     val activity: Activity,
@@ -36,7 +35,7 @@ class AppsRecyclerAdapter(
 ) :
     RecyclerView.Adapter<AppsRecyclerAdapter.ViewHolder>() {
 
-    private val appsListDisplayed: MutableList<it.samuelelonghin.safelauncher.drawer.AppInfo>
+    private val appsListDisplayed: MutableList<AppInfo>
 
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
@@ -49,26 +48,7 @@ class AppsRecyclerAdapter(
 
 
         // decide when to show the options popup menu about
-        if (isSystemApp || intention == "pick") {
-//            viewHolder.menuDots.visibility = View.VISIBLE
-        } else {
-//            viewHolder.menuDots.visibility = View.VISIBLE
-//
-//            viewHolder.menuDots.setOnClickListener { showOptionsPopup(viewHolder, appPackageName) }
-//            viewHolder.menuDots.setOnLongClickListener {
-//                showOptionsPopup(
-//                    viewHolder,
-//                    appPackageName
-//                )
-//            }
-//            viewHolder.textView.setOnLongClickListener {
-//                showOptionsPopup(
-//                    viewHolder,
-//                    appPackageName
-//                )
-//            }
-//            viewHolder.img.setOnLongClickListener { showOptionsPopup(viewHolder, appPackageName) }
-
+        if (!isSystemApp && intention != "pick") {
             // ensure onClicks are actually caught
             viewHolder.textView.setOnClickListener { viewHolder.onClick(viewHolder.textView) }
             viewHolder.img.setOnClickListener { viewHolder.onClick(viewHolder.img) }
@@ -90,11 +70,25 @@ class AppsRecyclerAdapter(
         if (appsList.size == 0)
             loadApps(activity.packageManager)
         else {
-            AsyncTask.execute { loadApps(activity.packageManager) }
-            notifyDataSetChanged()
+            AsyncTask.execute {
+                loadApps(activity.packageManager)
+                notifyItemRangeChanged(0, appsList.size)
+            }
         }
 
         appsListDisplayed = ArrayList()
+        if (intention == "view") {
+            val app = AppInfo()
+            app.label = activity.getString(R.string.settings_title)
+            app.activity = SettingsActivity::class.java
+            app.icon = ResourcesCompat.getDrawable(activity.resources,R.drawable.ic_baseline_settings_24,activity.theme)
+
+//        app.icon = Icon.createWithResource(R.drawable.ic_baseline_settings_24)
+//        app.packageName = ri.activityInfo.packageName
+//        app.icon = ri.activityInfo.loadIcon(packageManager)
+            appsListDisplayed.add(app)
+        }
+
         appsListDisplayed.addAll(appsList)
     }
 
@@ -107,8 +101,8 @@ class AppsRecyclerAdapter(
             appsListDisplayed.addAll(appsList)
         } else {
             for (item in appsList) {
-                if (item.label.toString().toLowerCase(Locale.ROOT)
-                        .contains(text.toLowerCase(Locale.ROOT))
+                if (item.label.toString().lowercase(Locale.ROOT)
+                        .contains(text.lowercase(Locale.ROOT))
                 ) {
                     appsListDisplayed.add(item)
                 }
@@ -128,14 +122,13 @@ class AppsRecyclerAdapter(
             inputMethodManager.hideSoftInputFromWindow(View(activity).windowToken, 0)
         }
 
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, appsList.size)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var textView: TextView = itemView.findViewById(R.id.list_apps_row_name)
         var img: ImageView = itemView.findViewById(R.id.list_apps_row_icon) as ImageView
-//        var menuDots: Button = itemView.findViewById(R.id.list_apps_row_menu)
 
         override fun onClick(v: View) {
             val pos = adapterPosition
@@ -145,9 +138,16 @@ class AppsRecyclerAdapter(
 
             when (intention) {
                 "view" -> {
-                    val launchIntent: Intent = context.packageManager
-                        .getLaunchIntentForPackage(appPackageName)!!
-                    context.startActivity(launchIntent)
+                    val appActivity = appsListDisplayed[pos].activity
+                    var launchIntent: Intent
+                    appActivity?.let {
+                        launchIntent = Intent(context, appActivity)
+                        context.startActivity(launchIntent)
+                    } ?: run {
+                        launchIntent = context.packageManager
+                            .getLaunchIntentForPackage(appPackageName)!!
+                        context.startActivity(launchIntent)
+                    }
                 }
                 "pick" -> {
                     val returnIntent = Intent()

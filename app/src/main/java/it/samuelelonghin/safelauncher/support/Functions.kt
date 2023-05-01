@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.drawer.AppInfo
+import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

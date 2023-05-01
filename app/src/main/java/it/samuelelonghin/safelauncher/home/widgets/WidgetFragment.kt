@@ -147,25 +147,23 @@ class WidgetFragment :
             WIDGET_NUMBER_COLUMNS,
             WIDGET_NUMBER_COLUMNS_PREF
         )
-        widgetsRecycleView.numColumns = nCols
 
-//
-//        val isScrollable = launcherPreferences.getBoolean(
-//            CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
-//        )
-//
-//        val layoutManager = object : GridLayoutManager(context, nCols) {
-//            override fun canScrollVertically() = isScrollable
-//        }
+        val isScrollable = launcherPreferences.getBoolean(
+            CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
+        )
 
-        // on below line we are initializing our course adapter
-        // and passing course list and context.
-        // on below line we are initializing our course adapter
-        // and passing course list and context.
-        val courseAdapter = WidgetGridAdapter(context, getWidgets(), mode)
-        courseAdapter.selectApp = selectApp
+        val gridLayoutManager = object : GridLayoutManager(context, nCols) {
+            override fun canScrollVertically() = isScrollable
+        }
+
+
+        val courseAdapter = WidgetAdapter(context, getWidgets(), mode, selectApp)
 
         // on below line we are setting adapter to our grid view.
-        widgetsRecycleView.adapter = courseAdapter
+        widgetsRecycleView.apply {
+            // improve performance (since content changes don't change the layout size)
+            layoutManager = gridLayoutManager
+            adapter = courseAdapter
+        }
     }
 }
