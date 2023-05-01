@@ -52,7 +52,7 @@
         android:id="@+id/widget_frame"
         android:name="it.samuelelonghin.safelauncher.home.widgets.WidgetFragment"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

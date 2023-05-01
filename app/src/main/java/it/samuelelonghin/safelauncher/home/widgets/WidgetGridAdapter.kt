@@ -3,15 +3,18 @@ package it.samuelelonghin.safelauncher.home.widgets
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.ListActivity
+import it.samuelelonghin.safelauncher.support.getAppInfo
 import it.samuelelonghin.safelauncher.support.intendedSettingsPause
 
 internal class WidgetGridAdapter(
@@ -41,9 +44,21 @@ internal class WidgetGridAdapter(
         return 0
     }
 
+    private var widgetHeight: Int = 200
+
+    init {
+        // trovo l'altezza effettiva di ogni widget
+        widgetHeight = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            widgetHeight / 2f,
+            context.resources.displayMetrics
+        ).toInt()
+
+    }
+
     // in below function we are getting individual item of grid view.
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
-        var convertView = convertView
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        var view = convertView
         val wi = widgetsList[position]
 
         // on blow line we are checking if layout inflater
@@ -54,24 +69,25 @@ internal class WidgetGridAdapter(
         }
         // on the below line we are checking if convert view is null.
         // If it is null we are initializing it.
-        if (convertView == null) {
+        if (view == null) {
             // on below line we are passing the layout file
             // which we have to inflate for each item of grid view.
-            convertView = layoutInflater!!.inflate(R.layout.widget_frame_adapter, null)
+            view = layoutInflater!!.inflate(R.layout.widget_frame_adapter, null)
+
+            // set widgetHeight
+            view.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, widgetHeight)
         }
-        val textView: TextView = convertView!!.findViewById(R.id.text_view_widget)
-        val imageView: ImageView = convertView.findViewById(R.id.image_view_widget)
+        val textView: TextView = view!!.findViewById(R.id.text_view_widget)
+        val imageView: ImageView = view.findViewById(R.id.image_view_widget)
+
+        val appInfo = getAppInfo(context, wi.app!!)
+        wi.name = appInfo.name
 
         textView.text = wi.name
+        textView.visibility = View.VISIBLE
+        wi.setIcon(imageView, context)
 
-        try {
-            val icon = context.packageManager.getApplicationIcon(wi.app!!)
-            imageView.setImageDrawable(icon)
-        } catch (_: Exception) {
-            System.err.println("Errore nel icon di ${wi.name}")
-        }
-
-        convertView.setOnClickListener {
+        view.setOnClickListener {
             if (mode == WidgetFragment.Mode.USE)
                 when (wi.type) {
                     WidgetInfo.WidgetType.APP -> {
@@ -97,6 +113,7 @@ internal class WidgetGridAdapter(
 
             }
         }
-        return convertView
+
+        return view
     }
 }

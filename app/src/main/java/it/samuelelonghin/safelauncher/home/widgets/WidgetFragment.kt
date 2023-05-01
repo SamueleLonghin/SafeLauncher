@@ -138,7 +138,6 @@ class WidgetFragment :
                     else -> wl.add(WidgetInfo(ws.value))
                 }
             }
-//            wi.mode = mode
             wl.add(wi)
         }
 

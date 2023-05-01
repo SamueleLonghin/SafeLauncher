@@ -1,12 +1,13 @@
 package it.samuelelonghin.safelauncher.home.widgets
 
+import android.content.Context
 import android.net.Uri
-import it.samuelelonghin.safelauncher.support.ACTIVITY_TO_CLASS
-import it.samuelelonghin.safelauncher.support.ACTIVITY_TO_NAME
+import android.widget.ImageView
+import it.samuelelonghin.safelauncher.support.*
 
 
 class WidgetInfo(name: String, type: WidgetType) {
-//    lateinit var mode: WidgetFragment.Mode
+    //    lateinit var mode: WidgetFragment.Mode
     var name: String
     var type: WidgetType
     var app: String? = null
@@ -46,8 +47,28 @@ class WidgetInfo(name: String, type: WidgetType) {
     }
 
     constructor(activity: String) : this(
-        ACTIVITY_TO_NAME[activity].toString(),
+        activity,
         WidgetType.ACTIVITY,
         ACTIVITY_TO_CLASS[activity]!!
     )
+
+    fun setIcon(imageView: ImageView, context: Context? = null) {
+        when (type) {
+            WidgetType.ACTIVITY -> imageView.setImageResource(ACTIVITY_TO_RESOURCE_ICON[name]!!)
+            WidgetType.ACTION -> imageView.setImageResource(ACTION_TO_RESOURCE_ICON[name]!![0])
+
+            else -> {
+                try {
+                    if (context != null) {
+                        val icon = context.packageManager.getApplicationIcon(app!!)
+                        imageView.setImageDrawable(icon)
+                    } else {
+                        System.err.println("È necessario il context per trovare l'icona del pacchetto $app")
+                    }
+                } catch (_: Exception) {
+                    System.err.println("Errore nel icon di ${name}")
+                }
+            }
+        }
+    }
 }
