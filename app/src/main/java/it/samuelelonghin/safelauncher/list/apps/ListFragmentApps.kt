@@ -33,12 +33,9 @@ class ListFragmentApps(private val intention: String, private val index: Int = D
         super<UIObject>.onStart()
     }
 
-    override fun setOnClicks() {}
-
     override fun adjustLayout() {
 
         val appsAdapter = AppsRecyclerAdapter(requireActivity(), intention, index)
-
         // set up the list / recycler
         binding.listAppsRview.apply {
             // improve performance (since content changes don't change the layout size)
@@ -62,7 +59,7 @@ class ListFragmentApps(private val intention: String, private val index: Int = D
         })
 
         if (intention == "view" && launcherPreferences.getBoolean(
-                PREF_SEARCH_AUTO_KEYBOARD,
+                OPEN_KEYBOARD_ON_SEARCH,
                 true
             )
         ) {

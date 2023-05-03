@@ -5,12 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import it.samuelelonghin.safelauncher.databinding.ListAppFragmentBinding
-import it.samuelelonghin.safelauncher.support.PREF_SEARCH_AUTO_KEYBOARD
 import it.samuelelonghin.safelauncher.support.UIObject
-import it.samuelelonghin.safelauncher.support.launcherPreferences
-import it.samuelelonghin.safelauncher.support.openSoftKeyboard
 
 /**
  * The [ListAppFragment] is used as a tab in ListActivity.

@@ -109,9 +109,8 @@ class WidgetFragment :
 
         val wl: MutableList<WidgetInfo> = mutableListOf()
         for (ws in widgetsList) {
-            lateinit var wi: WidgetInfo
             if (ws.type == APP) {
-                wi = WidgetInfo(
+                wl += WidgetInfo(
                     "Def",
                     ws.type,
                     ws.value
@@ -119,17 +118,16 @@ class WidgetFragment :
             } else if (ws.type == ACTIVITY) {
                 when (ws.value) {
                     ACTIVITY_APPS -> {
-                        wi = WidgetInfo(ACTIVITY_APPS)
+                        wl += WidgetInfo(ACTIVITY_APPS)
                         foundApps = true
                     }
                     ACTIVITY_SETTINGS -> {
-                        wi = WidgetInfo(ACTIVITY_SETTINGS)
+                        wl += WidgetInfo(ACTIVITY_SETTINGS)
                         foundSettings = true
                     }
-                    else -> wl.add(WidgetInfo(ws.value))
+                    else -> wl += (WidgetInfo(ws.value))
                 }
             }
-            wl.add(wi)
         }
 
         if (!foundSettings)

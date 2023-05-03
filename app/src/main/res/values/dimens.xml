@@ -14,4 +14,9 @@
     <dimen name="call_button_text_size">20sp</dimen>
     <dimen name="title_text_size">35sp</dimen>
     <dimen name="margin_widget">6dp</dimen>
+    <dimen name="padding_start_settings">32sp</dimen>
+    <dimen name="padding_end_settings">32sp</dimen>
+    <dimen name="padding_top_settings">16sp</dimen>
+    <dimen name="padding_horizontal_view">16sp</dimen>
+    <dimen name="padding_vertical_view">16sp</dimen>
 </resources>

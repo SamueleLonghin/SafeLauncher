@@ -3,8 +3,6 @@ package it.samuelelonghin.safelauncher.list.apps
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,31 +63,29 @@ class AppsRecyclerAdapter(
         return ViewHolder(view)
     }
 
-    init {
-        // Load the apps
-        if (appsList.size == 0)
-            loadApps(activity.packageManager)
-        else {
-            AsyncTask.execute {
-                loadApps(activity.packageManager)
-                notifyItemRangeChanged(0, appsList.size)
-            }
-        }
-
-        appsListDisplayed = ArrayList()
+    private fun prepareApps() {
+        appsListDisplayed.clear()
         if (intention == "view") {
             val app = AppInfo()
             app.label = activity.getString(R.string.settings_title)
             app.activity = SettingsActivity::class.java
-            app.icon = ResourcesCompat.getDrawable(activity.resources,R.drawable.ic_baseline_settings_24,activity.theme)
-
-//        app.icon = Icon.createWithResource(R.drawable.ic_baseline_settings_24)
-//        app.packageName = ri.activityInfo.packageName
-//        app.icon = ri.activityInfo.loadIcon(packageManager)
+            app.icon = ResourcesCompat.getDrawable(
+                activity.resources,
+                R.drawable.ic_baseline_settings_24,
+                activity.theme
+            )
             appsListDisplayed.add(app)
         }
 
         appsListDisplayed.addAll(appsList)
+    }
+
+    init {
+        // Load the apps
+        if (appsList.size == 0)
+            loadApps(activity.packageManager)
+        appsListDisplayed = ArrayList()
+        prepareApps()
     }
 
     /**
@@ -113,7 +109,7 @@ class AppsRecyclerAdapter(
         // Disabled at the moment. The Setting 'PREF_SEARCH_AUTO_LAUNCH' may be
         // modifyable at some later point.
         if (appsListDisplayed.size == 1 && intention == "view"
-            && launcherPreferences.getBoolean(PREF_SEARCH_AUTO_LAUNCH, DRAWER_SEARCH_AT_LAUNCH_PREF)
+            && launcherPreferences.getBoolean(OPEN_APP_ON_ONLY_ONE_RESULTS, DRAWER_SEARCH_AT_LAUNCH_PREF)
         ) {
             launch(appsListDisplayed[0].packageName.toString(), activity)
 
@@ -121,8 +117,7 @@ class AppsRecyclerAdapter(
                 activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(View(activity).windowToken, 0)
         }
-
-        notifyItemRangeChanged(0, appsList.size)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -166,5 +161,6 @@ class AppsRecyclerAdapter(
             itemView.setOnClickListener(this)
         }
     }
+
 
 }

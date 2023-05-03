@@ -91,24 +91,24 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         /**
          * Contacts
          */
-        binding.settingsContactsNumberColumnsInput.setText(
+        binding.contactsSettings.settingsContactsNumberColumnsInput.setText(
             launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF)
                 .toString()
         )
-        binding.settingsContactsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
+        binding.contactsSettings.settingsContactsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 updatePreference(
                     CONTACTS_NUMBER_COLUMNS,
-                    getIntValue(binding.settingsContactsNumberColumnsInput.editableText)
+                    getIntValue(binding.contactsSettings.settingsContactsNumberColumnsInput.editableText)
                 )
             }
         }
-        binding.settingsContactsIsScrollableInput.isChecked =
+        binding.contactsSettings.settingsContactsIsScrollableInput.isChecked =
             launcherPreferences.getBoolean(CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF)
-        binding.settingsContactsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
+        binding.contactsSettings.settingsContactsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
-                CONTACTS_IS_SCROLLABLE, binding.settingsContactsIsScrollableInput.isChecked
+                CONTACTS_IS_SCROLLABLE, binding.contactsSettings.settingsContactsIsScrollableInput.isChecked
             )
         }
 
@@ -116,45 +116,45 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
          * View Contact
          */
         //Rapid Call
-        binding.settingsViewContactShowRapidCallInput.isChecked = launcherPreferences.getBoolean(
+        binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked = launcherPreferences.getBoolean(
             VIEW_CONTACT_SHOW_RAPID_CALL, VIEW_CONTACT_SHOW_RAPID_CALL_PREF
         )
-        binding.settingsViewContactShowRapidCallInput.setOnCheckedChangeListener { _, checked ->
+        binding.viewContactSettings.settingsViewContactShowRapidCallInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
                 VIEW_CONTACT_SHOW_RAPID_CALL,
-                binding.settingsViewContactShowRapidCallInput.isChecked
+                binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked
             )
         }
         //Rapid Chat
-        binding.settingsViewContactShowRapidChatInput.isChecked = launcherPreferences.getBoolean(
+        binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked = launcherPreferences.getBoolean(
             VIEW_CONTACT_SHOW_RAPID_CHAT, VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
         )
-        binding.settingsViewContactShowRapidChatInput.setOnCheckedChangeListener { _, checked ->
+        binding.viewContactSettings.settingsViewContactShowRapidChatInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
                 VIEW_CONTACT_SHOW_RAPID_CHAT,
-                binding.settingsViewContactShowRapidChatInput.isChecked
+                binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked
             )
         }
         //Notifications
-        binding.settingsViewContactShowNotificationsInput.isChecked =
+        binding.viewContactSettings.settingsViewContactShowNotificationsInput.isChecked =
             launcherPreferences.getBoolean(
                 VIEW_CONTACT_SHOW_NOTIFICATIONS, VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
             )
-        binding.settingsViewContactShowNotificationsInput.setOnCheckedChangeListener { _, checked ->
+        binding.viewContactSettings.settingsViewContactShowNotificationsInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
                 VIEW_CONTACT_SHOW_NOTIFICATIONS,
-                binding.settingsViewContactShowNotificationsInput.isChecked
+                binding.viewContactSettings.settingsViewContactShowNotificationsInput.isChecked
             )
         }
         // Rapid Chat App
         val appInt: Int = VIEW_CONTACT_RAPID_APP_TO_INDEX[launcherPreferences.getString(
             VIEW_CONTACT_RAPID_CHAT_APP, VIEW_CONTACT_RAPID_CHAT_APP_PREF
         )]!!
-        binding.settingsViewContactRapidChatAppInput.setSelection(appInt)
-        binding.settingsViewContactRapidChatAppInput.onItemSelectedListener =
+        binding.viewContactSettings.settingsViewContactRapidChatAppInput.setSelection(appInt)
+        binding.viewContactSettings.settingsViewContactRapidChatAppInput.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>, view: View, position: Int, id: Long
@@ -169,59 +169,59 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
          * Widgets
          */
 
-        binding.settingsWidgetsNumberColumnsInput.setText(
+        binding.widgetsSettings.settingsWidgetsNumberColumnsInput.setText(
             launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF).toString()
         )
-        binding.settingsWidgetsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
+        binding.widgetsSettings.settingsWidgetsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 println("Widgets Colonne Ha il fuoco")
             } else {
                 updatePreference(
                     WIDGET_NUMBER_COLUMNS,
-                    getIntValue(binding.settingsWidgetsNumberColumnsInput.text)
+                    getIntValue(binding.widgetsSettings.settingsWidgetsNumberColumnsInput.text)
                 )
             }
         }
-        binding.settingsWidgetsNumberRowsInput.setText(
+        binding.widgetsSettings.settingsWidgetsNumberRowsInput.setText(
             launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF).toString()
         )
-        binding.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
+        binding.widgetsSettings.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 println("Widgets Rows Ha il fuoco")
             } else {
                 updatePreference(
-                    WIDGET_NUMBER_ROWS, getIntValue(binding.settingsWidgetsNumberRowsInput.text)
+                    WIDGET_NUMBER_ROWS, getIntValue(binding.widgetsSettings.settingsWidgetsNumberRowsInput.text)
                 )
 
             }
         }
         //Show text
-        binding.settingsWidgetsShowLabelsInput.isChecked =
+        binding.widgetsSettings.settingsWidgetsShowLabelsInput.isChecked =
             launcherPreferences.getBoolean(
                 WIDGET_SHOW_LABELS, WIDGET_SHOW_LABELS_PREF
             )
-        binding.settingsWidgetsShowLabelsInput.setOnCheckedChangeListener { _, checked ->
+        binding.widgetsSettings.settingsWidgetsShowLabelsInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
                 WIDGET_SHOW_LABELS,
-                binding.settingsWidgetsShowLabelsInput.isChecked
+                binding.widgetsSettings.settingsWidgetsShowLabelsInput.isChecked
             )
         }
 
         // Possibilità di scorrere
-        binding.settingsWidgetsIsScrollableInput.isChecked =
+        binding.widgetsSettings.settingsWidgetsIsScrollableInput.isChecked =
             launcherPreferences.getBoolean(
                 WIDGET_IS_SCROLLABLE, WIDGET_IS_SCROLLABLE_PREF
             )
-        binding.settingsWidgetsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
+        binding.widgetsSettings.settingsWidgetsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
                 WIDGET_IS_SCROLLABLE,
-                binding.settingsWidgetsIsScrollableInput.isChecked
+                binding.widgetsSettings.settingsWidgetsIsScrollableInput.isChecked
             )
         }
 
-        binding.widgetsButton.setOnClickListener {
+        binding.widgetsSettings.widgetsButton.setOnClickListener {
             println("Cliccato widget")
 
             val intent = Intent(activity, ListActivity::class.java)

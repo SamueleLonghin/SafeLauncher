@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:longClickable="false"
+    android:paddingStart="@dimen/padding_horizontal_view"
+    android:paddingTop="@dimen/padding_vertical_view"
+    android:paddingEnd="@dimen/padding_horizontal_view"
+    android:paddingBottom="@dimen/padding_vertical_view"
     tools:context=".home.HomeActivity">
 
     <ImageView

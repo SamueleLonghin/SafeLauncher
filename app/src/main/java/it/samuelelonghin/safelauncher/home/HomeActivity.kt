@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,10 @@ import it.samuelelonghin.safelauncher.support.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Month
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
@@ -68,27 +73,36 @@ class HomeActivity : UIObject, AppCompatActivity() {
         if (getSavedTheme(this) == "custom")
             binding.homeBackgroundImage.setImageBitmap(background)
 
+
+
+
+        setClock()
+        checkDefaultLauncher()
+
+    }
+
+    private fun setClock() {
         // Applying the date / time format (changeable in settings)
         val dFormat = launcherPreferences.getInt(PREF_DATE_FORMAT, 0)
-        val upperFMT = resources.getStringArray(R.array.settings_launcher_time_formats_upper)
         val lowerFMT = resources.getStringArray(R.array.settings_launcher_time_formats_lower)
 
-        val dateFormat = SimpleDateFormat(upperFMT[dFormat], Locale.getDefault())
-        val timeFormat = SimpleDateFormat(lowerFMT[dFormat], Locale.getDefault())
+        val locale = Locale.getDefault()
+
+        val timeFormat = launcherPreferences.getInt(TIME_FORMAT, SimpleDateFormat.SHORT)
+        val dateFormat = launcherPreferences.getInt(DATE_FORMAT, SimpleDateFormat.FULL)
+
 
         clockTimer = fixedRateTimer("clockTimer", true, 0L, 100) {
             this@HomeActivity.runOnUiThread {
-                val t = timeFormat.format(Date())
+                val t = SimpleDateFormat.getTimeInstance(timeFormat, locale).format(Date())
                 if (binding.clockFrame.textViewClock.text != t)
                     binding.clockFrame.textViewClock.text = t
 
-                val d = dateFormat.format(Date())
+                val d = SimpleDateFormat.getDateInstance(dateFormat, locale).format(Date())
                 if (binding.clockFrame.textViewDate.text != d)
                     binding.clockFrame.textViewDate.text = d
             }
         }
-        checkDefaultLauncher()
-
     }
 
     override fun onPause() {

@@ -101,24 +101,6 @@ fun getAppInfo(context: Context, packageName: String): ApplicationInfo {
     }
 }
 
-fun resetSettings(context: Context) {
-
-    val editor = launcherPreferences.edit()
-
-    // set default theme
-    dominantColor = context.resources.getColor(R.color.background_color)
-    vibrantColor = context.resources.getColor(R.color.accent_color)
-
-    editor.putString(PREF_WALLPAPER, "").putInt(PREF_DOMINANT, dominantColor)
-        .putInt(PREF_VIBRANT, vibrantColor).putString(PREF_THEME, "light")
-        .putBoolean(PREF_SCREEN_TIMEOUT_DISABLED, false).putBoolean(PREF_SEARCH_AUTO_LAUNCH, false)
-        .putInt(PREF_DATE_FORMAT, 0).putBoolean(PREF_SCREEN_FULLSCREEN, true)
-        .putBoolean(PREF_DOUBLE_ACTIONS_ENABLED, false).putInt(PREF_SLIDE_SENSITIVITY, 50)
-
-    //TODO prendere altre cose da pref
-    editor.apply()
-}
-
 
 /* Settings related functions */
 

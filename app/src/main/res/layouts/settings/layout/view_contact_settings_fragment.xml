@@ -1,0 +1,172 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center|top"
+    android:paddingStart="@dimen/padding_start_settings"
+    android:paddingTop="@dimen/padding_top_settings"
+    android:paddingEnd="@dimen/padding_end_settings">
+
+    <LinearLayout
+        android:id="@+id/settings_view_contact_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/settings_view_contact_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_view_contact_title"
+            android:textColor="@color/accent_color"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp">
+
+        <TextView
+            android:id="@+id/settings_view_contact_show_notifications_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_view_contact_show_notifications_label"
+            android:textSize="16sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/settings_view_contact_show_notifications_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:ems="10" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp">
+
+        <TextView
+            android:id="@+id/settings_view_contact_show_rapid_call_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_view_contact_show_rapid_call_label"
+            android:textSize="16sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/settings_view_contact_show_rapid_call_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:ems="10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp">
+
+        <TextView
+            android:id="@+id/settings_view_contact_show_rapid_chat_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_view_contact_show_rapid_chat_label"
+            android:textSize="16sp" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/settings_view_contact_show_rapid_chat_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:ems="10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/settings_view_contact_rapid_chat_app_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_view_contact_rapid_chat_app_label"
+            android:textSize="16sp" />
+
+
+        <Spinner
+            android:id="@+id/settings_view_contact_rapid_chat_app_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:entries="@array/settings_view_contact_rapid_chat_app_items"
+            android:spinnerMode="dropdown"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+    <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="16sp"-->
+    <!--                android:layout_marginBottom="16sp"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                android:showDividers="middle"-->
+    <!--                android:paddingHorizontal="8sp">-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/settings_view_contact_rapid_chat_app_label"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_margin="0dp"-->
+    <!--                    android:padding="0dp"-->
+    <!--                    android:text="@string/settings_view_contact_rapid_chat_app_label"-->
+    <!--                    android:textSize="16sp"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent"/>-->
+
+
+    <!--                <Spinner-->
+    <!--                    android:id="@+id/settings_view_contact_rapid_chat_app_input"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginStart="8dp"-->
+    <!--                    android:entries="@array/settings_view_contact_rapid_chat_app_items"-->
+    <!--                    android:spinnerMode="dropdown"-->
+    <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                    app:layout_constraintTop_toTopOf="parent"-->
+    <!--                     />-->
+    <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+</LinearLayout>

@@ -1,6 +1,5 @@
 package it.samuelelonghin.safelauncher.support
 
-import android.app.Activity
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.ListActivity
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
@@ -20,21 +19,6 @@ const val PREF_THEME = "theme"
 const val PREF_SCREEN_TIMEOUT_DISABLED = "disableTimeout"
 const val PREF_SCREEN_FULLSCREEN = "useFullScreen"
 const val PREF_DATE_FORMAT = "dateFormat"
-
-const val PREF_DOUBLE_ACTIONS_ENABLED = "enableDoubleActions"
-const val PREF_SEARCH_AUTO_LAUNCH = "searchAutoLaunch"
-const val PREF_SEARCH_AUTO_KEYBOARD = "searchAutoKeyboard"
-
-const val PREF_SLIDE_SENSITIVITY = "slideSensitivity"
-
-const val PREF_STARTED = "startedBefore"
-const val PREF_STARTED_TIME = "firstStartup"
-
-
-/**
- *
- */
-const val PERMISSIONS_REQUEST_READ_CONTACTS = 100
 
 
 /**
@@ -61,7 +45,10 @@ const val VIEW_CONTACT_SHOW_RAPID_CHAT = "view-contact-show-rapid-chat"
 const val VIEW_CONTACT_SHOW_NOTIFICATIONS = "view-contact-show-notifications"
 const val VIEW_CONTACT_RAPID_CHAT_APP = "view-contact-rapid-chat-app"
 const val DRAWER_SEARCH_AT_LAUNCH = "drawer-search-at-launch"
-
+const val OPEN_APP_ON_ONLY_ONE_RESULTS = "open-app-on-only-one-results"
+const val OPEN_KEYBOARD_ON_SEARCH = "open-keyboard-on-search"
+const val DATE_FORMAT = "date-format"
+const val TIME_FORMAT = "time-format"
 
 /**
  * DEFAULT PREFERENCES
