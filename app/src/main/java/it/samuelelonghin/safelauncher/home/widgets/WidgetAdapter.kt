@@ -42,27 +42,34 @@ class WidgetAdapter(
         // set widget icon
         wi.setIcon(holder.imageView, context)
 
-        holder.itemView.setOnClickListener {
+        val ocl = View.OnClickListener {
             if (mode == WidgetFragment.Mode.USE) when (wi.type) {
-                WidgetInfo.WidgetType.APP -> launchApp(wi.app!!, context)
+                WidgetInfo.WidgetType.APP ->
+                    launchApp(wi.app!!, context)
 
-                WidgetInfo.WidgetType.ACTIVITY -> {
-                    context.startActivity(Intent(context, wi.activity))
-                }
+                WidgetInfo.WidgetType.ACTIVITY ->
+                    launchActivity(wi.name, context, selectApp)
+
                 WidgetInfo.WidgetType.ACTION -> {
-
+                    println("ACTION CLICCATA")
                 }
             }
             else if (mode == WidgetFragment.Mode.PICK) {
                 println("SELEZIONATO ${wi.name}")
                 val intent = Intent(context, ListActivity::class.java)
                 intent.putExtra("intention", "pick")
-                intent.putExtra("forApp", "0")
                 intent.putExtra("index", position)
                 intendedSettingsPause = true
                 selectApp.launch(intent)
+            } else {
+                println("ALTRO")
             }
         }
+
+
+        holder.itemView.setOnClickListener(ocl)
+        holder.imageView.setOnClickListener(ocl)
+
         if (mode == WidgetFragment.Mode.PICK) {
             holder.imageView.setOnLongClickListener {
                 println("LongClick")

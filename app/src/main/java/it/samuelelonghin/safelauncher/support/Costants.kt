@@ -76,27 +76,32 @@ const val APPS_LIST_VIEW_TYPE_PREF = 0
  */
 const val ACTIVITY_APPS = "activity_apps"
 const val ACTIVITY_SETTINGS = "activity_settings"
+const val ACTIVITY_PICK = "activity_pick"
 
 /**
  * ACTIONS
  */
 const val ACTION_NOTIFICATIONS = "action_notifications"
 const val ACTION_FLASH = "action_flash"
+const val ACTION_ADD_WIDGET = "action_add_widget"
 
 
 val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(
     ACTIVITY_SETTINGS to SettingsActivity::class.java,
-    ACTIVITY_APPS to ListActivity::class.java
+    ACTIVITY_APPS to ListActivity::class.java,
+    ACTIVITY_PICK to ListActivity::class.java,
 ).withDefault { SettingsActivity::class.java }
 
 val ACTIVITY_TO_NAME: Map<String, String> = mapOf(
     ACTIVITY_SETTINGS to "Settings",
-    ACTIVITY_APPS to "APPS"
+    ACTIVITY_APPS to "APPS",
+    ACTIVITY_PICK to "Scegli"
 ).withDefault { "Errore" }
 
 val ACTIVITY_TO_RESOURCE_ICON: Map<String, Int> = mapOf(
     ACTIVITY_SETTINGS to R.drawable.ic_baseline_settings_24,
-    ACTIVITY_APPS to R.drawable.ic_baseline_apps_24
+    ACTIVITY_APPS to R.drawable.ic_baseline_apps_24,
+    ACTIVITY_PICK to R.drawable.ic_baseline_add_240
 ).withDefault { R.drawable.ic_baseline_error_24 }
 
 val ACTION_TO_RESOURCE_ICON: Map<String, List<Int>> = mapOf(

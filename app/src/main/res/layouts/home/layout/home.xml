@@ -10,7 +10,6 @@
     android:paddingTop="@dimen/padding_vertical_view"
     android:paddingEnd="@dimen/padding_horizontal_view"
     android:paddingBottom="@dimen/padding_vertical_view"
-    android:background="@color/battery_middle"
     tools:context=".home.HomeActivity">
 
     <ImageView
@@ -49,7 +48,7 @@
         android:id="@+id/widget_frame"
         android:name="it.samuelelonghin.safelauncher.home.widgets.WidgetFragment"
         android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

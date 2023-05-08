@@ -11,6 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
+import it.samuelelonghin.safelauncher.list.ListActivity
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -241,6 +243,25 @@ fun launch(
     else launchApp(data, activity) // app
 
     activity.overridePendingTransition(animationIn, animationOut)
+}
+
+fun launchActivity(
+    activity: String,
+    context: Context,
+    selectApp: ActivityResultLauncher<Intent>? = null
+) {
+    if (activity == ACTIVITY_PICK) {
+        if (selectApp != null) {
+            val intent = Intent(context, ListActivity::class.java)
+            intent.putExtra("intention", "pick")
+            intent.putExtra("forApp", "0") // for which action we choose the app
+            intent.putExtra("index", 100) // for which action we choose the app
+            intendedSettingsPause = true
+            selectApp.launch(intent)
+        }
+        Toast.makeText(context, "Non riesco a far partire Intento", Toast.LENGTH_SHORT).show()
+    }
+    context.startActivity(Intent(context, ACTIVITY_TO_CLASS[activity]))
 }
 
 fun launchApp(packageName: String, context: Context) {

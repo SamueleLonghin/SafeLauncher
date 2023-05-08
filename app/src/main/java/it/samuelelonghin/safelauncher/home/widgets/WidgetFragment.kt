@@ -134,6 +134,8 @@ class WidgetFragment :
             wl.add(WidgetInfo(ACTIVITY_SETTINGS))
         if (!foundApps)
             wl.add(WidgetInfo(ACTIVITY_APPS))
+        if (mode == Mode.PICK)
+            wl.add(WidgetInfo(ACTIVITY_PICK))
         return wl
     }
 
@@ -155,7 +157,7 @@ class WidgetFragment :
 //        binding.root.layoutParams = lp
 
         val isScrollable = launcherPreferences.getBoolean(
-            CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
+            WIDGET_IS_SCROLLABLE, WIDGET_IS_SCROLLABLE_PREF
         )
 
         val gridLayoutManager = object : GridLayoutManager(context, nCols) {
