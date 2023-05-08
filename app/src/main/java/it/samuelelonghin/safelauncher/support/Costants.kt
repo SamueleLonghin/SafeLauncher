@@ -49,6 +49,8 @@ const val OPEN_APP_ON_ONLY_ONE_RESULTS = "open-app-on-only-one-results"
 const val OPEN_KEYBOARD_ON_SEARCH = "open-keyboard-on-search"
 const val DATE_FORMAT = "date-format"
 const val TIME_FORMAT = "time-format"
+const val VIEW_CONTACT_BUTTONS_DIRECTION = "view-contact-buttons-direction"
+const val APPS_LIST_VIEW_TYPE = "apps-list-view-type"
 
 /**
  * DEFAULT PREFERENCES
@@ -65,6 +67,8 @@ const val VIEW_CONTACT_SHOW_RAPID_CHAT_PREF = true
 const val VIEW_CONTACT_RAPID_CHAT_APP_PREF = "WhatsApp"
 const val VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF = true
 const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
+const val VIEW_CONTACT_BUTTONS_DIRECTION_PREF = false
+const val APPS_LIST_VIEW_TYPE_PREF = 0
 
 
 /**

@@ -3,11 +3,12 @@ package it.samuelelonghin.safelauncher.info
 import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.color.DynamicColors
 import it.samuelelonghin.safelauncher.databinding.EmptyActivityBinding
 import it.samuelelonghin.safelauncher.support.UIObject
 
 
-class EmptyActivity : AppCompatActivity(), UIObject {
+class ViewContactActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: EmptyActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,8 @@ class EmptyActivity : AppCompatActivity(), UIObject {
         val screenWidth = (metrics.widthPixels * 0.90).toInt()
         val screenHeight = (metrics.heightPixels * 0.90).toInt()
         window.setLayout(screenWidth, screenHeight)
+
+        DynamicColors.applyToActivityIfAvailable(this)
     }
 
 

@@ -2,7 +2,6 @@ package it.samuelelonghin.safelauncher.home.widgets
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.ListActivity
-import it.samuelelonghin.safelauncher.support.WIDGET_SHOW_LABELS
-import it.samuelelonghin.safelauncher.support.WIDGET_SHOW_LABELS_PREF
-import it.samuelelonghin.safelauncher.support.intendedSettingsPause
-import it.samuelelonghin.safelauncher.support.launcherPreferences
+import it.samuelelonghin.safelauncher.support.*
 
 class WidgetAdapter(
     private val context: Context,
@@ -47,20 +43,16 @@ class WidgetAdapter(
         wi.setIcon(holder.imageView, context)
 
         holder.itemView.setOnClickListener {
-            if (mode == WidgetFragment.Mode.USE)
-                when (wi.type) {
-                    WidgetInfo.WidgetType.APP -> {
-                        val pm: PackageManager = context.packageManager
-                        val launchIntent = pm.getLaunchIntentForPackage(wi.app!!)
-                        context.startActivity(launchIntent)
-                    }
-                    WidgetInfo.WidgetType.ACTIVITY -> {
-                        context.startActivity(Intent(context, wi.activity))
-                    }
-                    WidgetInfo.WidgetType.ACTION -> {
+            if (mode == WidgetFragment.Mode.USE) when (wi.type) {
+                WidgetInfo.WidgetType.APP -> launchApp(wi.app!!, context)
 
-                    }
+                WidgetInfo.WidgetType.ACTIVITY -> {
+                    context.startActivity(Intent(context, wi.activity))
                 }
+                WidgetInfo.WidgetType.ACTION -> {
+
+                }
+            }
             else if (mode == WidgetFragment.Mode.PICK) {
                 println("SELEZIONATO ${wi.name}")
                 val intent = Intent(context, ListActivity::class.java)
@@ -69,7 +61,14 @@ class WidgetAdapter(
                 intent.putExtra("index", position)
                 intendedSettingsPause = true
                 selectApp.launch(intent)
-
+            }
+        }
+        if (mode == WidgetFragment.Mode.PICK) {
+            holder.imageView.setOnLongClickListener {
+                println("LongClick")
+                removeWidget(position)
+                notifyItemChanged(position)
+                return@setOnLongClickListener true
             }
         }
     }

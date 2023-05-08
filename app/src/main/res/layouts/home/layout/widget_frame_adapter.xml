@@ -23,7 +23,7 @@
         tools:srcCompat="@drawable/ic_baseline_error_240"
         android:paddingVertical="6sp"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

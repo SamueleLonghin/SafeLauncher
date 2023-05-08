@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".info.EmptyActivity">
+    tools:context=".info.ViewContactActivity">
 
 
     <androidx.fragment.app.FragmentContainerView

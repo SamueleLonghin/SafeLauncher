@@ -6,32 +6,43 @@
     android:id="@+id/list_apps_row_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16sp">
+    android:layout_margin="15sp">
 
     <ImageView
-        android:id="@+id/list_apps_row_icon"
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:id="@+id/notification_icon"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_error_240"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/list_apps_row_name"
+    <TextView
+        android:id="@+id/notification_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="12dp"
         android:gravity="start"
         android:text=""
-        android:textSize="@dimen/app_text_size_big"
-        android:ellipsize="end"
-        android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/list_apps_row_icon"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/notification_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="12dp"
+        android:gravity="start"
+        android:text=""
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/list_apps_row_icon"
+        app:layout_constraintTop_toBottomOf="@id/notification_name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

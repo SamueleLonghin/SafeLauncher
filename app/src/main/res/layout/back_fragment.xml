@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
     android:clickable="true"
     android:focusable="true"
-    android:background="@color/design_default_color_primary"
     android:paddingVertical="@dimen/main_button_padding_vertical">
 
-    <TextView
-        android:textColor="@color/design_default_color_on_primary"
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_image"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="@dimen/back_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/back_image"
+        app:tint="?attr/colorOnPrimary"
         android:translationZ="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -53,7 +53,6 @@ class ContactsFragment :
      * View
      */
     private lateinit var binding: ContactsFrameBinding
-    private lateinit var _view: View
 
 
     // An adapter that binds the result Cursor to the ListView
@@ -77,13 +76,12 @@ class ContactsFragment :
     ): View {
         // Inflate the fragment layout
         binding = ContactsFrameBinding.inflate(inflater)
-        _view = binding.root
         println("ContactsFragement :: CreateView")
 
         //Getting contacts from OS
         getContacts()
 
-        return _view
+        return binding.root
     }
 
 
@@ -146,13 +144,17 @@ class ContactsFragment :
         contactCursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
-            "starred=?" + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1",
+            "starred=?"
+//                    + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1"
+            ,
             arrayOf("1"),
             null
         )!!
     }
 
     private fun displayContacts() {
+        if (context == null)
+            return
         val context = requireContext()
         if (::contactCursor.isInitialized) {
 

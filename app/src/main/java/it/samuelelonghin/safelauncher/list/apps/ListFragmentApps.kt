@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ListAppsBinding
 import it.samuelelonghin.safelauncher.support.*
 
@@ -35,12 +38,19 @@ class ListFragmentApps(private val intention: String, private val index: Int = D
 
     override fun adjustLayout() {
 
-        val appsAdapter = AppsRecyclerAdapter(requireActivity(), intention, index)
+        val viewType = launcherPreferences.getInt(
+            APPS_LIST_VIEW_TYPE, APPS_LIST_VIEW_TYPE_PREF
+        )
+        val lm: LayoutManager = if (viewType == 0) LinearLayoutManager(context)
+        else GridLayoutManager(context, 3)
+
+        val view = if (viewType == 0) R.layout.list_apps_row else R.layout.list_apps_card
+        val appsAdapter = AppsRecyclerAdapter(requireActivity(), intention, index, view)
         // set up the list / recycler
         binding.listAppsRview.apply {
             // improve performance (since content changes don't change the layout size)
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = lm
             adapter = appsAdapter
         }
 

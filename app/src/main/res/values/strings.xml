@@ -52,6 +52,10 @@
     <string name="add">Aggiungi</string>
     <string name="settings_contacts_is_scrollable_label">Possibilità di scorrere</string>
     <string name="settings_widgets_is_scrollable_label">Possibilità di scorrere</string>
+    <string name="settings_home_title">Home</string>
+    <string name="settings_view_contact_buttons_direction_label">Pulsanti Orizzontali</string>
+    <string name="settings_list_apps_title">Lista Applicazioni</string>
+    <string name="settings_list_apps_display_view_label">Modalità di visualizzazione</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

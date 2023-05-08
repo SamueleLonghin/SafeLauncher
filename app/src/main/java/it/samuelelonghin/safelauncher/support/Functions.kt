@@ -11,6 +11,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import it.samuelelonghin.safelauncher.R
@@ -123,33 +125,6 @@ fun saveListActivityChoice(data: Intent?) {
 }
 
 
-fun resetToDefaultTheme(activity: Activity) {
-    dominantColor = activity.resources.getColor(R.color.background_color)
-    vibrantColor = activity.resources.getColor(R.color.accent_color)
-
-    launcherPreferences.edit().putString(PREF_WALLPAPER, "").putInt(PREF_DOMINANT, dominantColor)
-        .putInt(PREF_VIBRANT, vibrantColor).apply()
-
-    saveTheme("light")
-
-    intendedSettingsPause = true
-    activity.recreate()
-}
-
-fun resetToDarkTheme(activity: Activity) {
-    dominantColor = activity.resources.getColor(R.color.background_color)
-    vibrantColor = activity.resources.getColor(R.color.accent_color)
-
-    launcherPreferences.edit().putString(PREF_WALLPAPER, "").putInt(PREF_DOMINANT, dominantColor)
-        .putInt(PREF_VIBRANT, vibrantColor).apply()
-
-    saveTheme("dark")
-
-    intendedSettingsPause = true
-    activity.recreate()
-}
-
-
 fun loadPreferences(activity: Activity) {
     launcherPreferences = activity.getSharedPreferences(
         activity.getString(R.string.preference_file_key), Context.MODE_PRIVATE
@@ -213,6 +188,22 @@ fun saveWidgets() {
     System.err.println("WIDGETS SALVATI CORRETTAMENTE, lunghezza: ${widgetsList.size}")
 }
 
+fun removeWidget(position: Int) {
+    if (position < widgetsList.size) {
+        widgetsList.removeAt(position)
+        saveWidgets()
+    } else System.err.println("Non posso rimuovere elemento $position dalla lista di widgets")
+}
+
+@ColorInt
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int
+): Int {
+    val typedArray = theme.obtainStyledAttributes(intArrayOf(attrColor))
+    val textColor = typedArray.getColor(0, 0)
+    typedArray.recycle()
+    return textColor
+}
 
 private fun getIntent(packageName: String, context: Context): Intent? {
     val intent: Intent? = context.packageManager.getLaunchIntentForPackage(packageName)
@@ -254,7 +245,6 @@ fun launch(
 
 fun launchApp(packageName: String, context: Context) {
     val intent = getIntent(packageName, context)
-
     if (intent != null) {
         context.startActivity(intent)
     } else {
@@ -298,4 +288,10 @@ fun openSoftKeyboard(context: Context, view: View) {
     // open the soft keyboard
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+}
+
+
+fun dpToPx(context: Context, dp: Int): Int {
+    val scale = context.resources.displayMetrics.density
+    return (dp * scale + 0.5f).toInt()
 }

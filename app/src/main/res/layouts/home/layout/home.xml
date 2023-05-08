@@ -5,12 +5,12 @@
     android:id="@+id/home_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
     android:longClickable="false"
     android:paddingStart="@dimen/padding_horizontal_view"
     android:paddingTop="@dimen/padding_vertical_view"
     android:paddingEnd="@dimen/padding_horizontal_view"
     android:paddingBottom="@dimen/padding_vertical_view"
+    android:background="@color/battery_middle"
     tools:context=".home.HomeActivity">
 
     <ImageView
@@ -23,9 +23,12 @@
         tools:ignore="ContentDescription" />
 
 
-    <include
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/clock_frame"
-        layout="@layout/clock_frame"
+        android:name="it.samuelelonghin.safelauncher.home.ClockFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +49,7 @@
         android:id="@+id/widget_frame"
         android:name="it.samuelelonghin.safelauncher.home.widgets.WidgetFragment"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

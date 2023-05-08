@@ -1,9 +1,15 @@
 package it.samuelelonghin.safelauncher.home.widgets
 
 import android.content.Context
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.net.Uri
+import android.os.Build
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -53,19 +59,23 @@ class WidgetInfo(name: String, type: WidgetType) {
         ACTIVITY_TO_CLASS[activity]!!
     )
 
-    fun setIcon(imageView: ImageView, context: Context? = null) {
+    fun setIcon(imageView: ImageView, context: Context) {
         when (type) {
-            WidgetType.ACTIVITY -> imageView.setImageResource(ACTIVITY_TO_RESOURCE_ICON[name]!!)
+            WidgetType.ACTIVITY -> {
+                val icon = ResourcesCompat.getDrawable(
+                    context.resources,
+                    ACTIVITY_TO_RESOURCE_ICON[name]!!,
+                    context.theme
+                )
+                icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
+                imageView.setImageDrawable(icon)
+            }
             WidgetType.ACTION -> imageView.setImageResource(ACTION_TO_RESOURCE_ICON[name]!![0])
 
             else -> {
                 try {
-                    if (context != null) {
-                        val icon = context.packageManager.getApplicationIcon(app!!)
-                        imageView.setImageDrawable(icon)
-                    } else {
-                        System.err.println("È necessario il context per trovare l'icona del pacchetto $app")
-                    }
+                    val icon = context.packageManager.getApplicationIcon(app!!)
+                    imageView.setImageDrawable(icon)
                 } catch (_: Exception) {
                     System.err.println("Errore nel icon di ${name}")
                 }

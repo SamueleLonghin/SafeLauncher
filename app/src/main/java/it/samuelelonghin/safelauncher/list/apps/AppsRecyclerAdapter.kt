@@ -29,7 +29,8 @@ import java.util.*
 class AppsRecyclerAdapter(
     val activity: Activity,
     val intention: String? = "view",
-    val index: Int = DEFAULT_INDEX
+    val index: Int = DEFAULT_INDEX,
+    var view: Int = R.layout.list_apps_row
 ) :
     RecyclerView.Adapter<AppsRecyclerAdapter.ViewHolder>() {
 
@@ -59,7 +60,7 @@ class AppsRecyclerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view: View = inflater.inflate(R.layout.list_apps_row, parent, false)
+        val view: View = inflater.inflate(view, parent, false)
         return ViewHolder(view)
     }
 
@@ -109,7 +110,10 @@ class AppsRecyclerAdapter(
         // Disabled at the moment. The Setting 'PREF_SEARCH_AUTO_LAUNCH' may be
         // modifyable at some later point.
         if (appsListDisplayed.size == 1 && intention == "view"
-            && launcherPreferences.getBoolean(OPEN_APP_ON_ONLY_ONE_RESULTS, DRAWER_SEARCH_AT_LAUNCH_PREF)
+            && launcherPreferences.getBoolean(
+                OPEN_APP_ON_ONLY_ONE_RESULTS,
+                DRAWER_SEARCH_AT_LAUNCH_PREF
+            )
         ) {
             launch(appsListDisplayed[0].packageName.toString(), activity)
 
@@ -139,9 +143,7 @@ class AppsRecyclerAdapter(
                         launchIntent = Intent(context, appActivity)
                         context.startActivity(launchIntent)
                     } ?: run {
-                        launchIntent = context.packageManager
-                            .getLaunchIntentForPackage(appPackageName)!!
-                        context.startActivity(launchIntent)
+                        launchApp(appPackageName, context)
                     }
                 }
                 "pick" -> {

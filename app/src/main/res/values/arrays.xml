@@ -5,4 +5,8 @@
         <item>WhatsApp</item>
         <item>Telegram</item>
     </string-array>
+    <string-array name="settings_list_apps_display_view_items">
+        <item>Lista</item>
+        <item>Griglia</item>
+    </string-array>
 </resources>

@@ -18,7 +18,7 @@
             android:id="@+id/settings_view_contact_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_view_contact_title"
+            android:text="@string/settings_home_title"
             android:textColor="?attr/colorSecondary"
             android:textSize="24sp"
             tools:layout_editor_absoluteX="32dp"
@@ -46,33 +46,6 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/settings_view_contact_show_notifications_input"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:ems="10" />
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16sp"
-        android:layout_marginBottom="16sp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8sp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/settings_view_contact_buttons_direction_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:padding="0dp"
-            android:text="@string/settings_view_contact_buttons_direction_label"
-            android:textSize="16sp" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/settings_view_contact_buttons_direction_input"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"

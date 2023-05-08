@@ -18,11 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbarStyle="outsideInset"
+        app:layout_constraintBottom_toTopOf="@id/back_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settings_appbar"
-        app:layout_constraintBottom_toTopOf="@id/back_layout"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/settings_appbar">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/widget_frame"

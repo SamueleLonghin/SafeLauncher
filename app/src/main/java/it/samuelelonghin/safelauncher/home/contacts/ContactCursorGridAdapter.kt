@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.info.EmptyActivity
+import it.samuelelonghin.safelauncher.info.ViewContactActivity
 import it.samuelelonghin.safelauncher.support.BaseCursorAdapter
 import it.samuelelonghin.safelauncher.support.contactsList
 
@@ -54,7 +54,7 @@ class ContactCursorGridAdapter(
         //Set onclick
         holder.itemView.setOnClickListener {
             println("Cliccato ${contact.name}")
-            val intent = Intent(context, EmptyActivity::class.java)
+            val intent = Intent(context, ViewContactActivity::class.java)
             intent.putExtra("contact", contact)
             context.startActivity(intent)
         }

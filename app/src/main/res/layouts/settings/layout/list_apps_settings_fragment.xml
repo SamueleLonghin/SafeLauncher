@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_launcher_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|top"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/padding_start_settings"
+    android:paddingTop="@dimen/padding_top_settings"
+    android:paddingEnd="@dimen/padding_end_settings">
+
+
+    <LinearLayout
+        android:id="@+id/settings_contacts_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/settings_list_apps_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_list_apps_title"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="16dp" />
+
+    </LinearLayout>
+
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="16sp"-->
+    <!--                android:layout_marginBottom="16sp"-->
+    <!--                android:gravity="center_horizontal"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                android:paddingHorizontal="8sp">-->
+
+    <!--                <com.google.android.material.textview.MaterialTextView-->
+    <!--                    android:id="@+id/settings_contacts_number_columns_label"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_margin="0dp"-->
+    <!--                    android:padding="0dp"-->
+    <!--                    android:text="@string/settings_contatti_colonne_label"-->
+    <!--                    android:textSize="16sp" />-->
+
+    <!--                <com.google.android.material.com.google.android.material.textview.MaterialTextView.Materialcom.google.android.material.textview.MaterialTextView-->
+    <!--                    android:id="@+id/settings_contacts_number_columns_input_v"-->
+    <!--                    android:layout_width="0dp"-->
+    <!--                    android:layout_height="48dp"-->
+    <!--                    android:layout_weight="1"-->
+    <!--                    android:autofillHints=""-->
+    <!--                    android:ems="10"-->
+    <!--                    android:hint="@string/settings_contatti_colonne_helperText"-->
+    <!--                    android:inputType="number"-->
+    <!--                    android:textColorHint="#757575"-->
+    <!--                    tools:ignore="LabelFor" />-->
+    <!--            </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp"
+        android:showDividers="middle">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/settings_list_apps_display_view_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_list_apps_display_view_label"
+            android:textSize="16sp" />
+
+
+        <Spinner
+            android:id="@+id/settings_list_apps_display_view_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:entries="@array/settings_list_apps_display_view_items"
+            android:spinnerMode="dropdown"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+</LinearLayout>

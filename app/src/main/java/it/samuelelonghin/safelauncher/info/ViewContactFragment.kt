@@ -10,11 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import androidx.recyclerview.widget.LinearLayoutManager
 import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.databinding.NotificationFragmentBinding
 import it.samuelelonghin.safelauncher.databinding.ViewContactFrameBinding
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.support.*
@@ -42,6 +45,7 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
 
         setValues()
         setOnClicks()
+        setNotifications()
         return binding.root
     }
 
@@ -51,17 +55,36 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
         if (contact.photoURI != null) binding.imageViewViewContact.setImageBitmap(contact.getPhotoBitmap())
         else binding.imageViewViewContact.setImageDrawable(null)
 
+
+        if (!launcherPreferences.getBoolean(
+                VIEW_CONTACT_BUTTONS_DIRECTION, VIEW_CONTACT_BUTTONS_DIRECTION_PREF
+            )
+        ) {
+            binding.callLayoutVertical.visibility = View.VISIBLE
+            binding.callLayoutHorizontal.visibility = View.GONE
+        } else {
+            binding.callLayoutVertical.visibility = View.GONE
+            binding.callLayoutHorizontal.visibility = View.VISIBLE
+        }
+
+
         // Rapid Call
         if (!launcherPreferences.getBoolean(
                 VIEW_CONTACT_SHOW_RAPID_CALL, VIEW_CONTACT_SHOW_RAPID_CALL_PREF
             )
-        ) binding.buttonRapidCall.visibility = View.INVISIBLE
+        ) {
+            binding.buttonRapidCallV.visibility = View.INVISIBLE
+            binding.buttonRapidCallH.visibility = View.INVISIBLE
+        }
 
         // Rapid Chat
         if (!launcherPreferences.getBoolean(
                 VIEW_CONTACT_SHOW_RAPID_CHAT, VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
             )
-        ) binding.buttonRapidChat.visibility = View.INVISIBLE
+        ) {
+            binding.buttonRapidChatV.visibility = View.INVISIBLE
+            binding.buttonRapidChatH.visibility = View.INVISIBLE
+        }
 
         // Notifications
         if (!launcherPreferences.getBoolean(
@@ -69,6 +92,11 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
             )
         ) binding.listViewNotification.visibility = View.INVISIBLE
 
+    }
+
+    private fun setNotifications() {
+        binding.listViewNotification.adapter = NotificationsAdapter(requireActivity())
+        binding.listViewNotification.layoutManager = LinearLayoutManager(context)
     }
 
     private fun setOnClicks() {
@@ -105,10 +133,11 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
             this.requireActivity().finish()
         }
 
-        binding.buttonRapidCall.setOnClickListener(handleCall)
-        binding.imageRapidCall.setOnClickListener(handleCall)
+        binding.buttonRapidCallV.setOnClickListener(handleCall)
+        binding.buttonRapidCallH.setOnClickListener(handleCall)
+        binding.buttonRapidChatV.setOnClickListener(handleChat)
+        binding.buttonRapidChatH.setOnClickListener(handleChat)
         binding.backLayout.root.setOnClickListener(handleBack)
-        binding.buttonRapidChat.setOnClickListener(handleChat)
     }
 
     private fun getContactFromIntent(): ContactInfo {

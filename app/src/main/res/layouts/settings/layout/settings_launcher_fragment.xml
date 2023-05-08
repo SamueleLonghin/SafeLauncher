@@ -21,5 +21,8 @@
         <include
             android:id="@+id/widgets_settings"
             layout="@layout/widget_settings_fragment" />
+        <include
+            android:id="@+id/list_apps_settings"
+            layout="@layout/list_apps_settings_fragment" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

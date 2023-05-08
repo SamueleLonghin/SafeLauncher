@@ -8,8 +8,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.color.DynamicColors
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
@@ -31,14 +33,12 @@ class HomeActivity : UIObject, AppCompatActivity() {
     private lateinit var binding: HomeBinding
     private lateinit var view: View
 
-    // timers
-    private var clockTimer = Timer()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         println("HOME :: OnCreate")
+//        DynamicColors.applyToActivitiesIfAvailable(application)
         binding = HomeBinding.inflate(layoutInflater)
         view = binding.root
 
@@ -76,40 +76,15 @@ class HomeActivity : UIObject, AppCompatActivity() {
 
 
 
-        setClock()
         checkDefaultLauncher()
 
     }
 
-    private fun setClock() {
-        // Applying the date / time format (changeable in settings)
-        val dFormat = launcherPreferences.getInt(PREF_DATE_FORMAT, 0)
-        val lowerFMT = resources.getStringArray(R.array.settings_launcher_time_formats_lower)
-
-        val locale = Locale.getDefault()
-
-        val timeFormat = launcherPreferences.getInt(TIME_FORMAT, SimpleDateFormat.SHORT)
-        val dateFormat = launcherPreferences.getInt(DATE_FORMAT, SimpleDateFormat.FULL)
-
-
-        clockTimer = fixedRateTimer("clockTimer", true, 0L, 100) {
-            this@HomeActivity.runOnUiThread {
-                val t = SimpleDateFormat.getTimeInstance(timeFormat, locale).format(Date())
-                if (binding.clockFrame.textViewClock.text != t)
-                    binding.clockFrame.textViewClock.text = t
-
-                val d = SimpleDateFormat.getDateInstance(dateFormat, locale).format(Date())
-                if (binding.clockFrame.textViewDate.text != d)
-                    binding.clockFrame.textViewDate.text = d
-            }
-        }
-    }
 
     override fun onPause() {
         super.onPause()
         println("HOME :: OnPause")
 
-        clockTimer.cancel()
     }
 
     override fun onDestroy() {

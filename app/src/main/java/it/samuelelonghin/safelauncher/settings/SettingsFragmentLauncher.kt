@@ -108,17 +108,31 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         binding.contactsSettings.settingsContactsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
-                CONTACTS_IS_SCROLLABLE, binding.contactsSettings.settingsContactsIsScrollableInput.isChecked
+                CONTACTS_IS_SCROLLABLE,
+                binding.contactsSettings.settingsContactsIsScrollableInput.isChecked
             )
         }
 
         /**
          * View Contact
          */
+        //Buttons Direction
+        binding.viewContactSettings.settingsViewContactButtonsDirectionInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_BUTTONS_DIRECTION, VIEW_CONTACT_BUTTONS_DIRECTION_PREF
+            )
+        binding.viewContactSettings.settingsViewContactButtonsDirectionInput.setOnCheckedChangeListener { _, checked ->
+            println(checked)
+            updatePreference(
+                VIEW_CONTACT_BUTTONS_DIRECTION,
+                binding.viewContactSettings.settingsViewContactButtonsDirectionInput.isChecked
+            )
+        }
         //Rapid Call
-        binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked = launcherPreferences.getBoolean(
-            VIEW_CONTACT_SHOW_RAPID_CALL, VIEW_CONTACT_SHOW_RAPID_CALL_PREF
-        )
+        binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_SHOW_RAPID_CALL, VIEW_CONTACT_SHOW_RAPID_CALL_PREF
+            )
         binding.viewContactSettings.settingsViewContactShowRapidCallInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
@@ -127,9 +141,10 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             )
         }
         //Rapid Chat
-        binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked = launcherPreferences.getBoolean(
-            VIEW_CONTACT_SHOW_RAPID_CHAT, VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
-        )
+        binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked =
+            launcherPreferences.getBoolean(
+                VIEW_CONTACT_SHOW_RAPID_CHAT, VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
+            )
         binding.viewContactSettings.settingsViewContactShowRapidChatInput.setOnCheckedChangeListener { _, checked ->
             println(checked)
             updatePreference(
@@ -190,7 +205,8 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 println("Widgets Rows Ha il fuoco")
             } else {
                 updatePreference(
-                    WIDGET_NUMBER_ROWS, getIntValue(binding.widgetsSettings.settingsWidgetsNumberRowsInput.text)
+                    WIDGET_NUMBER_ROWS,
+                    getIntValue(binding.widgetsSettings.settingsWidgetsNumberRowsInput.text)
                 )
 
             }
@@ -231,6 +247,25 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             intendedSettingsPause = true
             selectApp.launch(intent)
         }
+
+
+        /**
+         * Apps List
+         */
+        val viewInt = launcherPreferences.getInt(
+            APPS_LIST_VIEW_TYPE, APPS_LIST_VIEW_TYPE_PREF
+        )
+        binding.listAppsSettings.settingsListAppsDisplayViewInput.setSelection(viewInt)
+        binding.listAppsSettings.settingsListAppsDisplayViewInput.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View, position: Int, id: Long
+                ) {
+                    updatePreference(APPS_LIST_VIEW_TYPE, position)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
     }
 
 

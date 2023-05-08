@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -93,11 +94,10 @@ class WidgetFragment :
         println("WidgetFragement :: Resume")
         val sharedPreferenceChangeListener =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                if (key == WIDGET_NUMBER_ROWS || key == WIDGET_NUMBER_COLUMNS) {
+                if (key == WIDGET_NUMBER_ROWS || key == WIDGET_NUMBER_COLUMNS || key == WIDGET_IS_SCROLLABLE || key == WIDGET_SHOW_LABELS) {
                     renderGrid()
                 }
             }
-
         launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
         loadWidgets()
         renderGrid()
@@ -145,6 +145,14 @@ class WidgetFragment :
             WIDGET_NUMBER_COLUMNS,
             WIDGET_NUMBER_COLUMNS_PREF
         )
+//        val nRows = launcherPreferences.getInt(
+//            WIDGET_NUMBER_ROWS,
+//            WIDGET_NUMBER_ROWS_PREF
+//        )
+//        println("ALTEZZA: " + nRows * 80)
+//        val lp = LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(context, nRows * 80))
+//
+//        binding.root.layoutParams = lp
 
         val isScrollable = launcherPreferences.getBoolean(
             CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
@@ -153,7 +161,6 @@ class WidgetFragment :
         val gridLayoutManager = object : GridLayoutManager(context, nCols) {
             override fun canScrollVertically() = isScrollable
         }
-
 
         val courseAdapter = WidgetAdapter(context, getWidgets(), mode, selectApp)
 
