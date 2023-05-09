@@ -75,13 +75,15 @@ fun loadApps(packageManager: PackageManager) {
     i.addCategory(Intent.CATEGORY_LAUNCHER)
     val allApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
     for (ri in allApps) {
-        if (ri.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+        if (ri.sourceDir.startsWith("/data/app/")) {
+//        if (ri.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
             val app = AppInfo()
             app.label = ri.loadLabel(packageManager)
             app.packageName = ri.packageName
             app.icon = ri.loadIcon(packageManager)
             loadList.add(app)
-        }
+        } else
+            println("DIR: " + ri.sourceDir)
     }
     loadList.sortBy { it.label.toString() }
 

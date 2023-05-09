@@ -200,6 +200,13 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         binding.widgetsSettings.settingsWidgetsNumberRowsInput.setText(
             launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF).toString()
         )
+        binding.widgetsSettings.settingsWidgetsNumberRows.visibility = if (
+            launcherPreferences.getBoolean(
+                WIDGET_IS_SCROLLABLE,
+                WIDGET_IS_SCROLLABLE_PREF
+            )
+        ) View.VISIBLE else View.GONE
+
         binding.widgetsSettings.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 println("Widgets Rows Ha il fuoco")
@@ -235,6 +242,12 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 WIDGET_IS_SCROLLABLE,
                 binding.widgetsSettings.settingsWidgetsIsScrollableInput.isChecked
             )
+            binding.widgetsSettings.settingsWidgetsNumberRowsInput.visibility = if (
+                launcherPreferences.getBoolean(
+                    WIDGET_IS_SCROLLABLE,
+                    WIDGET_IS_SCROLLABLE_PREF
+                )
+            ) View.VISIBLE else View.GONE
         }
 
         binding.widgetsSettings.widgetsButton.setOnClickListener {

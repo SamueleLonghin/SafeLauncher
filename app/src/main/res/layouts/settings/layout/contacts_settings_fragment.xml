@@ -37,7 +37,8 @@
             android:id="@+id/settings_contacts_number_columns_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

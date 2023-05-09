@@ -24,4 +24,5 @@
     <dimen name="app_text_size">20sp</dimen>
     <dimen name="app_text_size_big">25sp</dimen>
     <dimen name="view_contact_text_size">40sp</dimen>
+    <dimen name="view_contact_notification_margin_horizontal">20sp</dimen>
 </resources>

@@ -140,6 +140,7 @@ class WidgetFragment :
     }
 
     private fun renderGrid() {
+        if (context == null) return
         val context = requireContext()
         val widgetsRecycleView = binding.listWidgets
 

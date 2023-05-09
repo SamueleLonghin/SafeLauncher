@@ -58,20 +58,20 @@ class NotificationsAdapter(
         notificationsListDisplayed.clear()
         notificationsListDisplayed.add(
             InfoNotification(
-                "PRova1",
-                "PROVA !",
-                "CIAO BELLO",
-                Icon.createWithResource(activity, R.drawable.ic_baseline_settings_24)
+                "https://api.whatsapp.com/send?phone=",
+                "2 Messaggi",
+                "2 Messaggi da leggere",
+                Icon.createWithResource(activity, R.drawable.ic_baseline_message_240)
             )
         )
-        notificationsListDisplayed.add(
-            InfoNotification(
-                "PRova2",
-                "PROVA 222 !",
-                "CIAO BELLO",
-                Icon.createWithResource(activity, R.drawable.ic_baseline_battery_6_bar_24)
-            )
-        )
+//        notificationsListDisplayed.add(
+//            InfoNotification(
+//                "PRova2",
+//                "PROVA 222 !",
+//                "CIAO BELLO",
+//                Icon.createWithResource(activity, R.drawable.)
+//            )
+//        )
     }
 
     init {

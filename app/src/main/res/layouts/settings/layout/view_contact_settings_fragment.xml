@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center|top"
+    android:orientation="vertical"
     android:paddingStart="@dimen/padding_start_settings"
     android:paddingTop="@dimen/padding_top_settings"
     android:paddingEnd="@dimen/padding_end_settings">
@@ -49,10 +49,12 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:clickable="false"
             android:ems="10" />
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
