@@ -10,14 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.databinding.NotificationFragmentBinding
 import it.samuelelonghin.safelauncher.databinding.ViewContactFrameBinding
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.support.*
@@ -52,9 +50,7 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     private fun setValues() {
         binding.textViewViewContact.text = contact.name
 
-        if (contact.photoURI != null) binding.imageViewViewContact.setImageBitmap(contact.getPhotoBitmap())
-        else binding.imageViewViewContact.setImageDrawable(null)
-
+        contact.setPhoto(binding.imageViewViewContact)
 
         if (!launcherPreferences.getBoolean(
                 VIEW_CONTACT_BUTTONS_DIRECTION, VIEW_CONTACT_BUTTONS_DIRECTION_PREF
@@ -119,8 +115,8 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
                 }
                 "Telegram" -> {
                     url = VIEW_CONTACT_RAPID_APP_URL["Telegram"]!!
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.setPackage("org.telegram.messenger");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    i.setPackage("org.telegram.messenger")
                 }
                 else -> {
                     url = VIEW_CONTACT_RAPID_APP_URL["Default"]!!

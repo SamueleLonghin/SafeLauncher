@@ -16,10 +16,10 @@ import it.samuelelonghin.safelauncher.support.contactsList
 
 class ContactCursorGridAdapter(
     private val context: Context,
-    cursor: Cursor?
+    cursor: Cursor
 ) : BaseCursorAdapter<ContactCursorGridAdapter.ContactViewHolder>(cursor) {
 
-    private var cursor: Cursor?
+    private var cursor: Cursor
 
     init {
         this.cursor = cursor
@@ -36,8 +36,8 @@ class ContactCursorGridAdapter(
         return ContactViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ContactViewHolder, cursor: Cursor?) {
-        val contact = ContactInfo(cursor!!, context)
+    override fun onBindViewHolder(holder: ContactViewHolder, cursor: Cursor) {
+        val contact = ContactInfo(cursor, context)
 
         // Add this contact to the global contacts list
         contact.appendToList(contactsList)
@@ -45,10 +45,7 @@ class ContactCursorGridAdapter(
         // Populate fields with extracted properties
         // Populate fields with extracted properties
         holder.textViewContact.text = contact.name
-        if (contact.photoURI != null)
-            holder.imageViewContact.setImageBitmap(contact.getPhotoBitmap())
-        else
-            holder.imageViewContact.setImageDrawable(null)
+        contact.setPhoto(holder.imageViewContact)
 
 
         //Set onclick

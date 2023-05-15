@@ -2,6 +2,7 @@ package it.samuelelonghin.safelauncher.home.widgets
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,22 @@ class WidgetAdapter(
     private val mode: WidgetFragment.Mode,
     private var selectApp: ActivityResultLauncher<Intent>
 ) : RecyclerView.Adapter<WidgetAdapter.ViewHolder>() {
+    init {
+//        val sharedPreferenceChangeListener =
+//            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+//                if (key in setOf(
+//                        WIDGET_NUMBER_ROWS, WIDGET_NUMBER_COLUMNS, WIDGET_FORCE_APPS,
+//                        WIDGET_FORCE_SETTINGS, WIDGET_SHOW_LABELS,
+//                        WIDGET_IS_SCROLLABLE
+//                    )
+//                ) {
+//                    print("WIDGETS PREF CHANGED: ")
+//                    println(key)
+//                    notifyDataSetChanged()
+//                }
+//            }
+//        launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.text_view_widget)

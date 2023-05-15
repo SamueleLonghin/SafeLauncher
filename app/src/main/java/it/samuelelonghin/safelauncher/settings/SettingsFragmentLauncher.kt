@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBinding
 import it.samuelelonghin.safelauncher.home.widgets.WidgetFragment
@@ -103,67 +104,39 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 )
             }
         }
-        binding.contactsSettings.settingsContactsIsScrollableInput.isChecked =
-            launcherPreferences.getBoolean(CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF)
-        binding.contactsSettings.settingsContactsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                CONTACTS_IS_SCROLLABLE,
-                binding.contactsSettings.settingsContactsIsScrollableInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.contactsSettings.settingsContactsIsScrollableInput,
+            CONTACTS_IS_SCROLLABLE,
+            CONTACTS_IS_SCROLLABLE_PREF
+        )
 
         /**
          * View Contact
          */
         //Buttons Direction
-        binding.viewContactSettings.settingsViewContactButtonsDirectionInput.isChecked =
-            launcherPreferences.getBoolean(
-                VIEW_CONTACT_BUTTONS_DIRECTION, VIEW_CONTACT_BUTTONS_DIRECTION_PREF
-            )
-        binding.viewContactSettings.settingsViewContactButtonsDirectionInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                VIEW_CONTACT_BUTTONS_DIRECTION,
-                binding.viewContactSettings.settingsViewContactButtonsDirectionInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.viewContactSettings.settingsViewContactButtonsDirectionInput,
+            VIEW_CONTACT_BUTTONS_DIRECTION,
+            VIEW_CONTACT_BUTTONS_DIRECTION_PREF
+        )
         //Rapid Call
-        binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked =
-            launcherPreferences.getBoolean(
-                VIEW_CONTACT_SHOW_RAPID_CALL, VIEW_CONTACT_SHOW_RAPID_CALL_PREF
-            )
-        binding.viewContactSettings.settingsViewContactShowRapidCallInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                VIEW_CONTACT_SHOW_RAPID_CALL,
-                binding.viewContactSettings.settingsViewContactShowRapidCallInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.viewContactSettings.settingsViewContactShowRapidCallInput,
+            VIEW_CONTACT_SHOW_RAPID_CALL,
+            VIEW_CONTACT_SHOW_RAPID_CALL_PREF
+        )
         //Rapid Chat
-        binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked =
-            launcherPreferences.getBoolean(
-                VIEW_CONTACT_SHOW_RAPID_CHAT, VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
-            )
-        binding.viewContactSettings.settingsViewContactShowRapidChatInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                VIEW_CONTACT_SHOW_RAPID_CHAT,
-                binding.viewContactSettings.settingsViewContactShowRapidChatInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.viewContactSettings.settingsViewContactShowRapidChatInput,
+            VIEW_CONTACT_SHOW_RAPID_CHAT,
+            VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
+        )
         //Notifications
-        binding.viewContactSettings.settingsViewContactShowNotificationsInput.isChecked =
-            launcherPreferences.getBoolean(
-                VIEW_CONTACT_SHOW_NOTIFICATIONS, VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
-            )
-        binding.viewContactSettings.settingsViewContactShowNotificationsInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                VIEW_CONTACT_SHOW_NOTIFICATIONS,
-                binding.viewContactSettings.settingsViewContactShowNotificationsInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.viewContactSettings.settingsViewContactShowNotificationsInput,
+            VIEW_CONTACT_SHOW_NOTIFICATIONS,
+            VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
+        )
         // Rapid Chat App
         val appInt: Int = VIEW_CONTACT_RAPID_APP_TO_INDEX[launcherPreferences.getString(
             VIEW_CONTACT_RAPID_CHAT_APP, VIEW_CONTACT_RAPID_CHAT_APP_PREF
@@ -219,29 +192,16 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             }
         }
         //Show text
-        binding.widgetsSettings.settingsWidgetsShowLabelsInput.isChecked =
-            launcherPreferences.getBoolean(
-                WIDGET_SHOW_LABELS, WIDGET_SHOW_LABELS_PREF
-            )
-        binding.widgetsSettings.settingsWidgetsShowLabelsInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                WIDGET_SHOW_LABELS,
-                binding.widgetsSettings.settingsWidgetsShowLabelsInput.isChecked
-            )
-        }
+        setSwitch(
+            binding.widgetsSettings.settingsWidgetsShowLabelsInput, WIDGET_SHOW_LABELS,
+            WIDGET_SHOW_LABELS_PREF
+        )
 
         // Possibilità di scorrere
-        binding.widgetsSettings.settingsWidgetsIsScrollableInput.isChecked =
-            launcherPreferences.getBoolean(
-                WIDGET_IS_SCROLLABLE, WIDGET_IS_SCROLLABLE_PREF
-            )
-        binding.widgetsSettings.settingsWidgetsIsScrollableInput.setOnCheckedChangeListener { _, checked ->
-            println(checked)
-            updatePreference(
-                WIDGET_IS_SCROLLABLE,
-                binding.widgetsSettings.settingsWidgetsIsScrollableInput.isChecked
-            )
+        setSwitch(
+            binding.widgetsSettings.settingsWidgetsIsScrollableInput, WIDGET_IS_SCROLLABLE,
+            WIDGET_IS_SCROLLABLE_PREF
+        ) {
             binding.widgetsSettings.settingsWidgetsNumberRowsInput.visibility = if (
                 launcherPreferences.getBoolean(
                     WIDGET_IS_SCROLLABLE,
@@ -249,16 +209,37 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 )
             ) View.VISIBLE else View.GONE
         }
-
-        binding.widgetsSettings.widgetsButton.setOnClickListener {
-            println("Cliccato widget")
-
-            val intent = Intent(activity, ListActivity::class.java)
-            intent.putExtra("intention", "pick")
-            intent.putExtra("forApp", "0") // for which action we choose the app
-            intent.putExtra("index", 100) // for which action we choose the app
-            intendedSettingsPause = true
-            selectApp.launch(intent)
+        // Forzare presenza Settings
+        setSwitch(
+            binding.widgetsSettings.settingsWidgetsForceSettingsInput,
+            WIDGET_FORCE_SETTINGS,
+            WIDGET_FORCE_SETTINGS_DEF
+        ) { checked: Boolean ->
+            if (checked) {
+                binding.widgetsSettings.settingsWidgetsForceAppsInput.isChecked =
+                    launcherPreferences.getBoolean(
+                        WIDGET_FORCE_APPS,
+                        WIDGET_FORCE_APPS_DEF
+                    )
+            } else {
+                binding.widgetsSettings.settingsWidgetsForceAppsInput.isChecked = true
+            }
+        }
+        // Forzare presenza Apps
+        setSwitch(
+            binding.widgetsSettings.settingsWidgetsForceAppsInput,
+            WIDGET_FORCE_APPS,
+            WIDGET_FORCE_APPS_DEF
+        ) { checked: Boolean ->
+            if (!checked) {
+                binding.widgetsSettings.settingsWidgetsForceSettingsInput.isChecked = true
+            } else {
+                binding.widgetsSettings.settingsWidgetsForceSettingsInput.isChecked =
+                    launcherPreferences.getBoolean(
+                        WIDGET_FORCE_SETTINGS,
+                        WIDGET_FORCE_SETTINGS_DEF
+                    )
+            }
         }
 
 
@@ -281,5 +262,17 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             }
     }
 
-
+    private fun setSwitch(
+        switch: SwitchMaterial,
+        preferenceName: String,
+        preferenceDefault: Boolean,
+        onChange: ((checked: Boolean) -> Unit)? = null
+    ) {
+        switch.isChecked = launcherPreferences.getBoolean(preferenceName, preferenceDefault)
+        switch.setOnCheckedChangeListener { _, checked ->
+            updatePreference(preferenceName, checked)
+            if (onChange != null)
+                onChange(checked)
+        }
+    }
 }

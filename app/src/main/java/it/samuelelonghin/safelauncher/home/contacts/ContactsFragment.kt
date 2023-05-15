@@ -62,7 +62,7 @@ class ContactsFragment :
     private var cursorAdapter: ContactCursorGridAdapter? = null
 
     private val sharedPreferenceChangeListener = OnSharedPreferenceChangeListener { _, key ->
-        if (key == CONTACTS_NUMBER_COLUMNS) {
+        if (key in CONTACTS_PREFERENCES) {
             displayContacts()
         }
     }
@@ -153,32 +153,32 @@ class ContactsFragment :
     }
 
     private fun displayContacts() {
-        if (context == null)
-            return
-        val context = requireContext()
+        val context = context ?: return
+        val nCols = launcherPreferences.getInt(
+            CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
+        )
+
+        val isScrollable = launcherPreferences.getBoolean(
+            CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
+        )
+
+        val layoutManager = object : GridLayoutManager(context, nCols) {
+            override fun canScrollVertically() = isScrollable
+        }
+
+        val contactsRecycleView = binding.listContacts
+        contactsRecycleView.layoutManager = layoutManager
         if (::contactCursor.isInitialized) {
-
             cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
-            val contactsRecycleView = binding.listContacts
-
-            val nCols = launcherPreferences.getInt(
-                CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
-            )
-
-            val isScrollable = launcherPreferences.getBoolean(
-                CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
-            )
-
-            val layoutManager = object : GridLayoutManager(context, nCols) {
-                override fun canScrollVertically() = isScrollable
-            }
-
-
-            contactsRecycleView.layoutManager = layoutManager
             contactsRecycleView.adapter = cursorAdapter
         } else {
             System.err.println("Cursor not loaded in ContactsFragment")
-            //todo display placeholder
+            contactsRecycleView.adapter =
+                ContactPlaceholderCursorAdapter(
+                    context,
+                    nCols * (if (isScrollable) 3 else 2),
+                    permissionLauncher
+                )
         }
     }
 }

@@ -37,6 +37,8 @@ const val WIDGET_NUMBER_COLUMNS = "widget-number-columns"
 const val WIDGET_NUMBER_ROWS = "widget-number-rows"
 const val WIDGET_SHOW_LABELS = "widget-show-labels"
 const val WIDGET_IS_SCROLLABLE = "widget-is-scrollable"
+const val WIDGET_FORCE_SETTINGS = "widget-force-settings"
+const val WIDGET_FORCE_APPS = "widget-force-apps"
 const val CONTACTS_NUMBER_COLUMNS = "contacts-number-columns"
 const val CONTACTS_IS_SCROLLABLE = "contacts-is-scrollable"
 const val WIDGETS_LIST = "widgets-list"
@@ -62,6 +64,8 @@ const val WIDGET_NUMBER_ROWS_PREF = 2
 const val WIDGET_SHOW_LABELS_PREF = false
 const val CONTACTS_IS_SCROLLABLE_PREF = true
 const val WIDGET_IS_SCROLLABLE_PREF = true
+const val WIDGET_FORCE_SETTINGS_DEF = true
+const val WIDGET_FORCE_APPS_DEF = true
 const val VIEW_CONTACT_SHOW_RAPID_CALL_PREF = true
 const val VIEW_CONTACT_SHOW_RAPID_CHAT_PREF = true
 const val VIEW_CONTACT_RAPID_CHAT_APP_PREF = "WhatsApp"
@@ -70,6 +74,18 @@ const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
 const val VIEW_CONTACT_BUTTONS_DIRECTION_PREF = false
 const val APPS_LIST_VIEW_TYPE_PREF = 0
 
+/**
+ * PREFERENCES
+ */
+
+val WIDGETS_PREFERENCES = setOf(
+    WIDGET_NUMBER_ROWS, WIDGET_NUMBER_COLUMNS, WIDGET_FORCE_APPS,
+    WIDGET_FORCE_SETTINGS, WIDGET_SHOW_LABELS, WIDGET_IS_SCROLLABLE
+)
+
+val CONTACTS_PREFERENCES = setOf(
+    CONTACTS_IS_SCROLLABLE, CONTACTS_NUMBER_COLUMNS
+)
 
 /**
  * ACTIVITIES

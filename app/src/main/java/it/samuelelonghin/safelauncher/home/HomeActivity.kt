@@ -5,25 +5,14 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.color.DynamicColors
-import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.Month
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.*
-import kotlin.concurrent.fixedRateTimer
 
 
 class HomeActivity : UIObject, AppCompatActivity() {

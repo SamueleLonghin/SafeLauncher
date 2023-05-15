@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,11 +44,7 @@ class WidgetFragment :
         binding = WidgetFrameBinding.inflate(inflater)
         _view = binding.root
 
-//        val intento = savedInstanceState?.getString("intento", "view")!!
-
-
         println("WidgetFragement :: CreateView con mode: $mode")
-//        println("WidgetFragement :: CreateView con intento: $intento")
 
 
         selectApp =
@@ -94,7 +89,9 @@ class WidgetFragment :
         println("WidgetFragement :: Resume")
         val sharedPreferenceChangeListener =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-                if (key == WIDGET_NUMBER_ROWS || key == WIDGET_NUMBER_COLUMNS || key == WIDGET_IS_SCROLLABLE || key == WIDGET_SHOW_LABELS) {
+                if (key in WIDGETS_PREFERENCES) {
+                    print("WIDGETS PREF CHANGED: ")
+                    println(key)
                     renderGrid()
                 }
             }
@@ -129,11 +126,20 @@ class WidgetFragment :
                 }
             }
         }
-
-        if (!foundSettings)
-            wl.add(WidgetInfo(ACTIVITY_SETTINGS))
-        if (!foundApps)
+        val forceApps = launcherPreferences.getBoolean(
+            WIDGET_FORCE_APPS,
+            WIDGET_FORCE_APPS_DEF
+        )
+        val forceSettings = launcherPreferences.getBoolean(
+            WIDGET_FORCE_SETTINGS,
+            WIDGET_FORCE_SETTINGS_DEF
+        )
+        if (!foundApps && forceApps)
             wl.add(WidgetInfo(ACTIVITY_APPS))
+        // Per avere sempre la possibilità di accedere alle impostazioni devo garantire che ci sia
+        // almeno uno tra apps e settings
+        if (!foundSettings && (forceSettings || (!foundApps && !forceApps)))
+            wl.add(WidgetInfo(ACTIVITY_SETTINGS))
         if (mode == Mode.PICK)
             wl.add(WidgetInfo(ACTIVITY_PICK))
         return wl
@@ -148,14 +154,6 @@ class WidgetFragment :
             WIDGET_NUMBER_COLUMNS,
             WIDGET_NUMBER_COLUMNS_PREF
         )
-//        val nRows = launcherPreferences.getInt(
-//            WIDGET_NUMBER_ROWS,
-//            WIDGET_NUMBER_ROWS_PREF
-//        )
-//        println("ALTEZZA: " + nRows * 80)
-//        val lp = LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(context, nRows * 80))
-//
-//        binding.root.layoutParams = lp
 
         val isScrollable = launcherPreferences.getBoolean(
             WIDGET_IS_SCROLLABLE, WIDGET_IS_SCROLLABLE_PREF

@@ -35,6 +35,15 @@ class ListActivity : AppCompatActivity(), UIObject {
 
     override fun onStart() {
         super<AppCompatActivity>.onStart()
+        // get info about which action this activity is open for
+        val bundle = intent.extras
+        if (bundle != null) {
+            intention = bundle.getString("intention")!! // why choose an app
+            if (intention != "view") {
+//                forApp = bundle.getString("forApp")!! // which app we choose
+                index = bundle.getInt("index") // which app we choose
+            }
+        }
         super<UIObject>.onStart()
     }
 
@@ -54,15 +63,7 @@ class ListActivity : AppCompatActivity(), UIObject {
     }
 
     override fun adjustLayout() {
-        // get info about which action this activity is open for
-        val bundle = intent.extras
-        if (bundle != null) {
-            intention = bundle.getString("intention")!! // why choose an app
-            if (intention != "view") {
-//                forApp = bundle.getString("forApp")!! // which app we choose
-                index = bundle.getInt("index") // which app we choose
-            }
-        }
+
 
         // Hide tabs for the "view" action
         if (intention == "view") {

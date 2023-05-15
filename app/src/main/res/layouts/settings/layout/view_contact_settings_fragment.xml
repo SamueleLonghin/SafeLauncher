@@ -49,7 +49,6 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:clickable="false"
             android:ems="10" />
 
 

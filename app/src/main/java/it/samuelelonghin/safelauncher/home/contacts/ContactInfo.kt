@@ -8,27 +8,25 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.MediaStore
+import android.widget.ImageView
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.Serializable
 
 
-class ContactInfo(cursor: Cursor, context: Context) : Serializable {
+class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(context),
+    Serializable {
 
-    @Transient
-    private var context: Context
-
-    var id: String
-    var name: String
-    var mobileNumber: String? = null
-    var email: String? = null
-
-    var photoURI: String? = null
+//    var id: String
+//    var name: String
+//    var mobileNumber: String? = null
+//    var email: String? = null
+//
+//    var photoURI: String? = null
 
 //    lateinit var notification: MutableList<Notification>
 
     init {
-        this.context = context
         name =
             cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME))
         photoURI =
@@ -40,7 +38,7 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
         if (cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER))
                 .toInt() > 0
         ) {
-            val cr: ContentResolver = this.context.contentResolver
+            val cr: ContentResolver = this._context.contentResolver
 
             // Query phone here. Covered next
 
@@ -93,36 +91,40 @@ class ContactInfo(cursor: Cursor, context: Context) : Serializable {
         }
     }
 
-    fun getPhotoBitmap(): Bitmap? {
-        var photo: Bitmap? = null
-//        var photo: Bitmap = BitmapFactory.decodeResource(
-//            context.resources,
-//            R.drawable.ic_launcher_background
-//        )
+    override fun getPhotoBitmap(): Bitmap {
         if (photoURI != null) {
             try {
-                photo = MediaStore.Images.Media
+                return MediaStore.Images.Media
                     .getBitmap(
-                        context.contentResolver,
+                        _context.contentResolver,
                         Uri.parse(photoURI)
                     )
             } catch (e: FileNotFoundException) {
-                // TODO Auto-generated catch block
                 e.printStackTrace()
             } catch (e: IOException) {
-                // TODO Auto-generated catch block
                 e.printStackTrace()
             }
         }
-        return photo
+        return super.getPhotoBitmap()
     }
 
-    fun appendToList(list: MutableMap<String, ContactInfo>) {
-        //todo gestire il sovrascrimento delle notifiche
-        list.put(id, this)
-    }
-
-    fun setContext(context: Context) {
-        this.context = context
+    override fun setPhoto(imageView: ImageView) {
+        if (photoURI != null) {
+            try {
+                imageView.setImageBitmap(
+                    MediaStore.Images.Media
+                        .getBitmap(
+                            _context.contentResolver,
+                            Uri.parse(photoURI)
+                        )
+                )
+                return
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        super.setPhoto(imageView)
     }
 }
