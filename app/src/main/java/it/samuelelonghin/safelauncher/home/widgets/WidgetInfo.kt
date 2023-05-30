@@ -1,15 +1,13 @@
 package it.samuelelonghin.safelauncher.home.widgets
 
 import android.content.Context
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
 import android.net.Uri
-import android.os.Build
-import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.home.widgets.actions.Action
+import it.samuelelonghin.safelauncher.home.widgets.actions.ActionFlash
+import it.samuelelonghin.safelauncher.home.widgets.actions.ActionMute
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -17,6 +15,7 @@ class WidgetInfo(name: String, type: WidgetType) {
     //    lateinit var mode: WidgetFragment.Mode
     var name: String
     var type: WidgetType
+    var action: Action? = null
     var app: String? = null
     private var uri: Uri? = null
     var activity: Class<*>? = null
@@ -39,11 +38,19 @@ class WidgetInfo(name: String, type: WidgetType) {
         this.uri = uri
     }
 
-    constructor(name: String, type: WidgetType, app: String) : this(
+    constructor(name: String, type: WidgetType, value: String) : this(
         name,
         type,
     ) {
-        this.app = app
+        when (type) {
+            WidgetType.APP -> this.app = value
+            WidgetType.ACTION -> this.action = when (value) {
+                ACTION_MUTE -> ActionMute()
+                ACTION_FLASH -> ActionFlash()
+                else -> ActionMute()
+            }
+            WidgetType.ACTIVITY -> activity = ACTIVITY_TO_CLASS[value]!!
+        }
     }
 
     constructor(name: String, type: WidgetType, activity: Class<*>) : this(
@@ -59,18 +66,26 @@ class WidgetInfo(name: String, type: WidgetType) {
         ACTIVITY_TO_CLASS[activity]!!
     )
 
+    constructor(action: Action) : this(
+        "Action Creata",
+        WidgetType.ACTION,
+    ) {
+        this.action = action
+    }
+
     fun setIcon(imageView: ImageView, context: Context) {
         when (type) {
             WidgetType.ACTIVITY -> {
-                val icon = ResourcesCompat.getDrawable(
-                    context.resources,
-                    ACTIVITY_TO_RESOURCE_ICON[name]!!,
-                    context.theme
-                )
-                icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
-                imageView.setImageDrawable(icon)
+//                val icon = ResourcesCompat.getDrawable(
+//                    context.resources,
+//                    ACTIVITY_TO_RESOURCE_ICON[name]!!,
+//                    context.theme
+//                )
+//                icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
+//                imageView.setImageDrawable(icon)
+                imageView.setImageDrawable(setIconTint(context, ACTIVITY_TO_RESOURCE_ICON[name]!!))
             }
-            WidgetType.ACTION -> imageView.setImageResource(ACTION_TO_RESOURCE_ICON[name]!![0])
+            WidgetType.ACTION -> imageView.setImageDrawable(setIconTint(context, action!!.icon))
 
             else -> {
                 try {

@@ -63,8 +63,6 @@ class ListActivity : AppCompatActivity(), UIObject {
     }
 
     override fun adjustLayout() {
-
-
         // Hide tabs for the "view" action
         if (intention == "view") {
             binding.listTabs.visibility = View.GONE

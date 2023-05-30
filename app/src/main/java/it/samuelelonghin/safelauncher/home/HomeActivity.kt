@@ -7,9 +7,13 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
+import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import it.samuelelonghin.safelauncher.support.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +47,10 @@ class HomeActivity : UIObject, AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             loadApps(packageManager)
         }
+        activityResultNotificationPolicy =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                println("Permesso garantito" + result)
+            }
         // Initialise layout
         setContentView(view)
     }

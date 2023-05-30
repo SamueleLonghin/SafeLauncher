@@ -150,7 +150,7 @@ class AppsRecyclerAdapter(
                     val returnIntent = Intent()
                     returnIntent.putExtra("value", appPackageName)
                     returnIntent.putExtra("name", appName)
-                    returnIntent.putExtra("type", WidgetInfo.WidgetType.APP)
+                    returnIntent.putExtra("type", WidgetInfo.WidgetType.APP.ordinal)
                     returnIntent.putExtra("index", index)
 
                     activity.setResult(REQUEST_CHOOSE_APP, returnIntent)

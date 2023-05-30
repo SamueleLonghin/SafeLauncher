@@ -9,7 +9,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.*
+import it.samuelelonghin.safelauncher.support.ACTION_FLASH
+import it.samuelelonghin.safelauncher.support.ACTION_MUTE
 import it.samuelelonghin.safelauncher.support.REQUEST_CHOOSE_APP
 
 /**
@@ -34,7 +37,14 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
             val pos = adapterPosition
             val content = othersList[pos]
 
-            returnChoiceIntent(index, content.data.toString())
+            val returnIntent = Intent()
+            returnIntent.putExtra("value", content.data)
+            returnIntent.putExtra("name", content.label)
+            returnIntent.putExtra("type", WidgetType.ACTION.ordinal)
+            returnIntent.putExtra("index", index)
+
+            activity.setResult(REQUEST_CHOOSE_APP, returnIntent)
+            activity.finish()
         }
 
         init {
@@ -65,15 +75,15 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
         othersList = ArrayList()
         othersList.add(
             OtherInfo(
-                activity.getString(R.string.list_other_settings),
-                "launcher:settings",
-                activity.getString(R.string.fas_settings)
+                activity.getString(R.string.silenzioso),
+                ACTION_MUTE,
+                activity.getString(R.string.fas_bars)
             )
         )
         othersList.add(
             OtherInfo(
-                activity.getString(R.string.list_other_list),
-                "launcher:choose",
+                activity.getString(R.string.silenzioso),
+                ACTION_FLASH,
                 activity.getString(R.string.fas_bars)
             )
         )

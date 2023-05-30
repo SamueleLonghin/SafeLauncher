@@ -18,7 +18,6 @@ import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBindin
 import it.samuelelonghin.safelauncher.home.widgets.WidgetFragment
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
-import it.samuelelonghin.safelauncher.list.ListActivity
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -32,6 +31,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
     private lateinit var binding: SettingsLauncherFragmentBinding
     private lateinit var selectApp: ActivityResultLauncher<Intent>
+    private lateinit var setAuth: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -50,11 +50,24 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                     val t: WidgetType = WidgetType.values()[typeId]
                     val v = extras.getString("value")!!
                     val n = extras.getString("name")!!
-//                    val icon = requireActivity().packageManager.getApplicationIcon(v)
                     println("RESULT: $result")
-                    println("index: $i, value: $v, type: $t, name: $n")
+                    println("index: $i, value: $v, type: $t, name: $n, oldT: $typeId")
                     val ws = WidgetSerial(i, v, t)
                     setWidgetListItem(i, ws)
+                } else System.err.println("RESULT: $result")
+            }
+
+        setAuth =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == REQUEST_AUTH_FOR_SETTINGS) {
+                    val extras = result.data!!.extras!!
+                    val pass = extras.getString("value")
+                    if (pass != null && pass.length == SETTINGS_AUTH_LENGTH) {
+                        println("NUOVA PASSWORD: $pass")
+                        intendedSettingsPause = false
+                        updatePreference(SETTINGS_REQUIRES_AUTH, true)
+                        updatePreference(SETTINGS_AUTH, pass)
+                    }
                 } else System.err.println("RESULT: $result")
             }
         return binding.root
@@ -89,6 +102,21 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
 
     override fun setOnClicks() {
+        /**
+         * Home
+         */
+        binding.homeSettings.settingsHomeRequireAuthForSettingsInput.isChecked =
+            launcherPreferences.getBoolean(
+                SETTINGS_REQUIRES_AUTH, SETTINGS_REQUIRES_AUTH_DEF
+            )
+        binding.homeSettings.settingsHomeRequireAuthForSettingsInput.setOnCheckedChangeListener { _, checked ->
+            if (checked) {
+                val intent = Intent(activity, AuthActivity::class.java)
+                intent.putExtra("intention", AuthActivity.Intention.CREATE.toString())
+                intendedSettingsPause = true
+                setAuth.launch(intent)
+            } else updatePreference(SETTINGS_REQUIRES_AUTH, false)
+        }
         /**
          * Contacts
          */

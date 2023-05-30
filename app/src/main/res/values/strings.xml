@@ -58,6 +58,11 @@
     <string name="settings_list_apps_display_view_label">Modalità di visualizzazione</string>
     <string name="settings_widgets_force_settings_label">Obbliga presenza Impostazioni</string>
     <string name="settings_widgets_force_apps_label">Obbliga presenza Apps</string>
+    <string name="settings_home_require_password_for_settings_label">"Limita accesso Impostazioni "</string>
+    <string name="write_password_to_auth">Digita la password per accedere alle impostazioni oppure premi il pulsante indietro</string>
+    <string name="silenzioso">Silenzioso</string>
+    <string name="mute">Silenzioso</string>
+    <string name="unmute">Suono</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

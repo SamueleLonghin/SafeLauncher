@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.WidgetFrameBinding
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType.ACTIVITY
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType.APP
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType.*
 import it.samuelelonghin.safelauncher.support.*
 
 class WidgetFragment :
@@ -59,7 +58,7 @@ class WidgetFragment :
                     val n = extras.getString("name")!!
 //                    val icon = requireActivity().packageManager.getApplicationIcon(v)
                     println("RESULT: $result")
-                    println("index: $i, value: $v, type: $t, name: $n")
+                    println("index: $i, value: $v, type: $t, name: $n, oldType: $typeId")
                     val ws = WidgetSerial(i, v, t)
                     setWidgetListItem(i, ws)
                 } else System.err.println("RESULT: $result")
@@ -106,14 +105,13 @@ class WidgetFragment :
 
         val wl: MutableList<WidgetInfo> = mutableListOf()
         for (ws in widgetsList) {
-            if (ws.type == APP) {
-                wl += WidgetInfo(
+            when (ws.type) {
+                APP -> wl += WidgetInfo(
                     "Def",
                     ws.type,
                     ws.value
                 )
-            } else if (ws.type == ACTIVITY) {
-                when (ws.value) {
+                ACTIVITY -> when (ws.value) {
                     ACTIVITY_APPS -> {
                         wl += WidgetInfo(ACTIVITY_APPS)
                         foundApps = true
@@ -124,6 +122,11 @@ class WidgetFragment :
                     }
                     else -> wl += (WidgetInfo(ws.value))
                 }
+                ACTION -> wl += WidgetInfo(
+                    "ACTION IN WIG FRAG ",
+                    ws.type,
+                    ws.value
+                )
             }
         }
         val forceApps = launcherPreferences.getBoolean(
@@ -139,7 +142,8 @@ class WidgetFragment :
         // Per avere sempre la possibilità di accedere alle impostazioni devo garantire che ci sia
         // almeno uno tra apps e settings
         if (!foundSettings && (forceSettings || (!foundApps && !forceApps)))
-            wl.add(WidgetInfo(ACTIVITY_SETTINGS))
+            wl.add(WidgetInfo(ACTIVITY_AUTH))
+//            wl.add(WidgetInfo(ACTIVITY_SETTINGS))
         if (mode == Mode.PICK)
             wl.add(WidgetInfo(ACTIVITY_PICK))
         return wl

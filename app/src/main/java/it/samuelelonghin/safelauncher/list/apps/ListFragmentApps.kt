@@ -70,7 +70,7 @@ class ListFragmentApps(private val intention: String, private val index: Int = D
 
         if (intention == "view" && launcherPreferences.getBoolean(
                 OPEN_KEYBOARD_ON_SEARCH,
-                true
+                OPEN_KEYBOARD_ON_SEARCH_DEF
             )
         ) {
             openSoftKeyboard(requireContext(), binding.listAppsSearchview)

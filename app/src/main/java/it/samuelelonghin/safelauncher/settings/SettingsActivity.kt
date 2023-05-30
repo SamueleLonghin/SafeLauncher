@@ -1,6 +1,10 @@
 package it.samuelelonghin.safelauncher.settings
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import it.samuelelonghin.safelauncher.databinding.SettingsBinding
 import it.samuelelonghin.safelauncher.support.*
@@ -8,7 +12,7 @@ import it.samuelelonghin.safelauncher.support.*
 
 class SettingsActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: SettingsBinding
-
+    private lateinit var auth: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = SettingsBinding.inflate(layoutInflater)
@@ -29,7 +33,6 @@ class SettingsActivity : AppCompatActivity(), UIObject {
         super.onPause()
         if (!intendedSettingsPause) finish()
     }
-
 
     override fun setOnClicks() {
         binding.backLayout.root.setOnClickListener { finish() }

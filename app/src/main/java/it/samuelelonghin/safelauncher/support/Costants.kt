@@ -2,11 +2,13 @@ package it.samuelelonghin.safelauncher.support
 
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.ListActivity
+import it.samuelelonghin.safelauncher.settings.AuthActivity
 import it.samuelelonghin.safelauncher.settings.SettingsActivity
 
 
 const val PREF_VERSION = "version"
 const val DEFAULT_INDEX = 1000
+const val SETTINGS_AUTH_LENGTH = 6
 
 /**
  * THEME
@@ -28,6 +30,8 @@ const val REQUEST_PICK_IMAGE = 1
 const val REQUEST_CHOOSE_APP = 2
 const val REQUEST_UNINSTALL = 3
 const val REQUEST_PERMISSION_STORAGE = 4
+const val REQUEST_AUTH_FOR_SETTINGS = 5
+const val REQUEST_PERMISSION_NOTIFICATION_POLICY = 6
 
 /**
  * SHARED PREFERENCES
@@ -53,6 +57,8 @@ const val DATE_FORMAT = "date-format"
 const val TIME_FORMAT = "time-format"
 const val VIEW_CONTACT_BUTTONS_DIRECTION = "view-contact-buttons-direction"
 const val APPS_LIST_VIEW_TYPE = "apps-list-view-type"
+const val SETTINGS_REQUIRES_AUTH = "settings-requires-auth"
+const val SETTINGS_AUTH = "settings-auth"
 
 /**
  * DEFAULT PREFERENCES
@@ -73,6 +79,10 @@ const val VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF = true
 const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
 const val VIEW_CONTACT_BUTTONS_DIRECTION_PREF = false
 const val APPS_LIST_VIEW_TYPE_PREF = 0
+const val SETTINGS_REQUIRES_AUTH_DEF = false
+const val SETTINGS_AUTH_DEF = ""
+const val OPEN_KEYBOARD_ON_SEARCH_DEF = true
+
 
 /**
  * PREFERENCES
@@ -91,19 +101,21 @@ val CONTACTS_PREFERENCES = setOf(
  * ACTIVITIES
  */
 const val ACTIVITY_APPS = "activity_apps"
+const val ACTIVITY_AUTH = "activity_auth"
 const val ACTIVITY_SETTINGS = "activity_settings"
 const val ACTIVITY_PICK = "activity_pick"
 
 /**
  * ACTIONS
  */
-const val ACTION_NOTIFICATIONS = "action_notifications"
+const val ACTION_MUTE = "action_notifications"
 const val ACTION_FLASH = "action_flash"
 const val ACTION_ADD_WIDGET = "action_add_widget"
 
 
 val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(
     ACTIVITY_SETTINGS to SettingsActivity::class.java,
+    ACTIVITY_AUTH to AuthActivity::class.java,
     ACTIVITY_APPS to ListActivity::class.java,
     ACTIVITY_PICK to ListActivity::class.java,
 ).withDefault { SettingsActivity::class.java }
@@ -111,17 +123,19 @@ val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(
 val ACTIVITY_TO_NAME: Map<String, String> = mapOf(
     ACTIVITY_SETTINGS to "Settings",
     ACTIVITY_APPS to "APPS",
+    ACTIVITY_AUTH to "Settings",
     ACTIVITY_PICK to "Scegli"
 ).withDefault { "Errore" }
 
 val ACTIVITY_TO_RESOURCE_ICON: Map<String, Int> = mapOf(
     ACTIVITY_SETTINGS to R.drawable.ic_baseline_settings_24,
+    ACTIVITY_AUTH to R.drawable.ic_baseline_settings_24,
     ACTIVITY_APPS to R.drawable.ic_baseline_apps_24,
     ACTIVITY_PICK to R.drawable.ic_baseline_add_240
 ).withDefault { R.drawable.ic_baseline_error_24 }
 
 val ACTION_TO_RESOURCE_ICON: Map<String, List<Int>> = mapOf(
-    ACTION_NOTIFICATIONS to listOf(
+    ACTION_MUTE to listOf(
         R.drawable.ic_baseline_notifications_active_24,
         R.drawable.ic_baseline_notifications_off_24
     ),
@@ -132,7 +146,7 @@ val ACTION_TO_RESOURCE_ICON: Map<String, List<Int>> = mapOf(
 ).withDefault { listOf(R.drawable.ic_baseline_error_24) }
 
 val ACTION_TO_NAME: Map<String, List<String>> = mapOf(
-    ACTION_NOTIFICATIONS to listOf(
+    ACTION_MUTE to listOf(
         "Mute",
         "UnMute"
     ),

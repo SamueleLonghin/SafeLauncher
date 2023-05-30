@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.Window
@@ -16,6 +17,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
@@ -46,6 +48,7 @@ fun checkUserCanCall(activity: Activity): Boolean {
     }
     return true
 }
+
 
 fun setWindowFlags(window: Window) {
     window.setFlags(0, 0) // clear flags
@@ -317,4 +320,15 @@ fun openSoftKeyboard(context: Context, view: View) {
 fun dpToPx(context: Context, dp: Int): Int {
     val scale = context.resources.displayMetrics.density
     return (dp * scale + 0.5f).toInt()
+}
+
+
+fun setIconTint(context: Context, icon: Int): Drawable? {
+    val icon = ResourcesCompat.getDrawable(
+        context.resources,
+        icon,
+        context.theme
+    )
+    icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
+    return icon
 }

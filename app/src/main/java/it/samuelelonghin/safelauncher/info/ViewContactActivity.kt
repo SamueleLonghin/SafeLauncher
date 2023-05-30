@@ -12,7 +12,6 @@ class ViewContactActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: EmptyActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("Empty :: onCreate")
         binding = EmptyActivityBinding.inflate(layoutInflater)
         val view = binding.root
 
@@ -34,8 +33,6 @@ class ViewContactActivity : AppCompatActivity(), UIObject {
     override fun onStart() {
         super<AppCompatActivity>.onStart()
         super<UIObject>.onStart()
-        println("Empty :: start")
-
     }
 
 }

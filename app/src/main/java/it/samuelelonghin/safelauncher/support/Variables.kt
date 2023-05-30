@@ -1,10 +1,14 @@
 package it.samuelelonghin.safelauncher.support
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfoPlaceholder
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 
 lateinit var launcherPreferences: SharedPreferences
@@ -28,3 +32,9 @@ var intendedSettingsPause = false // know when to close
 
 var widgetsList: MutableList<WidgetSerial> = mutableListOf()
 
+
+/***
+ * Activity results
+ */
+
+lateinit var activityResultNotificationPolicy: ActivityResultLauncher<Intent>
