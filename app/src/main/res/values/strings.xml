@@ -63,6 +63,8 @@
     <string name="silenzioso">Silenzioso</string>
     <string name="mute">Silenzioso</string>
     <string name="unmute">Suono</string>
+    <string name="notification_servie_name">Gestore Notifiche</string>
+    <string name="flash">Flash</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>

@@ -3,6 +3,7 @@ package it.samuelelonghin.safelauncher.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -164,7 +165,18 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             binding.viewContactSettings.settingsViewContactShowNotificationsInput,
             VIEW_CONTACT_SHOW_NOTIFICATIONS,
             VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
-        )
+        ) { checked ->
+            if (checked) {
+                if (!checkNotificationListenerPermission(requireContext())) {
+                    //todo aggiungere schermata di avviso
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
+                    startActivity(intent)
+                }
+            }
+        }
+
+
         // Rapid Chat App
         val appInt: Int = VIEW_CONTACT_RAPID_APP_TO_INDEX[launcherPreferences.getString(
             VIEW_CONTACT_RAPID_CHAT_APP, VIEW_CONTACT_RAPID_CHAT_APP_PREF
@@ -227,7 +239,8 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
         // Possibilità di scorrere
         setSwitch(
-            binding.widgetsSettings.settingsWidgetsIsScrollableInput, WIDGET_IS_SCROLLABLE,
+            binding.widgetsSettings.settingsWidgetsIsScrollableInput,
+            WIDGET_IS_SCROLLABLE,
             WIDGET_IS_SCROLLABLE_PREF
         ) {
             binding.widgetsSettings.settingsWidgetsNumberRowsInput.visibility = if (

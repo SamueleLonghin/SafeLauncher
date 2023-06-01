@@ -1,12 +1,15 @@
 package it.samuelelonghin.safelauncher.support
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -19,12 +22,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.list.apps.AppInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import it.samuelelonghin.safelauncher.list.ListActivity
+import it.samuelelonghin.safelauncher.list.apps.AppInfo
+import it.samuelelonghin.safelauncher.notification.NotificationListener
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.Serializable
 
 
@@ -323,12 +329,43 @@ fun dpToPx(context: Context, dp: Int): Int {
 }
 
 
-fun setIconTint(context: Context, icon: Int): Drawable? {
-    val icon = ResourcesCompat.getDrawable(
+fun setIconTintPrimary(context: Context, icon: Int): Drawable {
+    val r = ResourcesCompat.getDrawable(
         context.resources,
         icon,
         context.theme
     )
-    icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
-    return icon
+    r!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
+    return r
+}
+
+fun setIconTintSecondary(context: Context, icon: Int): Drawable {
+    val r = ResourcesCompat.getDrawable(
+        context.resources,
+        icon,
+        context.theme
+    )
+    r!!.setTint(context.getColorFromAttr(android.R.attr.colorBackground))
+    return r
+}
+
+fun checkNotificationListenerPermission(context: Context): Boolean {
+    val cn = ComponentName(context, NotificationListener::class.java)
+    val flat: String =
+        Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+    return flat.contains(cn.flattenToString())
+}
+
+
+fun getBundleAsJson(bundle: Bundle): String {
+    val json = JSONObject()
+    for (key in bundle.keySet()) {
+        try {
+            // json.put(key, bundle.get(key)); see edit below
+            json.put(key, JSONObject.wrap(bundle.get(key)))
+        } catch (e: JSONException) {
+            //Handle exception here
+        }
+    }
+    return json.toString()
 }

@@ -82,7 +82,7 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
         )
         othersList.add(
             OtherInfo(
-                activity.getString(R.string.silenzioso),
+                activity.getString(R.string.flash),
                 ACTION_FLASH,
                 activity.getString(R.string.fas_bars)
             )

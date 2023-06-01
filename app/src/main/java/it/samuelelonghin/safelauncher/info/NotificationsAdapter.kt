@@ -2,9 +2,6 @@ package it.samuelelonghin.safelauncher.info
 
 import android.app.Activity
 import android.app.Notification
-import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.Icon
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +9,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.support.*
 import java.util.*
 
 
 /**
  * A [RecyclerView] (efficient scrollable list) containing all apps on the users device.
- * The apps details are represented by [AppInfo].
+ * The apps details are represented by [InfoNotification].
  *
  * @param activity - the activity this is in
  */
 class NotificationsAdapter(
-    val activity: Activity,
-) :
-    RecyclerView.Adapter<NotificationsAdapter.ViewHolder>() {
+    val activity: Activity, private val notifications: MutableMap<String, MutableList<Notification>>
+) : RecyclerView.Adapter<NotificationsAdapter.ViewHolder>() {
 
     private val notificationsListDisplayed: MutableList<InfoNotification>
 
@@ -34,14 +29,29 @@ class NotificationsAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val notification = notificationsListDisplayed[i]
 
+        //Text
+        viewHolder.textViewTitle.text = notification.title
 
-        viewHolder.textViewName.text = notification.name
-        viewHolder.img.setImageIcon(notification.icon)
+        //Content
+        if (notification.content != null)
+            viewHolder.textViewContent.text = notification.title
+        else
+            viewHolder.textViewContent.visibility = View.GONE
+
+        //Icon
+        if (notification.app != null)
+            viewHolder.img.setImageDrawable(getIconFromPackage(activity, notification.app))
+        else
+            viewHolder.img.visibility = View.GONE
 
 
         // ensure onClicks are actually caught
-        viewHolder.textViewName.setOnClickListener { viewHolder.onClick(viewHolder.textViewName) }
-        viewHolder.img.setOnClickListener { viewHolder.onClick(viewHolder.img) }
+        viewHolder.itemView.setOnClickListener {
+            if (notification.intent != null)
+                launchPendingIntent(notification.intent!!)
+            else if (notification.app != null)
+                launchApp(notification.app, activity)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -56,22 +66,14 @@ class NotificationsAdapter(
 
     private fun prepareApps() {
         notificationsListDisplayed.clear()
-        notificationsListDisplayed.add(
-            InfoNotification(
-                "https://api.whatsapp.com/send?phone=",
-                "2 Messaggi",
-                "2 Messaggi da leggere",
-                Icon.createWithResource(activity, R.drawable.ic_baseline_message_240)
-            )
+        notifications.forEach { (k, v) ->
+
+            notificationsListDisplayed += InfoNotification(k, v)
+        }
+        if (notifications.isEmpty()) notificationsListDisplayed += InfoNotification(
+            null,
+            "Non hai messaggi",
         )
-//        notificationsListDisplayed.add(
-//            InfoNotification(
-//                "PRova2",
-//                "PROVA 222 !",
-//                "CIAO BELLO",
-//                Icon.createWithResource(activity, R.drawable.)
-//            )
-//        )
     }
 
     init {
@@ -80,18 +82,11 @@ class NotificationsAdapter(
     }
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
-        var textViewName: TextView = itemView.findViewById(R.id.notification_name)
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var textViewTitle: TextView = itemView.findViewById(R.id.notification_title)
+
         var textViewContent: TextView = itemView.findViewById(R.id.notification_content)
         var img: ImageView = itemView.findViewById(R.id.notification_icon) as ImageView
-
-        override fun onClick(v: View) {
-        }
-
-        init {
-            itemView.setOnClickListener(this)
-        }
     }
 
 

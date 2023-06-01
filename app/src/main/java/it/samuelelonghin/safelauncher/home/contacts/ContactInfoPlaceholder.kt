@@ -5,8 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
-import androidx.core.content.res.ResourcesCompat
 import it.samuelelonghin.safelauncher.R
+import it.samuelelonghin.safelauncher.support.setIconTintPrimary
+import it.samuelelonghin.safelauncher.support.setIconTintSecondary
 import java.io.Serializable
 import kotlin.random.Random
 
@@ -40,21 +41,28 @@ open class ContactInfoPlaceholder(context: Context, name: String, id: String) : 
             R.drawable.ic_baseline_face_6_24,
             R.drawable.ic_baseline_face_2_24
         )
-        return BitmapFactory.decodeResource(_context.resources, users[Random.nextInt(users.size)]);
+        return BitmapFactory.decodeResource(_context.resources, users[Random.nextInt(users.size)])
     }
 
-    open fun getPhotoDrawable(): Drawable {
+    open fun getRandomDrawable(): Int {
         val users = listOf(
             R.drawable.ic_baseline_face_24,
             R.drawable.ic_baseline_face_3_24,
             R.drawable.ic_baseline_face_6_24,
             R.drawable.ic_baseline_face_2_24
         )
-        return ResourcesCompat.getDrawable(
-            _context.resources,
-            users[Random.nextInt(users.size)],
-            _context.theme
-        )!!
+        return users[Random.nextInt(users.size)]
+    }
+
+    open fun getPhotoDrawable(): Drawable {
+        return setIconTintSecondary(_context, getRandomDrawable())
+
+//        return ResourcesCompat.getDrawable(
+//            _context.resources,
+//            users[Random.nextInt(users.size)],
+//            _context.theme
+//        )!!
+
     }
 
     open fun setPhoto(imageView: ImageView) {

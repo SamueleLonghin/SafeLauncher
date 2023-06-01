@@ -1,16 +1,13 @@
 package it.samuelelonghin.safelauncher.home.widgets.actions
 
-import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.provider.Settings
 import android.widget.Toast
-import androidx.test.core.app.ApplicationProvider
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.support.activityResultNotificationPolicy
-import it.samuelelonghin.safelauncher.support.setIconTint
 
 
 class ActionMute : Action("Mute", 0) {

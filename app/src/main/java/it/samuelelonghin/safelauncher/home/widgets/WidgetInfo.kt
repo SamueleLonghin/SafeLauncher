@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import it.samuelelonghin.safelauncher.home.widgets.actions.Action
 import it.samuelelonghin.safelauncher.home.widgets.actions.ActionFlash
 import it.samuelelonghin.safelauncher.home.widgets.actions.ActionMute
@@ -12,7 +11,6 @@ import it.samuelelonghin.safelauncher.support.*
 
 
 class WidgetInfo(name: String, type: WidgetType) {
-    //    lateinit var mode: WidgetFragment.Mode
     var name: String
     var type: WidgetType
     var action: Action? = null
@@ -75,24 +73,16 @@ class WidgetInfo(name: String, type: WidgetType) {
 
     fun setIcon(imageView: ImageView, context: Context) {
         when (type) {
-            WidgetType.ACTIVITY -> {
-//                val icon = ResourcesCompat.getDrawable(
-//                    context.resources,
-//                    ACTIVITY_TO_RESOURCE_ICON[name]!!,
-//                    context.theme
-//                )
-//                icon!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
-//                imageView.setImageDrawable(icon)
-                imageView.setImageDrawable(setIconTint(context, ACTIVITY_TO_RESOURCE_ICON[name]!!))
-            }
-            WidgetType.ACTION -> imageView.setImageDrawable(setIconTint(context, action!!.icon))
+            WidgetType.ACTIVITY ->
+                imageView.setImageDrawable(setIconTintPrimary(context, ACTIVITY_TO_RESOURCE_ICON[name]!!))
+            WidgetType.ACTION -> imageView.setImageDrawable(setIconTintPrimary(context, action!!.icon))
 
             else -> {
                 try {
                     val icon = context.packageManager.getApplicationIcon(app!!)
                     imageView.setImageDrawable(icon)
                 } catch (_: Exception) {
-                    System.err.println("Errore nel icon di ${name}")
+                    System.err.println("Errore nel icon di $name")
                 }
             }
         }
@@ -112,7 +102,7 @@ class WidgetInfo(name: String, type: WidgetType) {
                         System.err.println("È necessario il context per trovare l'icona del pacchetto $app")
                     }
                 } catch (_: Exception) {
-                    System.err.println("Errore nel icon di ${name}")
+                    System.err.println("Errore nel icon di $name")
                 }
             }
         }

@@ -12,8 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
-import it.samuelelonghin.safelauncher.home.widgets.WidgetSerial
 import it.samuelelonghin.safelauncher.support.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,7 +72,6 @@ class HomeActivity : UIObject, AppCompatActivity() {
 
 
         checkDefaultLauncher()
-
     }
 
 

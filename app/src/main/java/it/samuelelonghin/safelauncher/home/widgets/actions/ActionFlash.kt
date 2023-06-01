@@ -28,9 +28,9 @@ class ActionFlash : Action("Flash", 0) {
         )
 
     override fun toggle(context: Context) {
-        println("Togglato " + name)
+        println("Togglato $name")
         state = 1 - state
-        if (!setFlashMode(context)) {
+        if (!setFlashMode()) {
             Toast.makeText(context, "Non sono riuscito", Toast.LENGTH_SHORT).show()
         }
     }
@@ -67,11 +67,11 @@ class ActionFlash : Action("Flash", 0) {
         val alert = AlertDialog.Builder(context).create()
         alert.setTitle("Oops!")
         alert.setMessage("Flash not available in this device...")
-        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK") { b, a -> }
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK") { _, _ -> }
         alert.show()
     }
 
-    private fun setFlashMode(context: Context): Boolean {
+    private fun setFlashMode(): Boolean {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ::cameraId.isInitialized) {
                 cameraManager.setTorchMode(cameraId, state == 1)

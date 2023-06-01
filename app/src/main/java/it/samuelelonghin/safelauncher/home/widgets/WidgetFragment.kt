@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.WidgetFrameBinding
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType.*
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType
 import it.samuelelonghin.safelauncher.support.*
 
 class WidgetFragment :
@@ -53,10 +53,9 @@ class WidgetFragment :
 
                     val i = extras.getInt("index")
                     val typeId = extras.getInt("type")
-                    val t: WidgetInfo.WidgetType = WidgetInfo.WidgetType.values()[typeId]
+                    val t: WidgetType = WidgetType.values()[typeId]
                     val v = extras.getString("value")!!
                     val n = extras.getString("name")!!
-//                    val icon = requireActivity().packageManager.getApplicationIcon(v)
                     println("RESULT: $result")
                     println("index: $i, value: $v, type: $t, name: $n, oldType: $typeId")
                     val ws = WidgetSerial(i, v, t)
@@ -106,12 +105,12 @@ class WidgetFragment :
         val wl: MutableList<WidgetInfo> = mutableListOf()
         for (ws in widgetsList) {
             when (ws.type) {
-                APP -> wl += WidgetInfo(
+                WidgetType.APP -> wl += WidgetInfo(
                     "Def",
                     ws.type,
                     ws.value
                 )
-                ACTIVITY -> when (ws.value) {
+                WidgetType.ACTIVITY -> when (ws.value) {
                     ACTIVITY_APPS -> {
                         wl += WidgetInfo(ACTIVITY_APPS)
                         foundApps = true
@@ -122,7 +121,7 @@ class WidgetFragment :
                     }
                     else -> wl += (WidgetInfo(ws.value))
                 }
-                ACTION -> wl += WidgetInfo(
+                WidgetType.ACTION -> wl += WidgetInfo(
                     "ACTION IN WIG FRAG ",
                     ws.type,
                     ws.value

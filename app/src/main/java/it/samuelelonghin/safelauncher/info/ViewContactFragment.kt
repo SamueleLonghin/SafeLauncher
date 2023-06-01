@@ -50,7 +50,15 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     private fun setValues() {
         binding.textViewViewContact.text = contact.name
 
-        contact.setPhoto(binding.imageViewViewContact)
+        if (contact.photoURI != null) {
+            contact.setPhoto(binding.imageViewViewContact)
+        } else
+            binding.imageViewViewContact.setImageDrawable(
+                setIconTintPrimary(
+                    this.requireContext(),
+                    contact.getRandomDrawable()
+                )
+            )
 
         if (!launcherPreferences.getBoolean(
                 VIEW_CONTACT_BUTTONS_DIRECTION, VIEW_CONTACT_BUTTONS_DIRECTION_PREF
@@ -91,7 +99,11 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     }
 
     private fun setNotifications() {
-        binding.listViewNotification.adapter = NotificationsAdapter(requireActivity())
+        val userNotifications = getUserNotifications(this.contact.name)
+
+        println(this.contact.name + " -> " + userNotifications + "Tutte: " + notifiche)
+        binding.listViewNotification.adapter =
+            NotificationsAdapter(requireActivity(), userNotifications)
         binding.listViewNotification.layoutManager = LinearLayoutManager(context)
     }
 
