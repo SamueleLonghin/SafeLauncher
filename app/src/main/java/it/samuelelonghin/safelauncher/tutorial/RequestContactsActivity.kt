@@ -33,14 +33,49 @@ class RequestContactsActivity : BaseActivity() {
             finish()
         }
 
+//        registerForActivityResult(
+//            ActivityResultContracts.RequestPermission()
+//        ) { isGranted ->
+//            if (isGranted) {
+//                getContacts()
+//                Toast.makeText(
+//                    context,
+//                    getString(R.string.permesso_contatti_granted),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            } else {
+//                Toast.makeText(
+//                    context,
+//                    getString(R.string.permesso_contatti_not_granted),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
     }
 
     override fun onStart() {
         super.onStart()
+//        binding.tutorialRequestFullScreenButton.setOnClickListener {
+//            localActivityResultEnableFullScreen.launch(Manifest.permission.READ_CONTACTS)
+//        }
+
+
         binding.tutorialRequestFullScreenButton.setOnClickListener {
+            println("Click ContAccess")
             localActivityResultEnableFullScreen.launch(Manifest.permission.READ_CONTACTS)
+//            val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
+//            startActivity(intent)
+//            setResult(RESULT_OK, intent)
+//            finish()
+        }
+        binding.tutorialRequestNotificationAccessBackButton.setOnClickListener {
+            println("BACK ContAccess")
+            setResult(RESULT_CANCELED, intent)
+            finish()
         }
     }
 

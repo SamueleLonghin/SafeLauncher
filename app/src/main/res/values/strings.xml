@@ -89,4 +89,7 @@
     <string name="permesso_contatti_granted">Permission granted!</string>
     <string name="permesso_contatti_not_granted">Until you grant the permission, we cannot display the names</string>
     <string name="settings_home_set_as_preferred_launcher_text">Imposta come Launcher Predefinito</string>
+    <string name="tutorial_notification_policy_description_text">Per poter gestire il suono del dispositivo abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
+    <string name="tutorial_notification_access_description_text">Per poter mostrare le notifiche che ricevi abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
+    <string name="tutorial_request_full_screen_back_button_text">Torna Indietro</string>
 </resources>

@@ -1,6 +1,7 @@
 package it.samuelelonghin.safelauncher.support
 
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -57,6 +58,19 @@ fun canCall(activity: Activity): Boolean {
 
 fun canFullScreen(context: Context): Boolean {
     return Settings.canDrawOverlays(context)
+}
+
+fun canChangeNotificationPolicy(context: Context): Boolean {
+    return (context.getSystemService(
+        Context.NOTIFICATION_SERVICE
+    ) as NotificationManager).isNotificationPolicyAccessGranted
+}
+
+fun canReceiveNotifications(context: Context): Boolean {
+    val cn = ComponentName(context, NotificationListener::class.java)
+    val flat: String =
+        Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+    return flat.contains(cn.flattenToString())
 }
 
 fun setWindowFlags(window: Window) {
@@ -341,13 +355,6 @@ fun setIconTintSecondary(context: Context, icon: Int): Drawable {
     )
     r!!.setTint(context.getColorFromAttr(android.R.attr.colorBackground))
     return r
-}
-
-fun checkNotificationListenerPermission(context: Context): Boolean {
-    val cn = ComponentName(context, NotificationListener::class.java)
-    val flat: String =
-        Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
-    return flat.contains(cn.flattenToString())
 }
 
 

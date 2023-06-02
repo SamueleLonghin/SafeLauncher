@@ -17,26 +17,22 @@ import it.samuelelonghin.safelauncher.tutorial.RequestContactsActivity
 class ContactPlaceholderCursorAdapter(
     private val context: Context,
     private val count: Int,
-    private val permissionLauncher: ActivityResultLauncher<String>,
+    private val permissionLauncher: ActivityResultLauncher<Intent>,
 ) : RecyclerView.Adapter<ContactPlaceholderCursorAdapter.ContactViewHolder>() {
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ): ContactViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.contact_frame_adapter,
-            parent, false
+            R.layout.contact_frame_adapter, parent, false
         )
         return ContactViewHolder(itemView)
     }
 
 
     class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewContact: TextView =
-            itemView.findViewById(R.id.text_view_view_contact)
-        val imageViewContact: ImageView =
-            itemView.findViewById(R.id.image_view_contact)
+        val textViewContact: TextView = itemView.findViewById(R.id.text_view_view_contact)
+        val imageViewContact: ImageView = itemView.findViewById(R.id.image_view_contact)
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
@@ -51,7 +47,8 @@ class ContactPlaceholderCursorAdapter(
         holder.itemView.setOnClickListener {
             println("Cliccato utente nullo")
             val intent = Intent(context, RequestContactsActivity::class.java)
-            localActivityResult.launch(intent)
+            permissionLauncher.launch(intent)
+//            localActivityResult.launch(intent)
 //            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
     }

@@ -1,13 +1,13 @@
 package it.samuelelonghin.safelauncher.home.widgets.actions
 
-import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
-import android.provider.Settings
 import android.widget.Toast
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.support.activityResultNotificationPolicy
+import it.samuelelonghin.safelauncher.support.canChangeNotificationPolicy
+import it.samuelelonghin.safelauncher.tutorial.RequestNotificationPolicyActivity
 
 
 class ActionMute : Action("Mute", 0) {
@@ -25,7 +25,7 @@ class ActionMute : Action("Mute", 0) {
         )
 
     override fun toggle(context: Context) {
-        println("Togglato " + name)
+        println("Toggle $name")
         if (setPhoneMode(context)) {
             state = 1 - state
         } else {
@@ -33,6 +33,7 @@ class ActionMute : Action("Mute", 0) {
         }
         reloadLayout(context)
     }
+
     override fun getStatus(context: Context) {
         val am: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         println("AUDIO MODE: ")
@@ -43,14 +44,9 @@ class ActionMute : Action("Mute", 0) {
         reloadLayout(context)
     }
 
-    private fun checkUserCanChangeNotificationPolicy(context: Context): Boolean {
-        return (context.getSystemService(
-            Context.NOTIFICATION_SERVICE
-        ) as NotificationManager).isNotificationPolicyAccessGranted
-    }
 
     private fun setPhoneMode(context: Context): Boolean {
-        if (checkUserCanChangeNotificationPolicy(context)) {
+        if (canChangeNotificationPolicy(context)) {
             val am: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             if (state == 0)
                 am.ringerMode = AudioManager.RINGER_MODE_NORMAL
@@ -58,8 +54,7 @@ class ActionMute : Action("Mute", 0) {
                 am.ringerMode = AudioManager.RINGER_MODE_SILENT
             return true
         } else {
-            //todo mostrare un messaggio prima di avviare l'activity
-            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+            val intent = Intent(context, RequestNotificationPolicyActivity::class.java)
             activityResultNotificationPolicy.launch(intent)
         }
         return false

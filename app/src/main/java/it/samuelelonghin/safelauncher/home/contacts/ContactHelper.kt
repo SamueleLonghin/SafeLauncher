@@ -9,8 +9,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import it.samuelelonghin.safelauncher.R
 
-lateinit var permissionLauncher: ActivityResultLauncher<String>
-lateinit var localActivityResult: ActivityResultLauncher<Intent>
+lateinit var permissionLauncher: ActivityResultLauncher<Intent>
+//lateinit var permissionLauncher: ActivityResultLauncher<String>
+//lateinit var localActivityResult: ActivityResultLauncher<Intent>
 
 fun canReadContacts(context: Context): Boolean {
     return context.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED

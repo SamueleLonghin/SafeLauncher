@@ -30,5 +30,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tutorial_request_notification_access_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSecondary"
+        android:text="@string/tutorial_request_full_screen_back_button_text"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="@dimen/back_text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tutorial_request_full_screen_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

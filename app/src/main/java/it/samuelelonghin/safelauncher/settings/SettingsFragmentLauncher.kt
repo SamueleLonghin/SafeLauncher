@@ -71,9 +71,29 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                 } else System.err.println("RESULT: $result")
             }
         activityResultEnableFullScreen =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                println("ACTIVITY RESULT CODE: ${result.resultCode}")
-                updatePreference(SETTINGS_FORCE_FULL_SCREEN, true)
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//                if (activity != null && canReceiveNotifications(requireActivity()))
+//                    updatePreference(SETTINGS_FORCE_FULL_SCREEN, true)
+//                else
+//                    updatePreference(SETTINGS_FORCE_FULL_SCREEN, false)
+//                setSwitch(
+//                    binding.homeSettings.settingsHomeForceFullScreenInput,
+//                    SETTINGS_FORCE_FULL_SCREEN, SETTINGS_FORCE_FULL_SCREEN_DEF
+//                )
+
+                if (activity != null)
+                    registerNotificationSwitch(
+                        binding.homeSettings.settingsHomeForceFullScreenInput,
+                        requireActivity()
+                    )
+            }
+        activityResultNotificationAccess =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (activity != null)
+                    registerNotificationSwitch(
+                        binding.viewContactSettings.settingsViewContactShowNotificationsInput,
+                        requireActivity()
+                    )
             }
         return binding.root
     }
@@ -137,56 +157,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
          * View Contact
          */
         //Buttons Direction
-        setSwitch(
-            binding.viewContactSettings.settingsViewContactButtonsDirectionInput,
-            VIEW_CONTACT_BUTTONS_DIRECTION,
-            VIEW_CONTACT_BUTTONS_DIRECTION_PREF
-        )
-        //Rapid Call
-        setSwitch(
-            binding.viewContactSettings.settingsViewContactShowRapidCallInput,
-            VIEW_CONTACT_SHOW_RAPID_CALL,
-            VIEW_CONTACT_SHOW_RAPID_CALL_PREF
-        )
-        //Rapid Chat
-        setSwitch(
-            binding.viewContactSettings.settingsViewContactShowRapidChatInput,
-            VIEW_CONTACT_SHOW_RAPID_CHAT,
-            VIEW_CONTACT_SHOW_RAPID_CHAT_PREF
-        )
-        //Notifications
-        setSwitch(
-            binding.viewContactSettings.settingsViewContactShowNotificationsInput,
-            VIEW_CONTACT_SHOW_NOTIFICATIONS,
-            VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
-        ) { checked ->
-            if (checked) {
-                if (!checkNotificationListenerPermission(requireContext())) {
-                    //todo aggiungere schermata di avviso
-                    val intent = Intent()
-                    intent.action = Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
-                    startActivity(intent)
-                }
-            }
-        }
-
-
-        // Rapid Chat App
-        val appInt: Int = VIEW_CONTACT_RAPID_APP_TO_INDEX[launcherPreferences.getString(
-            VIEW_CONTACT_RAPID_CHAT_APP, VIEW_CONTACT_RAPID_CHAT_APP_PREF
-        )]!!
-        binding.viewContactSettings.settingsViewContactRapidChatAppInput.setSelection(appInt)
-        binding.viewContactSettings.settingsViewContactRapidChatAppInput.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>, view: View, position: Int, id: Long
-                ) {
-                    val app: String = VIEW_CONTACT_RAPID_INDEX_TO_APP[position]!!
-                    updatePreference(VIEW_CONTACT_RAPID_CHAT_APP, app)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
+        setContacts(binding.viewContactSettings, requireActivity())
         /**
          * Widgets
          */

@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/padding_horizontal_view"
+        android:text="@string/tutorial_notification_policy_description_text"
+        android:textSize="@dimen/call_button_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/tutorial_request_full_screen_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/tutorial_request_full_screen_button"
         android:layout_width="wrap_content"
@@ -13,18 +27,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/tutorial_request_full_screen_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSecondary"
         android:text="@string/tutorial_request_full_screen_back_button_text"
-        android:textColor="?attr/colorOnSecondary"
         android:textSize="@dimen/back_text_size_small"
+        android:background="?attr/colorSecondary"
+        android:textColor="?attr/colorOnSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tutorial_request_full_screen_button" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,7 @@ import androidx.loader.content.Loader
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
+import it.samuelelonghin.safelauncher.settings.registerNotificationSwitch
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -60,29 +61,13 @@ class ContactsFragment :
 
 
         // Per passarlo all'adapter
-        permissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted ->
-            if (isGranted) {
-                getContacts()
-                Toast.makeText(
-                    context,
-                    getString(R.string.permesso_contatti_granted),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                Toast.makeText(
-                    context,
-                    getString(R.string.permesso_contatti_not_granted),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        localActivityResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                println("RESULT: ${it.resultCode}")
+                if (context != null && canReadContacts(requireContext())) {
+                    println("ANDATOOOO: ${it.resultCode}")
                     getContacts()
+                    displayContacts()
                     Toast.makeText(
                         context,
                         getString(R.string.permesso_contatti_granted),
@@ -95,7 +80,45 @@ class ContactsFragment :
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
+
             }
+//        registerForActivityResult(
+//            ActivityResultContracts.RequestPermission()
+//        ) { isGranted ->
+//            if (isGranted) {
+//                getContacts()
+//                Toast.makeText(
+//                    context,
+//                    getString(R.string.permesso_contatti_granted),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            } else {
+//                Toast.makeText(
+//                    context,
+//                    getString(R.string.permesso_contatti_not_granted),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+
+//        localActivityResult =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+//                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+//                    getContacts()
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.permesso_contatti_granted),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                } else {
+//                    Toast.makeText(
+//                        context,
+//                        getString(R.string.permesso_contatti_not_granted),
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
 
         //Getting contacts from OS
         getContacts()

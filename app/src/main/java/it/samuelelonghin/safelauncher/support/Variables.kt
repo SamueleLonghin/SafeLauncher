@@ -39,6 +39,7 @@ var widgetsList: MutableList<WidgetSerial> = mutableListOf()
  */
 
 lateinit var activityResultNotificationPolicy: ActivityResultLauncher<Intent>
+lateinit var activityResultNotificationAccess: ActivityResultLauncher<Intent>
 lateinit var setAuth: ActivityResultLauncher<Intent>
 lateinit var activityResultEnableFullScreen: ActivityResultLauncher<Intent>
 

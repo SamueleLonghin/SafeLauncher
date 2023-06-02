@@ -76,6 +76,14 @@
             android:name=".tutorial.RequestContactsActivity"
             android:exported="false"
             android:theme="@style/Theme.SafeLauncher.NoTitle" />
+        <activity
+            android:name=".tutorial.RequestNotificationPolicyActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SafeLauncher.NoTitle" />
+        <activity
+            android:name=".tutorial.RequestNotificationAccessActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SafeLauncher.NoTitle" />
 
         <service
             android:name=".notification.NotificationListener"
