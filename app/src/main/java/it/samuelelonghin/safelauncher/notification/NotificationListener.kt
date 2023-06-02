@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import it.samuelelonghin.safelauncher.support.addNotification
 import it.samuelelonghin.safelauncher.support.getBundleAsJson
-import it.samuelelonghin.safelauncher.support.launchNotification
 
 
 const val NOTIFICATION_USER_ID = Notification.EXTRA_TITLE //"android.title"
@@ -30,6 +30,10 @@ class NotificationListener : NotificationListenerService() {
             println("AGGIUNTA: $app $userid $json")
         }
 
+        val intent = Intent()
+        intent.putExtra("notification", sbn)
+        intent.putExtra("target.user", userid)
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent)
 
 //      launchNotification(sbn.notification)
     }

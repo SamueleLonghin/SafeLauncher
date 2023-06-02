@@ -32,7 +32,6 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
     private lateinit var binding: SettingsLauncherFragmentBinding
     private lateinit var selectApp: ActivityResultLauncher<Intent>
-    private lateinit var setAuth: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -71,6 +70,11 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
                     }
                 } else System.err.println("RESULT: $result")
             }
+        activityResultEnableFullScreen =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                println("ACTIVITY RESULT CODE: ${result.resultCode}")
+                updatePreference(SETTINGS_FORCE_FULL_SCREEN, true)
+            }
         return binding.root
     }
 
@@ -106,18 +110,8 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         /**
          * Home
          */
-        binding.homeSettings.settingsHomeRequireAuthForSettingsInput.isChecked =
-            launcherPreferences.getBoolean(
-                SETTINGS_REQUIRES_AUTH, SETTINGS_REQUIRES_AUTH_DEF
-            )
-        binding.homeSettings.settingsHomeRequireAuthForSettingsInput.setOnCheckedChangeListener { _, checked ->
-            if (checked) {
-                val intent = Intent(activity, AuthActivity::class.java)
-                intent.putExtra("intention", AuthActivity.Intention.CREATE.toString())
-                intendedSettingsPause = true
-                setAuth.launch(intent)
-            } else updatePreference(SETTINGS_REQUIRES_AUTH, false)
-        }
+        setHome(binding.homeSettings, requireActivity())
+
         /**
          * Contacts
          */
@@ -243,7 +237,7 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             WIDGET_IS_SCROLLABLE,
             WIDGET_IS_SCROLLABLE_PREF
         ) {
-            binding.widgetsSettings.settingsWidgetsNumberRowsInput.visibility = if (
+            binding.widgetsSettings.settingsWidgetsNumberRows.visibility = if (
                 launcherPreferences.getBoolean(
                     WIDGET_IS_SCROLLABLE,
                     WIDGET_IS_SCROLLABLE_PREF
@@ -301,19 +295,5 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-    }
-
-    private fun setSwitch(
-        switch: SwitchMaterial,
-        preferenceName: String,
-        preferenceDefault: Boolean,
-        onChange: ((checked: Boolean) -> Unit)? = null
-    ) {
-        switch.isChecked = launcherPreferences.getBoolean(preferenceName, preferenceDefault)
-        switch.setOnCheckedChangeListener { _, checked ->
-            updatePreference(preferenceName, checked)
-            if (onChange != null)
-                onChange(checked)
-        }
     }
 }

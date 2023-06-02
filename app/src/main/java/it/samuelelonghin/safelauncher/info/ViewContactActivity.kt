@@ -2,14 +2,16 @@ package it.samuelelonghin.safelauncher.info
 
 import android.os.Bundle
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.color.DynamicColors
 import it.samuelelonghin.safelauncher.databinding.EmptyActivityBinding
-import it.samuelelonghin.safelauncher.support.UIObject
+import it.samuelelonghin.safelauncher.support.BaseActivity
 
 
-class ViewContactActivity : AppCompatActivity(), UIObject {
+class ViewContactActivity : BaseActivity() {
+
     private lateinit var binding: EmptyActivityBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = EmptyActivityBinding.inflate(layoutInflater)
@@ -28,11 +30,4 @@ class ViewContactActivity : AppCompatActivity(), UIObject {
 
         DynamicColors.applyToActivityIfAvailable(this)
     }
-
-
-    override fun onStart() {
-        super<AppCompatActivity>.onStart()
-        super<UIObject>.onStart()
-    }
-
 }

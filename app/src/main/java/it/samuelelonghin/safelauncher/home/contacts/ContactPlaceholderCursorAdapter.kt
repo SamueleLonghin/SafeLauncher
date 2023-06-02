@@ -2,6 +2,7 @@ package it.samuelelonghin.safelauncher.home.contacts
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.support.contactsList
+import it.samuelelonghin.safelauncher.tutorial.RequestContactsActivity
 
 class ContactPlaceholderCursorAdapter(
     private val context: Context,
@@ -48,7 +50,9 @@ class ContactPlaceholderCursorAdapter(
 
         holder.itemView.setOnClickListener {
             println("Cliccato utente nullo")
-            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+            val intent = Intent(context, RequestContactsActivity::class.java)
+            localActivityResult.launch(intent)
+//            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
     }
 

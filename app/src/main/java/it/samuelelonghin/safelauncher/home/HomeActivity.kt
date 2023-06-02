@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
@@ -17,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeActivity : UIObject, AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     /**
      * View
      */
@@ -28,8 +27,8 @@ class HomeActivity : UIObject, AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         println("HOME :: OnCreate")
-//        DynamicColors.applyToActivitiesIfAvailable(application)
         binding = HomeBinding.inflate(layoutInflater)
         view = binding.root
 
@@ -49,15 +48,9 @@ class HomeActivity : UIObject, AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 println("Permesso garantito" + result)
             }
+
         // Initialise layout
         setContentView(view)
-    }
-
-
-    override fun onStart() {
-        super<AppCompatActivity>.onStart()
-        super<UIObject>.onStart()
-        println("HOME :: onStart")
     }
 
 
@@ -69,65 +62,15 @@ class HomeActivity : UIObject, AppCompatActivity() {
             binding.homeBackgroundImage.setImageBitmap(background)
 
 
-
-
         checkDefaultLauncher()
     }
 
 
-    override fun onPause() {
-        super.onPause()
-        println("HOME :: OnPause")
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        println("HOME :: onDestroy")
-    }
-
-
-    private fun isMyAppLauncherDefault(): Boolean {
-        val filter = IntentFilter(Intent.ACTION_MAIN)
-        filter.addCategory(Intent.CATEGORY_HOME)
-        val filters: MutableList<IntentFilter> = ArrayList()
-        filters.add(filter)
-        val myPackageName = packageName
-        val activities: List<ComponentName> = ArrayList()
-        val packageManager = packageManager as PackageManager
-        packageManager.getPreferredActivities(filters, activities, null)
-        for (activity in activities) {
-            if (myPackageName == activity.packageName) {
-                return true
-            }
-        }
-        return false
-    }
-
     private fun checkDefaultLauncher() {
-        if (!isMyAppLauncherDefault()) {
-
-            println("CHIEDO DI METTERLO COME DEFAULT")
-
-            val packageManager: PackageManager = this.packageManager
-            val componentName =
-                ComponentName(this, FakeActivity::class.java)
-            packageManager.setComponentEnabledSetting(
-                componentName,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP
-            )
-
-            val selector = Intent(Intent.ACTION_MAIN)
-            selector.addCategory(Intent.CATEGORY_HOME)
-            selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            this.startActivity(selector)
-
-            packageManager.setComponentEnabledSetting(
-                componentName,
-                PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                PackageManager.DONT_KILL_APP
-            )
+        if (!isMyAppLauncherDefault(this)) {
+            askForChangeLauncher(this)
         }
     }
+
+
 }

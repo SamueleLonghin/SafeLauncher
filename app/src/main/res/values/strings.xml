@@ -63,8 +63,9 @@
     <string name="silenzioso">Silenzioso</string>
     <string name="mute">Silenzioso</string>
     <string name="unmute">Suono</string>
-    <string name="notification_servie_name">Gestore Notifiche</string>
+    <string name="notification_service_name">Gestore Notifiche</string>
     <string name="flash">Flash</string>
+    <string name="settings_home_force_full_screen_label">Blocca l\'applicazione a Full Screen</string>
 
     <string-array name="settings_launcher_time_formats_upper">
         <item>yyyy-MM-dd</item>
@@ -80,4 +81,12 @@
         <item>dd.MM.yyyy</item>
         <item />
     </string-array>
+    <string name="title_activity_request_full_scren">RequestFullScrenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="tutorial_request_full_screen_button_text">Concedi il Permesso</string>
+    <string name="tutorial_contacts_description_text">Per funzionare correttamente abbiamo bisogno di vedere quali sono i tuoi contatti. Cortesemente concedici l\'accesso</string>
+    <string name="permesso_contatti_granted">Permission granted!</string>
+    <string name="permesso_contatti_not_granted">Until you grant the permission, we cannot display the names</string>
+    <string name="settings_home_set_as_preferred_launcher_text">Imposta come Launcher Predefinito</string>
 </resources>

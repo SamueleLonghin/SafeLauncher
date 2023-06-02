@@ -74,8 +74,18 @@ class WidgetInfo(name: String, type: WidgetType) {
     fun setIcon(imageView: ImageView, context: Context) {
         when (type) {
             WidgetType.ACTIVITY ->
-                imageView.setImageDrawable(setIconTintPrimary(context, ACTIVITY_TO_RESOURCE_ICON[name]!!))
-            WidgetType.ACTION -> imageView.setImageDrawable(setIconTintPrimary(context, action!!.icon))
+                imageView.setImageDrawable(
+                    setIconTintPrimary(
+                        context,
+                        ACTIVITY_TO_RESOURCE_ICON[name]!!
+                    )
+                )
+            WidgetType.ACTION -> imageView.setImageDrawable(
+                setIconTintPrimary(
+                    context,
+                    action!!.icon
+                )
+            )
 
             else -> {
                 try {
@@ -91,7 +101,7 @@ class WidgetInfo(name: String, type: WidgetType) {
     fun setLabel(textView: TextView, context: Context? = null) {
         when (type) {
             WidgetType.ACTIVITY -> textView.text = ACTIVITY_TO_NAME[name]!!
-            WidgetType.ACTION -> textView.text = ACTION_TO_NAME[name]!![0]
+            WidgetType.ACTION -> textView.text = action?.name ?: ""
 
             else -> {
                 try {

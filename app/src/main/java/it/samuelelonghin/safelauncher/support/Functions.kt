@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
@@ -36,13 +37,12 @@ import java.io.Serializable
 
 fun <T : Serializable?> getSerializable(intent: Intent, name: String, clazz: Class<T>): T {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getSerializableExtra(
-        name,
-        clazz
+        name, clazz
     )!!
     else intent.getSerializableExtra(name) as T
 }
 
-fun checkUserCanCall(activity: Activity): Boolean {
+fun canCall(activity: Activity): Boolean {
     if (ContextCompat.checkSelfPermission(
             activity, android.Manifest.permission.CALL_PHONE
         ) != PackageManager.PERMISSION_GRANTED
@@ -55,6 +55,9 @@ fun checkUserCanCall(activity: Activity): Boolean {
     return true
 }
 
+fun canFullScreen(context: Context): Boolean {
+    return Settings.canDrawOverlays(context)
+}
 
 fun setWindowFlags(window: Window) {
     window.setFlags(0, 0) // clear flags
@@ -91,8 +94,7 @@ fun loadApps(packageManager: PackageManager) {
             app.packageName = ri.packageName
             app.icon = ri.loadIcon(packageManager)
             loadList.add(app)
-        } else
-            println("DIR: " + ri.sourceDir)
+        } else println("DIR: " + ri.sourceDir)
     }
     loadList.sortBy { it.label.toString() }
 
@@ -105,13 +107,11 @@ fun getAppInfo(context: Context, packageName: String): ApplicationInfo {
     val packageManager = context.packageManager;
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         packageManager.getApplicationInfo(
-            packageName,
-            PackageManager.ApplicationInfoFlags.of(0)
+            packageName, PackageManager.ApplicationInfoFlags.of(0)
         )
     } else {
         packageManager.getApplicationInfo(
-            packageName,
-            PackageManager.GET_META_DATA
+            packageName, PackageManager.GET_META_DATA
         )
     }
 }
@@ -237,8 +237,10 @@ fun isInstalled(uri: String, context: Context): Boolean {
 
 
 fun launch(
-    data: String, activity: Activity,
-    animationIn: Int = android.R.anim.fade_in, animationOut: Int = android.R.anim.fade_out
+    data: String,
+    activity: Activity,
+    animationIn: Int = android.R.anim.fade_in,
+    animationOut: Int = android.R.anim.fade_out
 ) {
 
     if (data.startsWith("launcher:")) // [type]:[info]
@@ -257,9 +259,7 @@ fun launch(
 }
 
 fun launchActivity(
-    activity: String,
-    context: Context,
-    selectApp: ActivityResultLauncher<Intent>? = null
+    activity: String, context: Context, selectApp: ActivityResultLauncher<Intent>? = null
 ) {
     if (activity == ACTIVITY_PICK) {
         if (selectApp != null) {
@@ -281,9 +281,7 @@ fun launchApp(packageName: String, context: Context) {
         context.startActivity(intent)
     } else {
         Toast.makeText(
-            context,
-            "Non riesco ad aprire l'app scelta",
-            Toast.LENGTH_SHORT
+            context, "Non riesco ad aprire l'app scelta", Toast.LENGTH_SHORT
         ).show()
 //        if (isInstalled(packageName, context)) {
 //
@@ -331,9 +329,7 @@ fun dpToPx(context: Context, dp: Int): Int {
 
 fun setIconTintPrimary(context: Context, icon: Int): Drawable {
     val r = ResourcesCompat.getDrawable(
-        context.resources,
-        icon,
-        context.theme
+        context.resources, icon, context.theme
     )
     r!!.setTint(context.getColorFromAttr(android.R.attr.colorPrimary))
     return r
@@ -341,9 +337,7 @@ fun setIconTintPrimary(context: Context, icon: Int): Drawable {
 
 fun setIconTintSecondary(context: Context, icon: Int): Drawable {
     val r = ResourcesCompat.getDrawable(
-        context.resources,
-        icon,
-        context.theme
+        context.resources, icon, context.theme
     )
     r!!.setTint(context.getColorFromAttr(android.R.attr.colorBackground))
     return r
@@ -368,4 +362,38 @@ fun getBundleAsJson(bundle: Bundle): String {
         }
     }
     return json.toString()
+}
+
+fun isMyAppLauncherDefault(context: Context): Boolean {
+    val filter = IntentFilter(Intent.ACTION_MAIN)
+    filter.addCategory(Intent.CATEGORY_HOME)
+    val filters: MutableList<IntentFilter> = ArrayList()
+    filters.add(filter)
+    val myPackageName = context.packageName
+    val activities: List<ComponentName> = ArrayList()
+    val packageManager = context.packageManager as PackageManager
+    packageManager.getPreferredActivities(filters, activities, null)
+    for (activity in activities) {
+        if (myPackageName == activity.packageName) {
+            return true
+        }
+    }
+    return false
+}
+
+fun askForChangeLauncher(context: Context) {
+    val packageManager: PackageManager = context.packageManager
+    val componentName = ComponentName(context, FakeActivity::class.java)
+    packageManager.setComponentEnabledSetting(
+        componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP
+    )
+
+    val selector = Intent(Intent.ACTION_MAIN)
+    selector.addCategory(Intent.CATEGORY_HOME)
+    selector.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    context.startActivity(selector)
+
+    packageManager.setComponentEnabledSetting(
+        componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP
+    )
 }

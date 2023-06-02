@@ -1,9 +1,7 @@
 package it.samuelelonghin.safelauncher.home.contacts
 
-import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -13,7 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
@@ -28,26 +28,6 @@ class ContactsFragment :
     Fragment(R.layout.contacts_frame),
     LoaderManager.LoaderCallbacks<Cursor>,
     AdapterView.OnItemClickListener {
-
-
-    private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            getContacts()
-            Toast.makeText(
-                context,
-                "Permission granted!",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(
-                context,
-                "Until you grant the permission, we cannot display the names",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 
     /**
      * View
@@ -78,50 +58,71 @@ class ContactsFragment :
         binding = ContactsFrameBinding.inflate(inflater)
         println("ContactsFragement :: CreateView")
 
+
+        // Per passarlo all'adapter
+        permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                getContacts()
+                Toast.makeText(
+                    context,
+                    getString(R.string.permesso_contatti_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    context,
+                    getString(R.string.permesso_contatti_not_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        localActivityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                    getContacts()
+                    Toast.makeText(
+                        context,
+                        getString(R.string.permesso_contatti_granted),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.permesso_contatti_not_granted),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
         //Getting contacts from OS
         getContacts()
 
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        //Displaying contacts
+        displayContacts()
+    }
 
     override fun onResume() {
         super.onResume()
         println("ContactsFragement :: resume")
 
         launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
-        //Displaying contacts
-        displayContacts()
     }
 
-    override fun onStart() {
-        super.onStart()
-        println("ContactsFragement :: Start")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        println("ContactsFragement :: Create")
-    }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         println("ContactsFragement :: CreateLoader")
         return activity?.let {
             CursorLoader(requireContext())
         } ?: throw IllegalStateException()
-    }
-
-    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        println("ContactsFragement :: LoadFinished")
-    }
-
-    override fun onLoaderReset(loader: Loader<Cursor>) {
-        println("ContactsFragement :: LoaderReset")
-    }
-
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        println("ContactsFragement :: ItemClick")
     }
 
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
@@ -132,15 +133,20 @@ class ContactsFragment :
     private fun getContacts() {
         val context = requireContext()
 
-        if (context.checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+        if (!canReadContacts(context)) {
+
+
+//            val intent = Intent(activity, RequestContactsActivity::class.java)
+//            localActivityResult.launch(intent)
+
+//            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
             return
         }
 
         /**
          * Versione dove trova duplicati in base a google / whatsapp ...
          */
-        println("TAbella: " + ContactsContract.Contacts.CONTENT_URI)
+        println("Tabella: " + ContactsContract.Contacts.CONTENT_URI)
         contactCursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
@@ -180,5 +186,14 @@ class ContactsFragment :
                     permissionLauncher
                 )
         }
+    }
+
+    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>) {
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
 }

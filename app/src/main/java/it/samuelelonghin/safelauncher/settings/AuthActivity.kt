@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.color.DynamicColors
 import it.samuelelonghin.safelauncher.databinding.AuthBinding
 import it.samuelelonghin.safelauncher.support.*
 
-class AuthActivity : AppCompatActivity(), UIObject {
+class AuthActivity : BaseActivity() {
     enum class Intention {
         LOGIN,
         CREATE
@@ -26,8 +25,7 @@ class AuthActivity : AppCompatActivity(), UIObject {
         val bundle = intent.extras
         if (bundle != null) {
             intention = Intention.valueOf(bundle.getString("intention")!!)
-        } else
-            println("BUNDLEEEEEEEEEE")
+        }
 
 
         if (intention == Intention.LOGIN &&
@@ -35,16 +33,15 @@ class AuthActivity : AppCompatActivity(), UIObject {
         ) {
             launchActivity(ACTIVITY_SETTINGS, this)
         }
+        DynamicColors.applyToActivityIfAvailable(this)
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
 
-        DynamicColors.applyToActivityIfAvailable(this)
     }
 
     override fun onStart() {
-        super<AppCompatActivity>.onStart()
-        super<UIObject>.onStart()
+        super.onStart()
         binding.authPassword.requestFocus()
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.authPassword, 0)

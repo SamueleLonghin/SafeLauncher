@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center|top"
+    android:orientation="vertical"
     android:paddingStart="@dimen/padding_start_settings"
     android:paddingTop="@dimen/padding_top_settings"
     android:paddingEnd="@dimen/padding_end_settings">
@@ -51,6 +51,54 @@
             android:layout_weight="1"
             android:ems="10" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/settings_home_force_full_screen_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="@string/settings_home_force_full_screen_label"
+            android:textSize="@dimen/settings_text_size" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/settings_home_force_full_screen_input"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:ems="10" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings_home_set_as_preferred_launcher_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="@string/settings_home_set_as_preferred_launcher_text"
+            android:textSize="@dimen/settings_text_size" />
 
     </LinearLayout>
 

@@ -1,7 +1,9 @@
 package it.samuelelonghin.safelauncher.info
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -14,15 +16,16 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ViewContactFrameBinding
 import it.samuelelonghin.safelauncher.home.contacts.ContactInfo
 import it.samuelelonghin.safelauncher.support.*
 
+
 class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
-
 
     /**
      * View
@@ -31,12 +34,13 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
 
     private lateinit var contact: ContactInfo
 
+    private lateinit var broadcastReceiver: BroadcastReceiver
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the fragment layout
         binding = ViewContactFrameBinding.inflate(inflater)
-        println("ViewContactFragment :: CreateView")
 
         // Get the contact
         contact = getContactFromIntent()
@@ -109,7 +113,7 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
 
     private fun setOnClicks() {
         val handleCall = View.OnClickListener {
-            if (checkUserCanCall(requireActivity())) {
+            if (canCall(requireActivity())) {
                 val intent = Intent(
                     Intent.ACTION_CALL, Uri.parse("tel:${contact.mobileNumber}")
                 )
@@ -164,6 +168,14 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("ViewContactFragment :: Create")
+        registerReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (::broadcastReceiver.isInitialized)
+            LocalBroadcastManager.getInstance(requireContext())
+                .unregisterReceiver(broadcastReceiver)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -188,5 +200,18 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
         println("ViewContactFragment :: Inflate")
+    }
+
+    private fun registerReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.extras != null) {
+                    val myData = getBundleAsJson(intent.extras!!)
+                    println("Not Broadcast: $myData")
+                }
+            }
+        }
+        LocalBroadcastManager.getInstance(requireActivity())
+            .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
     }
 }

@@ -10,6 +10,12 @@ const val PREF_VERSION = "version"
 const val DEFAULT_INDEX = 1000
 const val SETTINGS_AUTH_LENGTH = 6
 
+
+/**
+ * BROADCASTS
+ */
+const val BROADCAST_NOTIFICATIONS = "it.samuelelonghin.safelauncher.notifications"
+
 /**
  * THEME
  */
@@ -58,6 +64,7 @@ const val TIME_FORMAT = "time-format"
 const val VIEW_CONTACT_BUTTONS_DIRECTION = "view-contact-buttons-direction"
 const val APPS_LIST_VIEW_TYPE = "apps-list-view-type"
 const val SETTINGS_REQUIRES_AUTH = "settings-requires-auth"
+const val SETTINGS_FORCE_FULL_SCREEN = "settings-force-full-screen"
 const val SETTINGS_AUTH = "settings-auth"
 
 /**
@@ -80,6 +87,7 @@ const val DRAWER_SEARCH_AT_LAUNCH_PREF = true
 const val VIEW_CONTACT_BUTTONS_DIRECTION_PREF = false
 const val APPS_LIST_VIEW_TYPE_PREF = 0
 const val SETTINGS_REQUIRES_AUTH_DEF = false
+const val SETTINGS_FORCE_FULL_SCREEN_DEF = false
 const val SETTINGS_AUTH_DEF = ""
 const val OPEN_KEYBOARD_ON_SEARCH_DEF = true
 
