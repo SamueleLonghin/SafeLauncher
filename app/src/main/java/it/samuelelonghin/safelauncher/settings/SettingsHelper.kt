@@ -1,5 +1,6 @@
 package it.samuelelonghin.safelauncher.settings
 
+import android.text.Editable
 import com.google.android.material.switchmaterial.SwitchMaterial
 import it.samuelelonghin.safelauncher.support.launcherPreferences
 import it.samuelelonghin.safelauncher.support.updatePreference
@@ -16,4 +17,14 @@ fun setSwitch(
         if (onChange != null)
             onChange(checked)
     }
+}
+
+fun getIntValue(value: Editable, def: Int = -1): Int {
+    var out: Int = def
+    try {
+        out = Integer.parseInt(value.toString())
+    } catch (_: NumberFormatException) {
+
+    }
+    return out
 }

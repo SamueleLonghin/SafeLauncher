@@ -18,23 +18,6 @@ class WidgetAdapter(
     private val mode: WidgetFragment.Mode,
     private var selectApp: ActivityResultLauncher<Intent>
 ) : RecyclerView.Adapter<WidgetViewHolder>() {
-    init {
-//        val sharedPreferenceChangeListener =
-//            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-//                if (key in setOf(
-//                        WIDGET_NUMBER_ROWS, WIDGET_NUMBER_COLUMNS, WIDGET_FORCE_APPS,
-//                        WIDGET_FORCE_SETTINGS, WIDGET_SHOW_LABELS,
-//                        WIDGET_IS_SCROLLABLE
-//                    )
-//                ) {
-//                    print("WIDGETS PREF CHANGED: ")
-//                    println(key)
-//                    notifyDataSetChanged()
-//                }
-//            }
-//        launcherPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WidgetViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,8 +25,19 @@ class WidgetAdapter(
         return WidgetViewHolder(view)
     }
 
+    override fun onViewAttachedToWindow(holder: WidgetViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        widgetsList[holder.actualId].action?.registerListener(context)
+    }
+
+    override fun onViewDetachedFromWindow(holder: WidgetViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        widgetsList[holder.actualId].action?.unRegisterListener(context)
+    }
+
     override fun onBindViewHolder(holder: WidgetViewHolder, position: Int) {
         val wi = widgetsList[position]
+        holder.actualId = position
 
         // Check if user whats labels
         if (launcherPreferences.getBoolean(WIDGET_SHOW_LABELS, WIDGET_SHOW_LABELS_PREF)) {
@@ -56,6 +50,7 @@ class WidgetAdapter(
         if (wi.type == WidgetInfo.WidgetType.ACTION) {
             wi.action?.addHolder(holder)
             wi.action?.getStatus(context)
+            wi.action?.createListener(context)
         }
 
         val ocl = View.OnClickListener {
@@ -95,6 +90,11 @@ class WidgetAdapter(
                 return@setOnLongClickListener true
             }
         }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        println("DETACHED")
     }
 
     override fun getItemCount(): Int {

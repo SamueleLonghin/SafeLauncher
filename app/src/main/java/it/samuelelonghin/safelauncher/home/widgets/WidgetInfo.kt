@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import it.samuelelonghin.safelauncher.home.widgets.actions.Action
+import it.samuelelonghin.safelauncher.home.widgets.actions.ActionCall
 import it.samuelelonghin.safelauncher.home.widgets.actions.ActionFlash
 import it.samuelelonghin.safelauncher.home.widgets.actions.ActionMute
 import it.samuelelonghin.safelauncher.support.*
@@ -15,7 +16,6 @@ class WidgetInfo(name: String, type: WidgetType) {
     var type: WidgetType
     var action: Action? = null
     var app: String? = null
-    private var uri: Uri? = null
     var activity: Class<*>? = null
 
     enum class WidgetType : java.io.Serializable {
@@ -29,13 +29,6 @@ class WidgetInfo(name: String, type: WidgetType) {
         this.type = type
     }
 
-    constructor(name: String, type: WidgetType, uri: Uri) : this(
-        name,
-        type,
-    ) {
-        this.uri = uri
-    }
-
     constructor(name: String, type: WidgetType, value: String) : this(
         name,
         type,
@@ -45,6 +38,7 @@ class WidgetInfo(name: String, type: WidgetType) {
             WidgetType.ACTION -> this.action = when (value) {
                 ACTION_MUTE -> ActionMute()
                 ACTION_FLASH -> ActionFlash()
+                ACTION_CALL -> ActionCall()
                 else -> ActionMute()
             }
             WidgetType.ACTIVITY -> activity = ACTIVITY_TO_CLASS[value]!!

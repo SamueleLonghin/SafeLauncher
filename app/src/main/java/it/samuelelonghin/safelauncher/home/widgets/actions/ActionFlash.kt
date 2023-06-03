@@ -27,6 +27,9 @@ class ActionFlash : Action("Flash", 0) {
             R.string.mute,
         )
 
+
+    lateinit var torchCallback: TorchCallback
+    lateinit var manager: CameraManager
     override fun toggle(context: Context) {
         println("Togglato $name")
         state = 1 - state
@@ -36,7 +39,6 @@ class ActionFlash : Action("Flash", 0) {
     }
 
     override fun getStatus(context: Context) {
-
         val isFlashAvailable =
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)
         if (!isFlashAvailable) {
@@ -48,19 +50,26 @@ class ActionFlash : Action("Flash", 0) {
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
+    }
 
-
-        // callback che viene cambiata quando cambia lo stato della torcia. Mi serve per aggiornare l'icona
-        val torchCallback: TorchCallback = object : TorchCallback() {
+    override fun createListener(context: Context) {
+        torchCallback = object : TorchCallback() {
             override fun onTorchModeChanged(cameraId: String, enabled: Boolean) {
                 super.onTorchModeChanged(cameraId, enabled)
                 state = if (enabled) 1 else 0
                 reloadLayout(context)
             }
         }
-        //registro la callbacj
-        val manager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        manager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    }
+
+    override fun registerListener(context: Context) {
         manager.registerTorchCallback(torchCallback, null) // (callback, handler)
+    }
+
+
+    override fun unRegisterListener(context: Context) {
+        manager.unregisterTorchCallback(torchCallback)
     }
 
     private fun showNoFlashError(context: Context) {

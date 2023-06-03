@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
 import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.*
-import it.samuelelonghin.safelauncher.support.ACTION_FLASH
-import it.samuelelonghin.safelauncher.support.ACTION_MUTE
-import it.samuelelonghin.safelauncher.support.REQUEST_CHOOSE_APP
+import it.samuelelonghin.safelauncher.support.*
 
 /**
  * The [OtherRecyclerAdapter] will only be displayed in the ListActivity,
@@ -30,7 +30,7 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         var textView: TextView = itemView.findViewById(R.id.list_other_row_name)
-        var iconView: Button = itemView.findViewById(R.id.list_other_row_icon)
+        var iconView: ImageView = itemView.findViewById(R.id.list_other_row_icon)
 
 
         override fun onClick(v: View) {
@@ -54,10 +54,10 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         val otherLabel = othersList[i].label.toString()
-        val icon = othersList[i].icon.toString()
+        val icon = othersList[i].icon
 
         viewHolder.textView.text = otherLabel
-        viewHolder.iconView.text = icon
+        viewHolder.iconView.setImageDrawable(setIconTintPrimary(activity, icon))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -77,25 +77,22 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
             OtherInfo(
                 activity.getString(R.string.silenzioso),
                 ACTION_MUTE,
-                activity.getString(R.string.fas_bars)
+                R.drawable.ic_baseline_notifications_off_24
             )
         )
         othersList.add(
             OtherInfo(
                 activity.getString(R.string.flash),
                 ACTION_FLASH,
-                activity.getString(R.string.fas_bars)
+                R.drawable.ic_baseline_flashlight_on_24
             )
         )
-    }
-
-    private fun returnChoiceIntent(index: Int, value: String) {
-        val returnIntent = Intent()
-        returnIntent.putExtra("index", index)
-        returnIntent.putExtra("value", value)
-        returnIntent.putExtra("name", "COSE DA CAMBIARE")
-        returnIntent.putExtra("type", WidgetType.ACTION.ordinal)
-        activity.setResult(REQUEST_CHOOSE_APP, returnIntent)
-        activity.finish()
+        othersList.add(
+            OtherInfo(
+                activity.getString(R.string.call),
+                ACTION_CALL,
+                R.drawable.ic_baseline_call_240
+            )
+        )
     }
 }

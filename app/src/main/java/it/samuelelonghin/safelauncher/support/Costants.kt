@@ -118,7 +118,7 @@ const val ACTIVITY_PICK = "activity_pick"
  */
 const val ACTION_MUTE = "action_notifications"
 const val ACTION_FLASH = "action_flash"
-const val ACTION_ADD_WIDGET = "action_add_widget"
+const val ACTION_CALL = "action_call"
 
 
 val ACTIVITY_TO_CLASS: Map<String, Class<*>> = mapOf(

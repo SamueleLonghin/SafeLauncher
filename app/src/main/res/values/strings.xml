@@ -92,4 +92,6 @@
     <string name="tutorial_notification_policy_description_text">Per poter gestire il suono del dispositivo abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
     <string name="tutorial_notification_access_description_text">Per poter mostrare le notifiche che ricevi abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
     <string name="tutorial_request_full_screen_back_button_text">Torna Indietro</string>
+    <string name="vibration">Vibrazione</string>
+    <string name="call">Chiama</string>
 </resources>

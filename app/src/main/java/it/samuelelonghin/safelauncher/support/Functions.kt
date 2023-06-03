@@ -67,10 +67,16 @@ fun canChangeNotificationPolicy(context: Context): Boolean {
 }
 
 fun canReceiveNotifications(context: Context): Boolean {
-    val cn = ComponentName(context, NotificationListener::class.java)
-    val flat: String =
-        Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
-    return flat.contains(cn.flattenToString())
+    try {
+
+        val cn = ComponentName(context, NotificationListener::class.java)
+        val flat: String =
+            Settings.Secure.getString(context.contentResolver, "enabled_notification_listeners")
+        return flat.contains(cn.flattenToString())
+    } catch (e: Exception) {
+        System.err.println(e)
+        return false
+    }
 }
 
 fun setWindowFlags(window: Window) {

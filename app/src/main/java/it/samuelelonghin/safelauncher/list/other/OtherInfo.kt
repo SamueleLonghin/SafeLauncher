@@ -1,5 +1,7 @@
 package it.samuelelonghin.safelauncher.list.other
 
+import android.graphics.drawable.Drawable
+
 /**
  * Stores information used in [OtherRecyclerAdapter] rows.
  *
@@ -7,9 +9,8 @@ package it.samuelelonghin.safelauncher.list.other
  * when an action is recognized.
  *
  * @param data - a string identifying the thing to be launched
-*/
-class OtherInfo(label: String, data: String, icon: String) {
+ */
+class OtherInfo(label: String, data: String, var icon: Int) {
     var label: CharSequence? = label
     var data: CharSequence? = data
-    var icon: CharSequence? = icon
 }

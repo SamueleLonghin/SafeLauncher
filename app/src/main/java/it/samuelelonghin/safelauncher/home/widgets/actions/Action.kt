@@ -12,11 +12,11 @@ abstract class Action(name: String, state: Int) {
     abstract val icons: List<Int>
     abstract val texts: List<Int>
     abstract fun toggle(context: Context)
-    abstract fun getStatus(context: Context)
     fun reloadLayout(context: Context) {
         holder.imageView.setImageDrawable(setIconTintPrimary(context, icon))
         holder.textView.setText(text)
     }
+
     val icon: Int
         get() = icons[state]
 
@@ -32,4 +32,12 @@ abstract class Action(name: String, state: Int) {
     fun addHolder(holder: WidgetViewHolder) {
         this.holder = holder
     }
+
+    open fun getStatus(context: Context) {}
+
+    open fun createListener(context: Context) {}
+
+    open fun registerListener(context: Context) {}
+
+    open fun unRegisterListener(context: Context) {}
 }

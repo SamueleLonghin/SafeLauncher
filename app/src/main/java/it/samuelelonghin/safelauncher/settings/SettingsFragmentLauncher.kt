@@ -3,7 +3,6 @@ package it.samuelelonghin.safelauncher.settings
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.google.android.material.switchmaterial.SwitchMaterial
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.SettingsLauncherFragmentBinding
 import it.samuelelonghin.safelauncher.home.widgets.WidgetFragment
@@ -72,15 +70,6 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
             }
         activityResultEnableFullScreen =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//                if (activity != null && canReceiveNotifications(requireActivity()))
-//                    updatePreference(SETTINGS_FORCE_FULL_SCREEN, true)
-//                else
-//                    updatePreference(SETTINGS_FORCE_FULL_SCREEN, false)
-//                setSwitch(
-//                    binding.homeSettings.settingsHomeForceFullScreenInput,
-//                    SETTINGS_FORCE_FULL_SCREEN, SETTINGS_FORCE_FULL_SCREEN_DEF
-//                )
-
                 if (activity != null)
                     registerNotificationSwitch(
                         binding.homeSettings.settingsHomeForceFullScreenInput,
@@ -104,16 +93,6 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
     }
 
 
-    private fun getIntValue(value: Editable, def: Int = -1): Int {
-        var out: Int = def
-        try {
-            out = Integer.parseInt(value.toString())
-        } catch (_: NumberFormatException) {
-
-        }
-        return out
-    }
-
     private fun setLayout() {
         val fragmentTransaction = childFragmentManager.beginTransaction()
 
@@ -135,136 +114,23 @@ class SettingsFragmentLauncher : Fragment(), UIObject {
         /**
          * Contacts
          */
-        binding.contactsSettings.settingsContactsNumberColumnsInput.setText(
-            launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF)
-                .toString()
-        )
-        binding.contactsSettings.settingsContactsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                updatePreference(
-                    CONTACTS_NUMBER_COLUMNS,
-                    getIntValue(binding.contactsSettings.settingsContactsNumberColumnsInput.editableText)
-                )
-            }
-        }
-        setSwitch(
-            binding.contactsSettings.settingsContactsIsScrollableInput,
-            CONTACTS_IS_SCROLLABLE,
-            CONTACTS_IS_SCROLLABLE_PREF
-        )
+        setContacts(binding.contactsSettings, requireActivity())
 
         /**
          * View Contact
          */
-        //Buttons Direction
-        setContacts(binding.viewContactSettings, requireActivity())
+        setViewContacts(binding.viewContactSettings, requireActivity())
+
         /**
          * Widgets
          */
 
-        binding.widgetsSettings.settingsWidgetsNumberColumnsInput.setText(
-            launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF).toString()
-        )
-        binding.widgetsSettings.settingsWidgetsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                println("Widgets Colonne Ha il fuoco")
-            } else {
-                updatePreference(
-                    WIDGET_NUMBER_COLUMNS,
-                    getIntValue(binding.widgetsSettings.settingsWidgetsNumberColumnsInput.text)
-                )
-            }
-        }
-        binding.widgetsSettings.settingsWidgetsNumberRowsInput.setText(
-            launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF).toString()
-        )
-        binding.widgetsSettings.settingsWidgetsNumberRows.visibility = if (
-            launcherPreferences.getBoolean(
-                WIDGET_IS_SCROLLABLE,
-                WIDGET_IS_SCROLLABLE_PREF
-            )
-        ) View.VISIBLE else View.GONE
-
-        binding.widgetsSettings.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                println("Widgets Rows Ha il fuoco")
-            } else {
-                updatePreference(
-                    WIDGET_NUMBER_ROWS,
-                    getIntValue(binding.widgetsSettings.settingsWidgetsNumberRowsInput.text)
-                )
-
-            }
-        }
-        //Show text
-        setSwitch(
-            binding.widgetsSettings.settingsWidgetsShowLabelsInput, WIDGET_SHOW_LABELS,
-            WIDGET_SHOW_LABELS_PREF
-        )
-
-        // Possibilità di scorrere
-        setSwitch(
-            binding.widgetsSettings.settingsWidgetsIsScrollableInput,
-            WIDGET_IS_SCROLLABLE,
-            WIDGET_IS_SCROLLABLE_PREF
-        ) {
-            binding.widgetsSettings.settingsWidgetsNumberRows.visibility = if (
-                launcherPreferences.getBoolean(
-                    WIDGET_IS_SCROLLABLE,
-                    WIDGET_IS_SCROLLABLE_PREF
-                )
-            ) View.VISIBLE else View.GONE
-        }
-        // Forzare presenza Settings
-        setSwitch(
-            binding.widgetsSettings.settingsWidgetsForceSettingsInput,
-            WIDGET_FORCE_SETTINGS,
-            WIDGET_FORCE_SETTINGS_DEF
-        ) { checked: Boolean ->
-            if (checked) {
-                binding.widgetsSettings.settingsWidgetsForceAppsInput.isChecked =
-                    launcherPreferences.getBoolean(
-                        WIDGET_FORCE_APPS,
-                        WIDGET_FORCE_APPS_DEF
-                    )
-            } else {
-                binding.widgetsSettings.settingsWidgetsForceAppsInput.isChecked = true
-            }
-        }
-        // Forzare presenza Apps
-        setSwitch(
-            binding.widgetsSettings.settingsWidgetsForceAppsInput,
-            WIDGET_FORCE_APPS,
-            WIDGET_FORCE_APPS_DEF
-        ) { checked: Boolean ->
-            if (!checked) {
-                binding.widgetsSettings.settingsWidgetsForceSettingsInput.isChecked = true
-            } else {
-                binding.widgetsSettings.settingsWidgetsForceSettingsInput.isChecked =
-                    launcherPreferences.getBoolean(
-                        WIDGET_FORCE_SETTINGS,
-                        WIDGET_FORCE_SETTINGS_DEF
-                    )
-            }
-        }
-
+        setWidgets(binding.widgetsSettings, requireActivity())
 
         /**
          * Apps List
          */
-        val viewInt = launcherPreferences.getInt(
-            APPS_LIST_VIEW_TYPE, APPS_LIST_VIEW_TYPE_PREF
-        )
-        binding.listAppsSettings.settingsListAppsDisplayViewInput.setSelection(viewInt)
-        binding.listAppsSettings.settingsListAppsDisplayViewInput.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>, view: View, position: Int, id: Long
-                ) {
-                    updatePreference(APPS_LIST_VIEW_TYPE, position)
-                }
+        setAppList(binding.listAppsSettings, requireActivity())
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
     }
 }
