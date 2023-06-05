@@ -167,13 +167,14 @@ class ContactsFragment :
         }
 
         /**
-         * Versione dove trova duplicati in base a google / whatsapp ...
+         * Ottengo i contatti
          */
         println("Tabella: " + ContactsContract.Contacts.CONTENT_URI)
         contactCursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
             "starred=?"
+//            "${ContactsContract.Contacts.STARRED}=?"
 //                    + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1"
             ,
             arrayOf("1"),

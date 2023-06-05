@@ -1,7 +1,6 @@
 package it.samuelelonghin.safelauncher.home.widgets
 
 import android.content.Context
-import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import it.samuelelonghin.safelauncher.home.widgets.actions.Action

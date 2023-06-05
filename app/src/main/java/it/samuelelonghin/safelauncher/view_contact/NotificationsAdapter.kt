@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.info
+package it.samuelelonghin.safelauncher.view_contact
 
 import android.app.Activity
 import android.app.Notification
@@ -20,7 +20,9 @@ import java.util.*
  * @param activity - the activity this is in
  */
 class NotificationsAdapter(
-    val activity: Activity, private val notifications: MutableMap<String, MutableList<Notification>>
+    val activity: Activity,
+    val user: String,
+    private val notifications: MutableMap<String, MutableList<Notification>>
 ) : RecyclerView.Adapter<NotificationsAdapter.ViewHolder>() {
 
     private val notificationsListDisplayed: MutableList<InfoNotification>
@@ -47,10 +49,12 @@ class NotificationsAdapter(
 
         // ensure onClicks are actually caught
         viewHolder.itemView.setOnClickListener {
-            if (notification.intent != null)
-                launchPendingIntent(notification.intent!!)
-            else if (notification.app != null)
-                launchApp(notification.app, activity)
+            if (notification.app != null) {
+                removeUserAppNotifications(notification.user, notification.app)
+                if (notification.intent != null)
+                    launchPendingIntent(notification.intent!!)
+                else launchApp(notification.app, activity)
+            }
         }
     }
 
@@ -67,12 +71,12 @@ class NotificationsAdapter(
     private fun prepareApps() {
         notificationsListDisplayed.clear()
         notifications.forEach { (k, v) ->
-
-            notificationsListDisplayed += InfoNotification(k, v)
+            notificationsListDisplayed += InfoNotification(k, user, v)
         }
         if (notifications.isEmpty()) notificationsListDisplayed += InfoNotification(
             null,
             "Non hai messaggi",
+            user,
         )
     }
 

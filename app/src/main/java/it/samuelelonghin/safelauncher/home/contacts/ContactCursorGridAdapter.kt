@@ -10,9 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.info.ViewContactActivity
+import it.samuelelonghin.safelauncher.view_contact.ViewContactActivity
 import it.samuelelonghin.safelauncher.support.BaseCursorAdapter
 import it.samuelelonghin.safelauncher.support.contactsList
+import it.samuelelonghin.safelauncher.support.getUserNotifications
+import it.samuelelonghin.safelauncher.support.getUserNotificationsCount
 
 class ContactCursorGridAdapter(
     private val context: Context,
@@ -47,6 +49,12 @@ class ContactCursorGridAdapter(
         holder.textViewContact.text = contact.name
         contact.setPhoto(holder.imageViewContact)
 
+        //Imposto badge di notifica
+        val notificationCount = getUserNotificationsCount(contact.name)
+        if (notificationCount > 0) {
+            holder.textViewNotificationBadge.visibility = View.VISIBLE
+            holder.textViewNotificationBadge.text = notificationCount.toString()
+        }
 
         //Set onclick
         holder.itemView.setOnClickListener {
@@ -63,5 +71,7 @@ class ContactCursorGridAdapter(
             itemView.findViewById(R.id.text_view_view_contact)
         val imageViewContact: ImageView =
             itemView.findViewById(R.id.image_view_contact)
+        val textViewNotificationBadge: TextView =
+            itemView.findViewById(R.id.text_view_notification_badge)
     }
 }

@@ -18,11 +18,29 @@ fun getUserNotifications(user: String): MutableMap<String, MutableList<Notificat
     return notifiche[user]!!
 }
 
-/**
- * For notification opening
- */
-fun launchNotification(notification: Notification) {
-    launchPendingIntent(notification.contentIntent)
+fun getUserNotificationsCount(user: String): Int {
+    var c = 0
+    val n = getUserNotifications(user)
+    for ((_, v) in n) {
+        c += v.size
+    }
+    return c
+}
+
+fun removeNotification(user: String, app: String, no: Notification) {
+    if (!notifiche.containsKey(user))
+        return
+    if (!notifiche[user]!!.containsKey(app))
+        return
+    notifiche[user]!![app]!!.remove(no)
+}
+
+fun removeUserAppNotifications(user: String, app: String) {
+    if (!notifiche.containsKey(user))
+        return
+    if (!notifiche[user]!!.containsKey(app))
+        return
+    notifiche[user]!!.remove(app)
 }
 
 fun launchPendingIntent(pi: PendingIntent) {

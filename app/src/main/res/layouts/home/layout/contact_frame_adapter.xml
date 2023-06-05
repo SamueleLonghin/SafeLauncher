@@ -45,6 +45,21 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/text_view_notification_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:background="@drawable/badge_background"
+            android:gravity="center"
+            android:minWidth="40sp"
+            android:paddingHorizontal="4dp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/app_text_size"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -18,7 +18,7 @@ lateinit var launcherPreferences: SharedPreferences
 /* Objects used by multiple activities */
 val appsList: MutableList<AppInfo> = ArrayList()
 val contactsList: MutableMap<String, ContactInfoPlaceholder> = mutableMapOf()
-
+var widgetsList: MutableList<WidgetSerial> = mutableListOf()
 
 var background: Bitmap? = null
 
@@ -27,12 +27,6 @@ var vibrantColor = 0
 
 var intendedSettingsPause = false // know when to close
 
-
-/**
- * PREFERENCES
- */
-
-var widgetsList: MutableList<WidgetSerial> = mutableListOf()
 
 
 /***
@@ -49,9 +43,3 @@ lateinit var activityResultEnableFullScreen: ActivityResultLauncher<Intent>
  * Mappa       Utente -> App -> Notifiche[]
  */
 var notifiche = mutableMapOf<String, MutableMap<String, MutableList<Notification>>>()
-
-
-/**
- * Receivers
- */
-var widgetBroadcastReceivers = mutableListOf<BroadcastReceiver>()

@@ -8,6 +8,7 @@ import android.service.notification.StatusBarNotification
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import it.samuelelonghin.safelauncher.support.addNotification
 import it.samuelelonghin.safelauncher.support.getBundleAsJson
+import it.samuelelonghin.safelauncher.support.removeNotification
 
 
 const val NOTIFICATION_USER_ID = Notification.EXTRA_TITLE //"android.title"
@@ -40,7 +41,15 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
         // Implement what you want here
-        println("RIMOSSA: " + sbn.user.toString())
+//        val json = getBundleAsJson(sbn.notification.extras)
+        val app = getApp(sbn)
+        val userid = getUser(sbn)
+
+        if (app != null && app != "android" && userid != null) {
+            removeNotification(userid, app, sbn.notification)
+            println("RIMOSSA: " + sbn.user.toString())
+        }
+
     }
 
     private fun getApp(sbn: StatusBarNotification): String? {

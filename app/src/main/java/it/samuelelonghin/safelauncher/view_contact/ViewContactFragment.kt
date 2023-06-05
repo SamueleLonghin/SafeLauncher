@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.info
+package it.samuelelonghin.safelauncher.view_contact
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -103,11 +103,11 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     }
 
     private fun setNotifications() {
-        val userNotifications = getUserNotifications(this.contact.name)
+        val userNotifications = getUserNotifications(contact.name)
 
         println(this.contact.name + " -> " + userNotifications + "Tutte: " + notifiche)
         binding.listViewNotification.adapter =
-            NotificationsAdapter(requireActivity(), userNotifications)
+            NotificationsAdapter(requireActivity(), contact.name, userNotifications)
         binding.listViewNotification.layoutManager = LinearLayoutManager(context)
     }
 

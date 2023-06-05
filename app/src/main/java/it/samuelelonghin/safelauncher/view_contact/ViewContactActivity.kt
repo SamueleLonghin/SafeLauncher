@@ -1,4 +1,4 @@
-package it.samuelelonghin.safelauncher.info
+package it.samuelelonghin.safelauncher.view_contact
 
 import android.os.Bundle
 import android.view.Window

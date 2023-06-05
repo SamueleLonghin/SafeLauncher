@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".info.ViewContactActivity">
+    tools:context=".view_contact.ViewContactActivity">
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/contacts_frame"
-        android:name="it.samuelelonghin.safelauncher.info.ViewContactFragment"
+        android:name="it.samuelelonghin.safelauncher.view_contact.ViewContactFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
