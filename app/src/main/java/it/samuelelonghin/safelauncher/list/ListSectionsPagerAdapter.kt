@@ -21,7 +21,7 @@ class ListSectionsPagerAdapter(
 ) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    private val TAB_TITLES = arrayOf(
+    private val tabTitles = arrayOf(
         R.string.list_tab_app,
         R.string.list_tab_other
     )
@@ -35,7 +35,7 @@ class ListSectionsPagerAdapter(
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return context.resources.getString(TAB_TITLES[position])
+        return context.resources.getString(tabTitles[position])
     }
 
     override fun getCount(): Int {

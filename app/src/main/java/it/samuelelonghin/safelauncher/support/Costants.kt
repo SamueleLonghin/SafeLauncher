@@ -16,17 +16,9 @@ const val SETTINGS_AUTH_LENGTH = 6
  */
 const val BROADCAST_NOTIFICATIONS = "it.samuelelonghin.safelauncher.notifications"
 
-/**
- * THEME
- */
-const val PREF_DOMINANT = "custom_dominant"
-const val PREF_VIBRANT = "custom_vibrant"
-const val PREF_WALLPAPER = "background_uri"
-const val PREF_THEME = "theme"
 
 const val PREF_SCREEN_TIMEOUT_DISABLED = "disableTimeout"
 const val PREF_SCREEN_FULLSCREEN = "useFullScreen"
-const val PREF_DATE_FORMAT = "dateFormat"
 
 
 /**
@@ -56,7 +48,6 @@ const val VIEW_CONTACT_SHOW_RAPID_CALL = "view-contact-show-rapid-call"
 const val VIEW_CONTACT_SHOW_RAPID_CHAT = "view-contact-show-rapid-chat"
 const val VIEW_CONTACT_SHOW_NOTIFICATIONS = "view-contact-show-notifications"
 const val VIEW_CONTACT_RAPID_CHAT_APP = "view-contact-rapid-chat-app"
-const val DRAWER_SEARCH_AT_LAUNCH = "drawer-search-at-launch"
 const val OPEN_APP_ON_ONLY_ONE_RESULTS = "open-app-on-only-one-results"
 const val OPEN_KEYBOARD_ON_SEARCH = "open-keyboard-on-search"
 const val DATE_FORMAT = "date-format"
@@ -90,6 +81,7 @@ const val SETTINGS_REQUIRES_AUTH_DEF = false
 const val SETTINGS_FORCE_FULL_SCREEN_DEF = false
 const val SETTINGS_AUTH_DEF = ""
 const val OPEN_KEYBOARD_ON_SEARCH_DEF = true
+const val OPEN_APP_ON_ONLY_ONE_RESULTS_DEF = true
 
 
 /**

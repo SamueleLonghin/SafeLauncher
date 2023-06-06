@@ -14,17 +14,8 @@ import java.io.IOException
 import java.io.Serializable
 
 
-class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(context),
-    Serializable {
-
-//    var id: String
-//    var name: String
-//    var mobileNumber: String? = null
-//    var email: String? = null
-//
-//    var photoURI: String? = null
-
-//    lateinit var notification: MutableList<Notification>
+    class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(context),
+        Serializable {
 
     init {
         name =

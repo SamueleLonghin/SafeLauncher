@@ -96,10 +96,7 @@ fun setWindowFlags(window: Window) {
     else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 }
 
-/**
- * [loadApps] is used to speed up the [AppsRecyclerAdapter] loading time,
- * as it caches all the apps and allows for fast access to the data.
- */
+
 fun loadApps(packageManager: PackageManager) {
     val loadList = mutableListOf<AppInfo>()
 
@@ -108,7 +105,6 @@ fun loadApps(packageManager: PackageManager) {
     val allApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
     for (ri in allApps) {
         if (ri.sourceDir.startsWith("/data/app/")) {
-//        if (ri.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
             val app = AppInfo()
             app.label = ri.loadLabel(packageManager)
             app.packageName = ri.packageName
@@ -136,36 +132,10 @@ fun getAppInfo(context: Context, packageName: String): ApplicationInfo {
     }
 }
 
-
-/* Settings related functions */
-
-fun getSavedTheme(context: Context): String {
-    return launcherPreferences.getString(PREF_THEME, "light").toString()
-}
-
-fun saveTheme(themeName: String): String {
-    launcherPreferences.edit().putString(PREF_THEME, themeName).apply()
-
-    return themeName
-}
-
-// Used in Tutorial and Settings `ActivityOnResult`
-fun saveListActivityChoice(data: Intent?) {
-    val value = data?.getStringExtra("value")
-    val forApp = data?.getStringExtra("forApp") ?: return
-
-    launcherPreferences.edit().putString("action_$forApp", value.toString()).apply()
-}
-
-
 fun loadPreferences(activity: Activity) {
     launcherPreferences = activity.getSharedPreferences(
         activity.getString(R.string.preference_file_key), Context.MODE_PRIVATE
     )
-//    widgetNumberColumns = launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, 3)
-//    widgetNumberRows = launcherPreferences.getInt(WIDGET_NUMBER_ROWS, 2)
-//    contactsNumberColumns = launcherPreferences.getInt(CONTACTS_NUMBER_COLUMNS, 2)
-
 }
 
 fun updatePreference(key: String, value: Int) {
@@ -186,21 +156,13 @@ fun updatePreference(key: String, value: Boolean) {
     editor.apply()
 }
 
-@kotlinx.serialization.Serializable
-data class WidgetListWrapper(
-    private val list: MutableList<WidgetSerial>
-)
-
 
 fun serializeWidgets(widgets: MutableList<WidgetSerial>): String {
-    val widgetListWrapper = WidgetListWrapper(widgetsList)
-    return Json.encodeToString(widgetsList)
-//    return Json.encodeToString(widgetListWrapper)
+    return Json.encodeToString(widgets)
 }
 
 fun deserializeWidgets(serialisedList: String): MutableList<WidgetSerial> {
-    return Json.decodeFromString<MutableList<WidgetSerial>>(serialisedList)
-//    return Json.decodeFromString<WidgetListWrapper>(serialisedList)
+    return Json.decodeFromString(serialisedList)
 }
 
 fun setWidgetListItem(position: Int, ws: WidgetSerial) {
@@ -244,37 +206,13 @@ private fun getIntent(packageName: String, context: Context): Intent? {
     return intent
 }
 
-fun isInstalled(uri: String, context: Context): Boolean {
-    if (uri.startsWith("safeLauncher:")) return true // All internal actions
-
-    try {
-        context.packageManager.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
-        return true
-    } catch (_: PackageManager.NameNotFoundException) {
-    }
-    return false
-}
-
-
 fun launch(
     data: String,
     activity: Activity,
     animationIn: Int = android.R.anim.fade_in,
     animationOut: Int = android.R.anim.fade_out
 ) {
-
-    if (data.startsWith("launcher:")) // [type]:[info]
-        when (data.split(":")[1]) {
-//            "settings" -> openSettings(activity)
-//            "choose" -> openAppsList(activity)
-//            "volumeUp" -> audioVolumeUp(activity)
-//            "volumeDown" -> audioVolumeDown(activity)
-//            "nextTrack" -> audioNextTrack(activity)
-//            "previousTrack" -> audioPreviousTrack(activity)
-//            "tutorial" -> openTutorial(activity)
-        }
-    else launchApp(data, activity) // app
-
+    launchApp(data, activity)
     activity.overridePendingTransition(animationIn, animationOut)
 }
 
@@ -338,12 +276,6 @@ fun openSoftKeyboard(context: Context, view: View) {
     // open the soft keyboard
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-}
-
-
-fun dpToPx(context: Context, dp: Int): Int {
-    val scale = context.resources.displayMetrics.density
-    return (dp * scale + 0.5f).toInt()
 }
 
 

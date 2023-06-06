@@ -53,8 +53,8 @@ class ContactCursorAdapter(
         }
 
         //Set onclick
+
         holder.itemView.setOnClickListener {
-            println("Cliccato ${contact.name}")
             val intent = Intent(context, ViewContactActivity::class.java)
             intent.putExtra("contact", contact)
             context.startActivity(intent)

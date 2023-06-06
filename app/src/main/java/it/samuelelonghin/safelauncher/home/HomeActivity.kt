@@ -3,8 +3,6 @@ package it.samuelelonghin.safelauncher.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import it.samuelelonghin.safelauncher.databinding.HomeBinding
 import it.samuelelonghin.safelauncher.support.*
@@ -50,10 +48,6 @@ class HomeActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         println("HOME :: OnResume")
-
-        if (getSavedTheme(this) == "custom") binding.homeBackgroundImage.setImageBitmap(background)
-
-
         checkDefaultLauncher()
     }
 
