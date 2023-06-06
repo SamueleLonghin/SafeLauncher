@@ -11,9 +11,6 @@ import it.samuelelonghin.safelauncher.support.DEFAULT_INDEX
 import it.samuelelonghin.safelauncher.support.UIObject
 import it.samuelelonghin.safelauncher.support.intendedSettingsPause
 
-var intendedChoosePause = false // know when to close
-
-
 /**
  * The [ListActivity] is the most general purpose activity in Launcher:
  * - used to view all apps and edit their settings
@@ -50,12 +47,7 @@ class ListActivity : AppCompatActivity(), UIObject {
     override fun onPause() {
         super.onPause()
         intendedSettingsPause = false
-        if (!intendedChoosePause) finish()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        intendedChoosePause = false
+        finish()
     }
 
     override fun setOnClicks() {
