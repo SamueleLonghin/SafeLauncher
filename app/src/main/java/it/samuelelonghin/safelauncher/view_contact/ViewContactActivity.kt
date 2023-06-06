@@ -167,9 +167,8 @@ class ViewContactActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor
     }
 
     private fun getContactFromIntent(): ContactInfo {
-        val contact = getSerializable(this.intent, "contact", ContactInfo::class.java)
+        val contact = getSerializable(intent, "contact", ContactInfo::class.java)
         contact.setContext(this)
-
         return contact
     }
 
