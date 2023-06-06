@@ -36,6 +36,7 @@ import org.json.JSONObject
 import java.io.Serializable
 
 
+@Suppress("DEPRECATION", "UNCHECKED_CAST")
 fun <T : Serializable?> getSerializable(intent: Intent, name: String, clazz: Class<T>): T {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.getSerializableExtra(
         name, clazz
