@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/settings_launcher_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -28,18 +29,56 @@
     </LinearLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="@string/settings_contatti_colonne_label">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/settings_contacts_number_columns_input"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:inputType="number"-->
+    <!--            tools:ignore="SpeakableTextPresentCheck" />-->
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/settings_contatti_colonne_label">
+        android:layout_marginTop="16sp"
+        android:layout_marginBottom="16sp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8sp"
+        android:showDividers="middle">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/settings_contacts_number_columns_input"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/settings_contacts_number_columns_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/settings_contacts_number_columns_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            tools:ignore="SpeakableTextPresentCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="0dp"
+            android:maxLines="2"
+            android:padding="0dp"
+            android:text="@string/settings_contatti_colonne_label"
+            android:textSize="16sp" />
+
+
+        <Spinner
+            android:id="@+id/settings_contacts_number_columns_input"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:entries="@array/settings_contacts_number_columns_items"
+            android:spinnerMode="dropdown"
+            android:textAlignment="textEnd" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

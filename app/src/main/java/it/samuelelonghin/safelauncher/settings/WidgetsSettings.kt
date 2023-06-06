@@ -6,22 +6,15 @@ import it.samuelelonghin.safelauncher.databinding.WidgetSettingsFragmentBinding
 import it.samuelelonghin.safelauncher.support.*
 
 fun setWidgets(binding: WidgetSettingsFragmentBinding, activity: Activity) {
-    binding.settingsWidgetsNumberColumnsInput.setText(
-        launcherPreferences.getInt(WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF).toString()
+    setSpinnerNumeric(
+        binding.settingsWidgetsNumberColumnsInput,
+        WIDGET_NUMBER_COLUMNS, WIDGET_NUMBER_COLUMNS_PREF
     )
-    binding.settingsWidgetsNumberColumnsInput.setOnFocusChangeListener { _, hasFocus ->
-        if (hasFocus) {
-            println("Widgets Colonne Ha il fuoco")
-        } else {
-            updatePreference(
-                WIDGET_NUMBER_COLUMNS,
-                getIntValue(binding.settingsWidgetsNumberColumnsInput.text)
-            )
-        }
-    }
-    binding.settingsWidgetsNumberRowsInput.setText(
-        launcherPreferences.getInt(WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF).toString()
+    setSpinnerNumeric(
+        binding.settingsWidgetsNumberRowsInput,
+        WIDGET_NUMBER_ROWS, WIDGET_NUMBER_ROWS_PREF
     )
+
     binding.settingsWidgetsNumberRows.visibility = if (
         launcherPreferences.getBoolean(
             WIDGET_IS_SCROLLABLE,
@@ -29,17 +22,6 @@ fun setWidgets(binding: WidgetSettingsFragmentBinding, activity: Activity) {
         )
     ) View.VISIBLE else View.GONE
 
-    binding.settingsWidgetsNumberRowsInput.setOnFocusChangeListener { _, hasFocus ->
-        if (hasFocus) {
-            println("Widgets Rows Ha il fuoco")
-        } else {
-            updatePreference(
-                WIDGET_NUMBER_ROWS,
-                getIntValue(binding.settingsWidgetsNumberRowsInput.text)
-            )
-
-        }
-    }
     //Show text
     setSwitch(
         binding.settingsWidgetsShowLabelsInput, WIDGET_SHOW_LABELS,
