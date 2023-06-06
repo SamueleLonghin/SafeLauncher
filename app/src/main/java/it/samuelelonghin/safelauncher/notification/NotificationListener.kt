@@ -6,6 +6,7 @@ import android.os.IBinder
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import it.samuelelonghin.safelauncher.support.BROADCAST_NOTIFICATIONS
 import it.samuelelonghin.safelauncher.support.addNotification
 import it.samuelelonghin.safelauncher.support.getBundleAsJson
 import it.samuelelonghin.safelauncher.support.removeNotification
@@ -31,7 +32,7 @@ class NotificationListener : NotificationListenerService() {
             println("AGGIUNTA: $app $userid $json")
         }
 
-        val intent = Intent()
+        val intent = Intent(BROADCAST_NOTIFICATIONS)
         intent.putExtra("notification", sbn)
         intent.putExtra("target.user", userid)
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent)
@@ -49,6 +50,11 @@ class NotificationListener : NotificationListenerService() {
             removeNotification(userid, app, sbn.notification)
             println("RIMOSSA: " + sbn.user.toString())
         }
+
+        val intent = Intent(BROADCAST_NOTIFICATIONS)
+        intent.putExtra("notification", sbn)
+        intent.putExtra("target.user", userid)
+        LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent)
 
     }
 

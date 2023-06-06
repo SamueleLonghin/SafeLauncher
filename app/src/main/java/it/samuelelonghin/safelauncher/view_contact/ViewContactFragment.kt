@@ -162,20 +162,18 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
     override fun onStart() {
         super.onStart()
         println("ViewContactFragment :: Start")
-
+        registerReceiver()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("ViewContactFragment :: Create")
-        registerReceiver()
+        createReceiver()
     }
 
     override fun onStop() {
         super.onStop()
-        if (::broadcastReceiver.isInitialized)
-            LocalBroadcastManager.getInstance(requireContext())
-                .unregisterReceiver(broadcastReceiver)
+        unregisterReceiver()
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -202,16 +200,28 @@ class ViewContactFragment : Fragment(R.layout.view_contact_frame),
         println("ViewContactFragment :: Inflate")
     }
 
-    private fun registerReceiver() {
+    private fun createReceiver() {
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.extras != null) {
                     val myData = getBundleAsJson(intent.extras!!)
                     println("Not Broadcast: $myData")
+                    setNotifications()
                 }
             }
         }
-        LocalBroadcastManager.getInstance(requireActivity())
-            .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
+    }
+
+    private fun registerReceiver() {
+        if (::broadcastReceiver.isInitialized)
+            LocalBroadcastManager.getInstance(requireActivity())
+                .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
+    }
+
+    private fun unregisterReceiver() {
+
+        if (::broadcastReceiver.isInitialized)
+            LocalBroadcastManager.getInstance(requireContext())
+                .unregisterReceiver(broadcastReceiver)
     }
 }

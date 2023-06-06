@@ -1,6 +1,9 @@
 package it.samuelelonghin.safelauncher.home.contacts
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.database.Cursor
 import android.os.Bundle
@@ -18,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
@@ -47,6 +51,8 @@ class ContactsFragment :
             displayContacts()
         }
     }
+
+    private lateinit var broadcastReceiver: BroadcastReceiver
 
 
     // A UI Fragment must inflate its View
@@ -83,42 +89,6 @@ class ContactsFragment :
 
 
             }
-//        registerForActivityResult(
-//            ActivityResultContracts.RequestPermission()
-//        ) { isGranted ->
-//            if (isGranted) {
-//                getContacts()
-//                Toast.makeText(
-//                    context,
-//                    getString(R.string.permesso_contatti_granted),
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            } else {
-//                Toast.makeText(
-//                    context,
-//                    getString(R.string.permesso_contatti_not_granted),
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
-
-//        localActivityResult =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-//                if (result.resultCode == AppCompatActivity.RESULT_OK) {
-//                    getContacts()
-//                    Toast.makeText(
-//                        context,
-//                        getString(R.string.permesso_contatti_granted),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                } else {
-//                    Toast.makeText(
-//                        context,
-//                        getString(R.string.permesso_contatti_not_granted),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
 
         //Getting contacts from OS
         getContacts()
@@ -126,11 +96,23 @@ class ContactsFragment :
         return binding.root
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        createReceiver()
+    }
+
     override fun onStart() {
         super.onStart()
 
         //Displaying contacts
         displayContacts()
+        registerReceiver()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver()
     }
 
     override fun onResume() {
@@ -198,6 +180,7 @@ class ContactsFragment :
 
         val contactsRecycleView = binding.listContacts
         contactsRecycleView.layoutManager = layoutManager
+
         if (::contactCursor.isInitialized) {
             cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
             contactsRecycleView.adapter = cursorAdapter
@@ -219,5 +202,31 @@ class ContactsFragment :
     }
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+    }
+
+
+    private fun createReceiver() {
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.extras != null) {
+                    val myData = getBundleAsJson(intent.extras!!)
+                    println("Not Broadcast: $myData")
+                    displayContacts()
+                }
+            }
+        }
+    }
+
+    private fun registerReceiver() {
+        if (::broadcastReceiver.isInitialized)
+            LocalBroadcastManager.getInstance(requireActivity())
+                .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
+    }
+
+    private fun unregisterReceiver() {
+
+        if (::broadcastReceiver.isInitialized)
+            LocalBroadcastManager.getInstance(requireContext())
+                .unregisterReceiver(broadcastReceiver)
     }
 }
