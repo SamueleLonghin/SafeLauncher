@@ -68,12 +68,13 @@ class WidgetAdapter(
                     }
                 }
                 WidgetFragment.Mode.PICK -> {
-                    println("SELEZIONATO ${wi.name}")
+
                     val intent = Intent(context, ListActivity::class.java)
                     intent.putExtra("intention", "pick")
                     intent.putExtra("index", position)
                     intendedSettingsPause = true
                     selectApp.launch(intent)
+
                 }
             }
         }

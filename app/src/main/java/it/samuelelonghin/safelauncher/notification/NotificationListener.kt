@@ -23,21 +23,17 @@ class NotificationListener : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
 
-        val json = getBundleAsJson(sbn.notification.extras)
         val app = getApp(sbn)
         val userid = getUser(sbn)
 
         if (app != null && app != "android" && userid != null) {
             addNotification(userid, app, sbn.notification)
-            println("AGGIUNTA: $app $userid $json")
         }
 
         val intent = Intent(BROADCAST_NOTIFICATIONS)
         intent.putExtra("notification", sbn)
-        intent.putExtra("target.user", userid)
+        intent.putExtra("targetUser", userid)
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent)
-
-//      launchNotification(sbn.notification)
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
@@ -53,7 +49,7 @@ class NotificationListener : NotificationListenerService() {
 
         val intent = Intent(BROADCAST_NOTIFICATIONS)
         intent.putExtra("notification", sbn)
-        intent.putExtra("target.user", userid)
+        intent.putExtra("targetUser", userid)
         LocalBroadcastManager.getInstance(baseContext).sendBroadcast(intent)
 
     }

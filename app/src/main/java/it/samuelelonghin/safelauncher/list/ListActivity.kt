@@ -22,6 +22,10 @@ class ListActivity : AppCompatActivity(), UIObject {
     private lateinit var binding: ListActivityBinding
 
     private var intention: String = "view"
+
+    /**
+     * Rappresenta l'indice nel quale andare ad inserire il widget nel caso l'intention sia pick
+     */
     private var index: Int = DEFAULT_INDEX
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +41,6 @@ class ListActivity : AppCompatActivity(), UIObject {
         if (bundle != null) {
             intention = bundle.getString("intention")!! // why choose an app
             if (intention != "view") {
-//                forApp = bundle.getString("forApp")!! // which app we choose
                 index = bundle.getInt("index") // which app we choose
             }
         }
@@ -55,6 +58,9 @@ class ListActivity : AppCompatActivity(), UIObject {
     }
 
     override fun adjustLayout() {
+        val viewPager: ViewPager = findViewById(R.id.list_viewpager)
+        val tabs: TabLayout = findViewById(R.id.list_tabs)
+
         // Hide tabs for the "view" action
         if (intention == "view") {
             binding.listTabs.visibility = View.GONE
@@ -67,9 +73,8 @@ class ListActivity : AppCompatActivity(), UIObject {
 
         val sectionsPagerAdapter =
             ListSectionsPagerAdapter(this, supportFragmentManager, intention, index)
-        val viewPager: ViewPager = findViewById(R.id.list_viewpager)
+
         viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.list_tabs)
         tabs.setupWithViewPager(viewPager)
     }
 }
