@@ -38,7 +38,7 @@ class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(con
         if (cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER))
                 .toInt() > 0
         ) {
-            val cr: ContentResolver = this._context.contentResolver
+            val cr: ContentResolver = this.localContext.contentResolver
 
             // Query phone here. Covered next
 
@@ -70,7 +70,7 @@ class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(con
             try {
                 return MediaStore.Images.Media
                     .getBitmap(
-                        _context.contentResolver,
+                        localContext.contentResolver,
                         Uri.parse(photoURI)
                     )
             } catch (e: FileNotFoundException) {
@@ -88,7 +88,7 @@ class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(con
                 imageView.setImageBitmap(
                     MediaStore.Images.Media
                         .getBitmap(
-                            _context.contentResolver,
+                            localContext.contentResolver,
                             Uri.parse(photoURI)
                         )
                 )

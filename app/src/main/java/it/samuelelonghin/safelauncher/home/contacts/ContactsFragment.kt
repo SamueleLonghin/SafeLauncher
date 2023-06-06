@@ -14,18 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
 import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
-import it.samuelelonghin.safelauncher.settings.registerNotificationSwitch
 import it.samuelelonghin.safelauncher.support.*
 
 
@@ -44,7 +42,7 @@ class ContactsFragment :
     private lateinit var contactCursor: Cursor
 
     // Request code for READ_CONTACTS. It can be any number > 0.
-    private var cursorAdapter: ContactCursorGridAdapter? = null
+    private lateinit var cursorAdapter: RecyclerView.Adapter<ContactViewHolder>
 
     private val sharedPreferenceChangeListener = OnSharedPreferenceChangeListener { _, key ->
         if (key in CONTACTS_PREFERENCES) {
@@ -139,33 +137,28 @@ class ContactsFragment :
         val context = requireContext()
 
         if (!canReadContacts(context)) {
-
-
-//            val intent = Intent(activity, RequestContactsActivity::class.java)
-//            localActivityResult.launch(intent)
-
-//            permissionLauncher.launch(Manifest.permission.READ_CONTACTS)
             return
         }
 
         /**
          * Ottengo i contatti
          */
-        println("Tabella: " + ContactsContract.Contacts.CONTENT_URI)
+
+
         contactCursor = context.contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
-            "starred=?"
-//            "${ContactsContract.Contacts.STARRED}=?"
-//                    + " AND " + ContactsContract.Contacts.HAS_PHONE_NUMBER + "=1"
-            ,
+            "${ContactsContract.Contacts.STARRED}=?",
             arrayOf("1"),
             null
         )!!
+
     }
 
     private fun displayContacts() {
         val context = context ?: return
+        val contactsRecycleView = binding.listContacts
+
         val nCols = launcherPreferences.getInt(
             CONTACTS_NUMBER_COLUMNS, CONTACTS_NUMBER_COLUMNS_PREF
         )
@@ -174,25 +167,20 @@ class ContactsFragment :
             CONTACTS_IS_SCROLLABLE, CONTACTS_IS_SCROLLABLE_PREF
         )
 
-        val layoutManager = object : GridLayoutManager(context, nCols) {
+        contactsRecycleView.layoutManager = object : GridLayoutManager(context, nCols) {
             override fun canScrollVertically() = isScrollable
         }
 
-        val contactsRecycleView = binding.listContacts
-        contactsRecycleView.layoutManager = layoutManager
-
-        if (::contactCursor.isInitialized) {
-            cursorAdapter = ContactCursorGridAdapter(context, contactCursor)
-            contactsRecycleView.adapter = cursorAdapter
+        cursorAdapter = if (::contactCursor.isInitialized) {
+            ContactCursorAdapter(context, contactCursor)
         } else {
-            System.err.println("Cursor not loaded in ContactsFragment")
-            contactsRecycleView.adapter =
-                ContactPlaceholderCursorAdapter(
-                    context,
-                    nCols * (if (isScrollable) 3 else 2),
-                    permissionLauncher
-                )
+            ContactPlaceholderAdapter(
+                context,
+                nCols * (if (isScrollable) 3 else 2),
+                permissionLauncher
+            )
         }
+        contactsRecycleView.adapter = cursorAdapter
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {

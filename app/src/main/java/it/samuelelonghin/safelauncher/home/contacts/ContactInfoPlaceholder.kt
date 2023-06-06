@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.support.setIconTintPrimary
 import it.samuelelonghin.safelauncher.support.setIconTintSecondary
 import java.io.Serializable
 import kotlin.random.Random
@@ -15,7 +14,7 @@ import kotlin.random.Random
 open class ContactInfoPlaceholder(context: Context, name: String, id: String) : Serializable {
 
     @Transient
-    protected var _context: Context
+    protected var localContext: Context
 
     var id: String
     var name: String
@@ -24,10 +23,8 @@ open class ContactInfoPlaceholder(context: Context, name: String, id: String) : 
 
     var photoURI: String? = null
 
-//    lateinit var notification: MutableList<Notification>
-
     init {
-        this._context = context
+        this.localContext = context
         this.name = name
         this.id = id
     }
@@ -41,7 +38,7 @@ open class ContactInfoPlaceholder(context: Context, name: String, id: String) : 
             R.drawable.ic_baseline_face_6_24,
             R.drawable.ic_baseline_face_2_24
         )
-        return BitmapFactory.decodeResource(_context.resources, users[Random.nextInt(users.size)])
+        return BitmapFactory.decodeResource(localContext.resources, users[Random.nextInt(users.size)])
     }
 
     open fun getRandomDrawable(): Int {
@@ -55,14 +52,7 @@ open class ContactInfoPlaceholder(context: Context, name: String, id: String) : 
     }
 
     open fun getPhotoDrawable(): Drawable {
-        return setIconTintSecondary(_context, getRandomDrawable())
-
-//        return ResourcesCompat.getDrawable(
-//            _context.resources,
-//            users[Random.nextInt(users.size)],
-//            _context.theme
-//        )!!
-
+        return setIconTintSecondary(localContext, getRandomDrawable())
     }
 
     open fun setPhoto(imageView: ImageView) {
@@ -70,11 +60,10 @@ open class ContactInfoPlaceholder(context: Context, name: String, id: String) : 
     }
 
     fun appendToList(list: MutableMap<String, ContactInfoPlaceholder>) {
-        //todo gestire il sovrascrimento delle notifiche
         list[id] = this
     }
 
     fun setContext(context: Context) {
-        _context = context
+        localContext = context
     }
 }
