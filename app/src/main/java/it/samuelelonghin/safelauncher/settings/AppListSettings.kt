@@ -4,10 +4,7 @@ import android.app.Activity
 import android.view.View
 import android.widget.AdapterView
 import it.samuelelonghin.safelauncher.databinding.ListAppsSettingsFragmentBinding
-import it.samuelelonghin.safelauncher.support.APPS_LIST_VIEW_TYPE
-import it.samuelelonghin.safelauncher.support.APPS_LIST_VIEW_TYPE_PREF
-import it.samuelelonghin.safelauncher.support.launcherPreferences
-import it.samuelelonghin.safelauncher.support.updatePreference
+import it.samuelelonghin.safelauncher.support.*
 
 fun setAppList(binding: ListAppsSettingsFragmentBinding, activity: Activity) {
     val viewInt = launcherPreferences.getInt(
@@ -24,4 +21,15 @@ fun setAppList(binding: ListAppsSettingsFragmentBinding, activity: Activity) {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+
+    setSwitch(
+        binding.settingsListAppsOpenKeyboardOnStartInput, OPEN_KEYBOARD_ON_SEARCH,
+        OPEN_KEYBOARD_ON_SEARCH_DEF
+    )
+
+    setSwitch(
+        binding.settingsListAppsOpenAppOnOnlyOneResultInput, OPEN_APP_ON_ONLY_ONE_RESULTS,
+        OPEN_APP_ON_ONLY_ONE_RESULTS_DEF
+    )
 }

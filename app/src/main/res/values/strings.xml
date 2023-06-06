@@ -94,4 +94,6 @@
     <string name="tutorial_request_full_screen_back_button_text">Torna Indietro</string>
     <string name="vibration">Vibrazione</string>
     <string name="call">Chiama</string>
+    <string name="settings_list_apps_open_keyboard_on_start_label">Mostra Tastiera all\'apertura</string>
+    <string name="settings_list_apps_open_app_on_only_one_result_label">Avvia Applicazione se unico risultato</string>
 </resources>
