@@ -42,14 +42,14 @@ android {
     }
     sourceSets {
         main {
-            res.srcDirs = [
-                    'src/main/res',
-                    'src/main/res/layouts/home',
-                    'src/main/res/layouts/settings',
-                    'src/main/res/layouts/drawer',
-                    'src/main/res/layouts/contact_info',
-                    'src/main/res/layouts/list', 'src/main/res/layouts/tutorial'
-            ]
+            res.srcDirs = ['src/main/res',
+                           'src/main/res/layouts/home',
+                           'src/main/res/layouts/settings',
+                           'src/main/res/layouts/drawer',
+                           'src/main/res/layouts/contact_info',
+                           'src/main/res/layouts/list',
+                           'src/main/res/layouts/tutorial',
+                           'src/main/res/layouts/common']
         }
     }
     dataBinding {

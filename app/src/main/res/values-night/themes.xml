@@ -12,7 +12,8 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SafeLauncher.Dialog" parent="Theme.Material3.DayNight.Dialog" />
+    <style name="Theme.SafeLauncher.Dialog" parent="Theme.Material3.DayNight.Dialog">
+    </style>
 
     <style name="Theme.SafeLauncher.NoTitle" parent="Theme.SafeLauncher">
         <item name="windowActionBar">false</item>
