@@ -33,6 +33,7 @@ class HomeActivity : BaseActivity() {
 
         if (!launcherPreferences.getBoolean(IS_TUTORIAL_FINISHED, false)) {
 //            startActivity(Intent(TutorialActivity))
+            //todo Creare un Tutorial fatto bene
             println("Inizio Tutorial")
         }
 
@@ -40,10 +41,6 @@ class HomeActivity : BaseActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             loadApps(packageManager)
         }
-        activityResultNotificationPolicy =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                println("Permesso garantito ${result.resultCode}")
-            }
 
         // Initialise layout
         setContentView(view)
@@ -54,8 +51,7 @@ class HomeActivity : BaseActivity() {
         super.onResume()
         println("HOME :: OnResume")
 
-        if (getSavedTheme(this) == "custom")
-            binding.homeBackgroundImage.setImageBitmap(background)
+        if (getSavedTheme(this) == "custom") binding.homeBackgroundImage.setImageBitmap(background)
 
 
         checkDefaultLauncher()

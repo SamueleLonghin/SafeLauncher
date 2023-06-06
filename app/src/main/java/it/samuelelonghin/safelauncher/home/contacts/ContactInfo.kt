@@ -62,32 +62,6 @@ class ContactInfo(cursor: Cursor, context: Context) : ContactInfoPlaceholder(con
                 ce.close()
             }
             mobileNumber = phone
-//            System.out.print(name + " " + id + " " + email + " ")
-//            System.out.println("Numero: " + phone)
-
-
-//            val phones: Cursor? = cr.query(
-//                Phone.CONTENT_URI, null,
-//                Phone.CONTACT_ID + " = " + id, null, null
-//            )
-//            if (phones != null) {
-//                while (phones.moveToNext()) {
-//                    var number = phones.getString(phones.getColumnIndexOrThrow(Phone.NUMBER))
-//                    val type = phones.getInt(phones.getColumnIndexOrThrow(Phone.TYPE))
-//                    when (type) {
-//                        Phone.TYPE_HOME,
-//                        Phone.TYPE_WORK -> {
-//                            if (mobileNumber == null) mobileNumber = number
-//                        }
-//                        Phone.TYPE_MOBILE -> {
-//                            mobileNumber = number
-//                        }
-//                    }
-//                    System.out.print(name + " ")
-//                    System.out.println("Numero: " + number + " type: " + type)
-//                }
-//            }
-//            phones?.close()
         }
     }
 

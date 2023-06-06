@@ -62,7 +62,12 @@ class WidgetFragment :
                     setWidgetListItem(i, ws)
                 } else System.err.println("RESULT: $result")
             }
-
+        // registro la callback per ottenere l'accesso alla modifica dello stato del telefono
+        // Verrà chiamata all'interno del Widget Action Mute
+        activityResultNotificationPolicy =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                println("Permesso garantito ${result.resultCode}")
+            }
 
         return _view
     }
