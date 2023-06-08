@@ -195,9 +195,9 @@ class ViewContactActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor
         broadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.extras != null) {
-                    val myData = getBundleAsJson(intent.extras!!)
-                    println("Not Broadcast: $myData")
-                    setNotifications()
+                    val user = intent.extras!!.getString("targetUser")
+                    if (user != null && user == contact.name)
+                        setNotifications()
                 }
             }
         }
