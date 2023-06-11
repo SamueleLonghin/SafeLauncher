@@ -19,7 +19,7 @@ class ActionFlash : Action("Flash", 0) {
         get() = listOf("Flash on", "Flash Of")
     override val icons: List<Int>
         get() = listOf(
-            R.drawable.ic_baseline_flashlight_on_24, R.drawable.ic_baseline_flashlight_off_24
+            R.drawable.ic_baseline_flashlight_on_24, R.drawable.ic_baseline_flashlight_on_mia_24
         )
     override val texts: List<Int>
         get() = listOf(

@@ -84,14 +84,17 @@
     <string name="title_activity_request_full_scren">RequestFullScrenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="tutorial_request_full_screen_button_text">Concedi il Permesso</string>
-    <string name="tutorial_contacts_description_text">Per funzionare correttamente abbiamo bisogno di vedere quali sono i tuoi contatti. Cortesemente concedici l\'accesso</string>
     <string name="permesso_contatti_granted">Permission granted!</string>
     <string name="permesso_contatti_not_granted">Until you grant the permission, we cannot display the names</string>
     <string name="settings_home_set_as_preferred_launcher_text">Imposta come Launcher Predefinito</string>
-    <string name="tutorial_notification_policy_description_text">Per poter gestire il suono del dispositivo abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
-    <string name="tutorial_notification_access_description_text">Per poter mostrare le notifiche che ricevi abbiamo bisogno di te. Cortesemente forniscici il permesso</string>
+
+    <string name="tutorial_contacts_description_text">Per garantire un funzionamento ottimale, è necessario avere accesso ai tuoi contatti. Ti preghiamo gentilmente di concederci l\'accesso in modo da poter offrire una migliore esperienza di utilizzo.</string>
+    <string name="tutorial_full_screen_description_text">Per offrire un\'esperienza ottimale e garantire la massima fruibilità dell\'applicazione, ti chiediamo cortesemente di concederci il permesso di avviare l\'applicazione a schermo intero. Questo ci permetterà di ottimizzare l\'interfaccia e garantire una visualizzazione completa e coinvolgente delle funzionalità offerte.</string>
+    <string name="tutorial_notification_policy_description_text">Per poter gestire il suono del dispositivo, ti chiediamo gentilmente di fornirci il permesso necessario. Attivando questa opzione, sarai in grado di impostare il dispositivo in modalità silenziosa durante i tuoi momenti personali.</string>
+    <string name="tutorial_notification_access_description_text">Per poter visualizzare le notifiche che ricevi, richiediamo il tuo consenso. Ti invitiamo gentilmente a concederci il permesso. Attivando questa opzione, potrai visualizzare i messaggi e le chiamate direttamente sulla schermata principale.</string>
+    <string name="tutorial_request_full_screen_button_text">Concedi il Permesso</string>
     <string name="tutorial_request_full_screen_back_button_text">Torna Indietro</string>
+
     <string name="vibration">Vibrazione</string>
     <string name="call">Chiama</string>
     <string name="settings_list_apps_open_keyboard_on_start_label">Mostra Tastiera all\'apertura</string>

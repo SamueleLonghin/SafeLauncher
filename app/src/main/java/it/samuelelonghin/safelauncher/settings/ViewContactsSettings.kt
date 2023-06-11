@@ -50,26 +50,30 @@ fun setViewContacts(binding: ViewContactSettingsFragmentBinding, activity: Activ
         }
 }
 
-fun registerNotificationSwitch(materialSwitch: SwitchMaterial, activity: Activity) {
-    if (launcherPreferences.getBoolean(
-            VIEW_CONTACT_SHOW_NOTIFICATIONS,
-            VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
-        ) && !canReceiveNotifications(activity)
-    ) updatePreference(VIEW_CONTACT_SHOW_NOTIFICATIONS, false)
+        fun registerNotificationSwitch(materialSwitch: SwitchMaterial, activity: Activity) {
+            /**
+             * Nel caso non abbia il permesso ma il valore nelle impostazioni risulta negativo visualizzo
+             * lo switch come spento
+             */
+            if (launcherPreferences.getBoolean(
+                    VIEW_CONTACT_SHOW_NOTIFICATIONS,
+                    VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
+                ) && !canReceiveNotifications(activity)
+            ) updatePreference(VIEW_CONTACT_SHOW_NOTIFICATIONS, false)
 
-    setSwitch(
-        materialSwitch,
-        VIEW_CONTACT_SHOW_NOTIFICATIONS,
-        VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
-    ) { checked ->
-        if (checked) {
-            if (!canReceiveNotifications(activity)) {
-                val intent = Intent(activity, RequestNotificationAccessActivity::class.java)
-                intendedSettingsPause = true
-                activityResultNotificationAccess.launch(intent)
+            setSwitch(
+                materialSwitch,
+                VIEW_CONTACT_SHOW_NOTIFICATIONS,
+                VIEW_CONTACT_SHOW_NOTIFICATIONS_PREF
+            ) { checked ->
+                if (checked) {
+                    if (!canReceiveNotifications(activity)) {
+                        val intent = Intent(activity, RequestNotificationAccessActivity::class.java)
+                        intendedSettingsPause = true
+                        activityResultNotificationAccess.launch(intent)
+                    }
+                }
             }
         }
-    }
-}
 
 

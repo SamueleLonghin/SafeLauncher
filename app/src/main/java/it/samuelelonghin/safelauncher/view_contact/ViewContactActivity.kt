@@ -119,7 +119,6 @@ class ViewContactActivity : BaseActivity(), LoaderManager.LoaderCallbacks<Cursor
     private fun setNotifications() {
         val userNotifications = getUserNotifications(contact.name)
 
-        println(this.contact.name + " -> " + userNotifications + "Tutte: " + notifiche)
         binding.listViewNotification.adapter =
             NotificationsAdapter(this, contact.name, userNotifications)
         binding.listViewNotification.layoutManager = LinearLayoutManager(this)

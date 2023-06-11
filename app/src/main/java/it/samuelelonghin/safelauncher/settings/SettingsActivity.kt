@@ -39,7 +39,7 @@ class SettingsActivity : BaseActivity() {
                 } else System.err.println("RESULT: $result")
             }
 
-        setAuth =
+        activityResultSetPassword =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == REQUEST_AUTH_FOR_SETTINGS) {
                     val extras = result.data!!.extras!!
@@ -54,16 +54,14 @@ class SettingsActivity : BaseActivity() {
             }
         activityResultEnableFullScreen =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                registerNotificationSwitch(
-                    binding.homeSettings.settingsHomeForceFullScreenInput,
-                    this
+                registerFullScreenSwitch(
+                    binding.homeSettings.settingsHomeForceFullScreenInput, this
                 )
             }
         activityResultNotificationAccess =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 registerNotificationSwitch(
-                    binding.viewContactSettings.settingsViewContactShowNotificationsInput,
-                    this
+                    binding.viewContactSettings.settingsViewContactShowNotificationsInput, this
                 )
             }
         setContentView(binding.root)

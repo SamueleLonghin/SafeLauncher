@@ -37,7 +37,6 @@ class AuthActivity : BaseActivity() {
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(binding.root)
-
     }
 
     override fun onStart() {

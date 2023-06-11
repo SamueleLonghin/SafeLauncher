@@ -15,7 +15,7 @@ fun getIconFromPackage(context: Context, pk: String): Drawable? {
     }
     return ResourcesCompat.getDrawable(
         context.resources,
-        R.drawable.ic_launcher_background,
+        R.drawable.back_logo,
         context.theme
     )
 }

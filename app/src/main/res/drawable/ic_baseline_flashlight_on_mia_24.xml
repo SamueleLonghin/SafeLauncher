@@ -1,0 +1,23 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <vector
+            android:width="100dp"
+            android:height="100dp"
+            android:viewportWidth="100"
+            android:viewportHeight="100">
+            <path
+                android:fillColor="#000"
+                android:pathData="M 30,10 L 70,10 60,20 40,20 z" />
+        </vector>
+    </item>
+    <item>
+        <inset
+            android:insetLeft="15%"
+            android:insetTop="15%"
+            android:insetRight="15%">
+            <layer-list>
+                <item android:drawable="@drawable/ic_baseline_flashlight_on_24" />
+            </layer-list>
+        </inset>
+    </item>
+</layer-list>

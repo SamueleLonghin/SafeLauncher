@@ -25,17 +25,7 @@ class RequestNotificationPolicyActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-//        binding.tutorialRequestFullScreenButton.setOnClickListener {
-//            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-//            localActivityResultEnableFullScreen.launch(intent)
-//        }
-//        binding.tutorialRequestFullScreenBackButton.setOnClickListener {
-//            finish()
-//        }
-//
-
         binding.tutorialRequestFullScreenButton.setOnClickListener {
-            println("Click NotPolicy")
             val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
             intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
             startActivity(intent)
@@ -43,11 +33,9 @@ class RequestNotificationPolicyActivity : BaseActivity() {
             finish()
         }
         binding.tutorialRequestFullScreenBackButton.setOnClickListener {
-            println("BACK NotPolicy")
             setResult(RESULT_CANCELED, intent)
             finish()
         }
-
     }
 
 }

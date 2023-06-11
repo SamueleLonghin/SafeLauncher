@@ -21,7 +21,6 @@ class RequestNotificationAccessActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         binding.tutorialRequestNotificationAccessButton.setOnClickListener {
-            println("Click NotAccess")
             val intent = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
             intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT)
             startActivity(intent)
@@ -29,7 +28,6 @@ class RequestNotificationAccessActivity : BaseActivity() {
             finish()
         }
         binding.tutorialRequestNotificationAccessBackButton.setOnClickListener {
-            println("BACK NotAccess")
             setResult(RESULT_CANCELED, intent)
             finish()
         }
