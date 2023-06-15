@@ -23,6 +23,12 @@ fun setHome(binding: HomeSettingsFragmentBinding, activity: Activity) {
     //Full Screen
     registerFullScreenSwitch(binding.settingsHomeForceFullScreenInput, activity)
 
+    //Fast update contacts
+    setSwitch(
+        binding.settingsHomeFastUpdateContactsInput, FAST_UPDATE_CONTACTS,
+        FAST_UPDATE_CONTACTS_DEF
+    )
+
     //Change default launcher
     binding.settingsHomeSetAsPreferredLauncherButton.setOnClickListener {
         askForChangeLauncher(activity)

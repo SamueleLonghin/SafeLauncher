@@ -27,9 +27,7 @@ import it.samuelelonghin.safelauncher.databinding.ContactsFrameBinding
 import it.samuelelonghin.safelauncher.support.*
 
 
-class ContactsFragment :
-    Fragment(R.layout.contacts_frame),
-    LoaderManager.LoaderCallbacks<Cursor>,
+class ContactsFragment : Fragment(R.layout.contacts_frame), LoaderManager.LoaderCallbacks<Cursor>,
     AdapterView.OnItemClickListener {
 
     /**
@@ -55,9 +53,7 @@ class ContactsFragment :
 
     // A UI Fragment must inflate its View
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the fragment layout
         binding = ContactsFrameBinding.inflate(inflater)
@@ -73,9 +69,7 @@ class ContactsFragment :
                     getContacts()
                     displayContacts()
                     Toast.makeText(
-                        context,
-                        getString(R.string.permesso_contatti_granted),
-                        Toast.LENGTH_SHORT
+                        context, getString(R.string.permesso_contatti_granted), Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     Toast.makeText(
@@ -88,8 +82,7 @@ class ContactsFragment :
 
             }
 
-        //Getting contacts from OS
-        getContacts()
+
 
         return binding.root
     }
@@ -97,12 +90,20 @@ class ContactsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Getting contacts from OS
+        getContacts()
         createReceiver()
     }
 
     override fun onStart() {
         super.onStart()
 
+        //Getting contacts from OS
+        if (launcherPreferences.getBoolean(
+                FAST_UPDATE_CONTACTS,
+                FAST_UPDATE_CONTACTS_DEF
+            )
+        ) getContacts()
         //Displaying contacts
         displayContacts()
         registerReceiver()
@@ -175,9 +176,7 @@ class ContactsFragment :
             ContactCursorAdapter(context, contactCursor)
         } else {
             ContactPlaceholderAdapter(
-                context,
-                nCols * (if (isScrollable) 3 else 2),
-                permissionLauncher
+                context, nCols * (if (isScrollable) 3 else 2), permissionLauncher
             )
         }
         contactsRecycleView.adapter = cursorAdapter
@@ -206,15 +205,13 @@ class ContactsFragment :
     }
 
     private fun registerReceiver() {
-        if (::broadcastReceiver.isInitialized)
-            LocalBroadcastManager.getInstance(requireActivity())
-                .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
+        if (::broadcastReceiver.isInitialized) LocalBroadcastManager.getInstance(requireActivity())
+            .registerReceiver(broadcastReceiver, IntentFilter(BROADCAST_NOTIFICATIONS))
     }
 
     private fun unregisterReceiver() {
 
-        if (::broadcastReceiver.isInitialized)
-            LocalBroadcastManager.getInstance(requireContext())
-                .unregisterReceiver(broadcastReceiver)
+        if (::broadcastReceiver.isInitialized) LocalBroadcastManager.getInstance(requireContext())
+            .unregisterReceiver(broadcastReceiver)
     }
 }

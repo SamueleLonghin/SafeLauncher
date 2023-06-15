@@ -99,4 +99,5 @@
     <string name="call">Chiama</string>
     <string name="settings_list_apps_open_keyboard_on_start_label">Mostra Tastiera all\'apertura</string>
     <string name="settings_list_apps_open_app_on_only_one_result_label">Avvia Applicazione se unico risultato</string>
+    <string name="settings_fast_update_contacts_label">Aggiorna contatti velocemente</string>
 </resources>

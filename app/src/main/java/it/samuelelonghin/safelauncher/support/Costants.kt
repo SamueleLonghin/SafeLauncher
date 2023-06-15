@@ -57,6 +57,7 @@ const val APPS_LIST_VIEW_TYPE = "apps-list-view-type"
 const val SETTINGS_REQUIRES_AUTH = "settings-requires-auth"
 const val SETTINGS_FORCE_FULL_SCREEN = "settings-force-full-screen"
 const val SETTINGS_AUTH = "settings-auth"
+const val FAST_UPDATE_CONTACTS = "fast-update-contacts"
 
 /**
  * DEFAULT PREFERENCES
@@ -82,6 +83,7 @@ const val SETTINGS_FORCE_FULL_SCREEN_DEF = false
 const val SETTINGS_AUTH_DEF = ""
 const val OPEN_KEYBOARD_ON_SEARCH_DEF = true
 const val OPEN_APP_ON_ONLY_ONE_RESULTS_DEF = true
+const val FAST_UPDATE_CONTACTS_DEF = true
 
 
 /**
@@ -133,28 +135,6 @@ val ACTIVITY_TO_RESOURCE_ICON: Map<String, Int> = mapOf(
     ACTIVITY_APPS to R.drawable.ic_baseline_apps_24,
     ACTIVITY_PICK to R.drawable.ic_baseline_add_240
 ).withDefault { R.drawable.ic_baseline_error_24 }
-
-val ACTION_TO_RESOURCE_ICON: Map<String, List<Int>> = mapOf(
-    ACTION_MUTE to listOf(
-        R.drawable.ic_baseline_notifications_active_24,
-        R.drawable.ic_baseline_notifications_off_24
-    ),
-    ACTION_FLASH to listOf(
-        R.drawable.ic_baseline_flashlight_on_24,
-        R.drawable.ic_baseline_flashlight_off_24
-    )
-).withDefault { listOf(R.drawable.ic_baseline_error_24) }
-
-val ACTION_TO_NAME: Map<String, List<String>> = mapOf(
-    ACTION_MUTE to listOf(
-        "Mute",
-        "UnMute"
-    ),
-    ACTION_FLASH to listOf(
-        "Light",
-        "Light Off"
-    )
-).withDefault { listOf("Error") }
 
 /**
  * View User
