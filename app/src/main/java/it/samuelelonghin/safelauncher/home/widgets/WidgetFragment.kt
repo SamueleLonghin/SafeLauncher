@@ -121,7 +121,7 @@ class WidgetFragment :
                         foundApps = true
                     }
                     ACTIVITY_SETTINGS -> {
-                        wl += WidgetInfo(ACTIVITY_SETTINGS)
+                        wl += WidgetInfo(ACTIVITY_AUTH)
                         foundSettings = true
                     }
                     else -> wl += (WidgetInfo(ws.value))
