@@ -5,14 +5,11 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import it.samuelelonghin.safelauncher.R
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo
-import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.*
+import it.samuelelonghin.safelauncher.home.widgets.WidgetInfo.WidgetType
 import it.samuelelonghin.safelauncher.support.*
 
 /**
@@ -40,7 +37,10 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
             val returnIntent = Intent()
             returnIntent.putExtra("value", content.data)
             returnIntent.putExtra("name", content.label)
-            returnIntent.putExtra("type", WidgetType.ACTION.ordinal)
+            if (content.isActivity)
+                returnIntent.putExtra("type", WidgetType.ACTIVITY.ordinal)
+            else
+                returnIntent.putExtra("type", WidgetType.ACTION.ordinal)
             returnIntent.putExtra("index", index)
 
             activity.setResult(REQUEST_CHOOSE_APP, returnIntent)
@@ -92,6 +92,22 @@ class OtherRecyclerAdapter(val activity: Activity, val index: Int) :
                 activity.getString(R.string.call),
                 ACTION_CALL,
                 R.drawable.ic_baseline_call_240
+            )
+        )
+        othersList.add(
+            OtherInfo(
+                activity.getString(R.string.settings_title),
+                ACTIVITY_SETTINGS,
+                R.drawable.ic_baseline_settings_24,
+                true
+            )
+        )
+        othersList.add(
+            OtherInfo(
+                activity.getString(R.string.drawer_title),
+                ACTIVITY_APPS,
+                R.drawable.ic_baseline_apps_24,
+                true
             )
         )
     }

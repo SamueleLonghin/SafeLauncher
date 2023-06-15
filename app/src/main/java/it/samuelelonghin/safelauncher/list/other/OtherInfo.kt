@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable
  *
  * @param data - a string identifying the thing to be launched
  */
-class OtherInfo(label: String, data: String, var icon: Int) {
+class OtherInfo(label: String, data: String, var icon: Int, var isActivity: Boolean = false) {
     var label: CharSequence? = label
     var data: CharSequence? = data
 }
